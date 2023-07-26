@@ -11,4 +11,5 @@ package com.mycompany.tp.logistica.fioriusen.entidades;
  */
 public class TESTCLASSFORCOMMITINGPROJECT {
     //el primero que me ve es gei
+    private Integer a = 10;
 }
