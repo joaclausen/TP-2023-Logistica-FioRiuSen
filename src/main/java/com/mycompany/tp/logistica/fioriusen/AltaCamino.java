@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.mycompany.tp.logistica.fioriusen;
-
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Toolkit;
