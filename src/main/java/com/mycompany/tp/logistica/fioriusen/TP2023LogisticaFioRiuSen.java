@@ -19,6 +19,6 @@ public class TP2023LogisticaFioRiuSen {
         ventana.setSize(500, 400);
         ventana.setContentPane(new Menu(ventana,null));
         ventana.setVisible(true);
-        
+        System.out.println("UN COMENTARIO LO QUE SEA");
     }
 }
