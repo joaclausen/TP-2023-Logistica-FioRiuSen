@@ -4,15 +4,32 @@
  */
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Vulturius
  */
-public class Producto {
+@Entity
+@Table (name = "producto")
+public class Producto implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     Integer id;
+    @Column(name="nombre")
     String nombre;
+    @Column(name="descripcion")
     String descripcion;
+    @Column(name="preciounitario")
     Double precioUnitario;
+    @Column(name="peso")
     Double peso;
     
     //setters

@@ -4,8 +4,12 @@
  */
 package com.mycompany.tp.logistica.fioriusen;
 
+import com.mycompany.consultorach.HibernateManager;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -25,5 +29,31 @@ public class TP2023LogisticaFioRiuSen {
         //HOLAAAAAAAAAAAAAAAAAAA: /
         System.out.println("UN COMENTARIO LO QUE SEA");
         
+        
+        SessionFactory sessionFactory  = HibernateManager.Configure();
+
+    try (Session session = sessionFactory.openSession()) {
+            // Aquí puedes realizar operaciones con la base de datos usando la sesión
+            // Por ejemplo, crear una nueva persona y guardarla en la base de datos
+
+            
+
+           Producto pro = new Producto();
+           pro.setNombre("FRUTILLA");
+           pro.setDescripcion("HORRIBLES");
+           pro.setPrecioUnitario(45.2);
+           pro.setPeso(5.00);
+
+            session.beginTransaction();
+            session.save(pro);
+            
+            session.getTransaction().commit();
+            System.out.println("En teoría está pasa el commit");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+   
+    
+
 }
