@@ -13,12 +13,14 @@ import javax.swing.WindowConstants;
  */
 public class TP2023LogisticaFioRiuSen {
 
+   //QUE PAJA LOCO ESTE TP DEL ORTO :/
     public static void main(String[] args) {
         JFrame ventana = new JFrame();
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setSize(500, 400);
         ventana.setContentPane(new Menu(ventana,null));
         ventana.setVisible(true);
-        
+        //QUE PAJA LOCO ESTE TP DEL ORTO :/
+        //QUE PAJA LOCO ESTE TP DEL ORTO :/
     }
 }

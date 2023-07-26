@@ -44,6 +44,7 @@ public class Menu extends javax.swing.JPanel {
         btnGestionarCaminos = new javax.swing.JButton();
         btnGestionarProductos = new javax.swing.JButton();
         btnMapa = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         btnGestionarSucursal.setText("Gestionar Sucursales");
         btnGestionarSucursal.addActionListener(new java.awt.event.ActionListener() {
@@ -68,6 +69,13 @@ public class Menu extends javax.swing.JPanel {
 
         btnMapa.setText("Mapa Sucursales");
 
+        jButton1.setText("BOTON DE PRUEBA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,6 +83,7 @@ public class Menu extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
                     .addComponent(btnMapa)
                     .addComponent(btnGestionarProductos)
                     .addComponent(btnGestionarCaminos)
@@ -92,7 +101,9 @@ public class Menu extends javax.swing.JPanel {
                 .addComponent(btnGestionarProductos)
                 .addGap(18, 18, 18)
                 .addComponent(btnMapa)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -121,12 +132,17 @@ public class Menu extends javax.swing.JPanel {
         ventana.revalidate();
     }//GEN-LAST:event_btnGestionarProductosActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGestionarCaminos;
     private javax.swing.JButton btnGestionarProductos;
     private javax.swing.JButton btnGestionarSucursal;
     private javax.swing.JButton btnMapa;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
