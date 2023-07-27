@@ -21,8 +21,8 @@ import javax.persistence.Table;
 public class Producto implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    Integer id;
+ 
+    int id;
     @Column(name="nombre")
     String nombre;
     @Column(name="descripcion")
