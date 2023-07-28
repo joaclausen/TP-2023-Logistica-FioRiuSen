@@ -6,11 +6,15 @@ package com.mycompany.tp.logistica.fioriusen.entidades;
 
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.time.LocalTime;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -18,20 +22,22 @@ import javax.persistence.Table;
  * @author Vulturius
  */
 @Entity
-@Table(name = "camino")
+@Table(name="camino")
 public class Camino {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(name = "destino")
+    @JoinColumn(name="id_sucursal_destino")
     Sucursal destino;
-    @Column(name = "origen")
+    @JoinColumn(name="id_sucursal_origen")
     Sucursal origen;
-    @Column(name = "tiempoTransito")
+    @Basic
+    @Column(name="tiempoTransito")
     LocalTime tiempoTransito;
-    @Column(name = "capacidadMaxima")
+    @Column(name="capacidadMaxima")
     Integer capacidadMaxima;
-    @Column(name = "estado")
+    @Enumerated(EnumType.STRING)
+    @Column(name="estado")
     Estado estado;
     
     //setters

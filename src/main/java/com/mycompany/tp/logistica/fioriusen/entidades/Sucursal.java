@@ -5,21 +5,54 @@
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Vulturius
  */
-public class Sucursal {
+@Entity
+@Table(name="sucursal")
+public class Sucursal implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(name="nombre")
     String nombre;
+    @Basic
+    @Column(name="horaApertura")
     LocalTime horarioApertura;
+    @Basic
+    @Column(name="horaCierre")
     LocalTime horarioCierre;
+    @Enumerated(EnumType.STRING)
+    @Column(name="estado")
     Estado estado;
-    HashMap<Producto, Integer> stock = new HashMap<>(); //sin getters ni setter
     
+     @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "id_sucursal")
+    List<Stock> listaProductos;
     
     
     //setters

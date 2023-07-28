@@ -4,20 +4,49 @@
  */
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Vulturius
  */
-public class OrdenProvision {
+@Entity
+@Table(name="ordenProvision")
+public class OrdenProvision implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Basic
+    @Column(name="fechaEmision")
     LocalDate fechaEmision;
+    @JoinColumn(name="id_sucursal_destino")
     Sucursal destino;
+    @Basic
+    @Column(name="espera")
     LocalTime espera;
-    HashMap<Producto, Integer> pedido = new HashMap<>();
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "id_orden_provision")
+    List<DetalleOrden> lista;
+    //HashMap<Producto, Integer> pedido = new HashMap<>();
     //DICCIONARIO PRODUCTO/CANTIDAD SOLICITADA (CU5)
     
     

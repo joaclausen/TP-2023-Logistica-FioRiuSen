@@ -1,27 +1,29 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
-
 package com.mycompany.tp.logistica.fioriusen;
+
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 /**
  *
- * @author jlcla
+ * @author Vulturius
  */
 public class TP2023LogisticaFioRiuSen {
 
-    /**
-     * @param args the command line arguments
-     */
+   //QUE PAJA LOCO ESTE TP DEL ORTO :/
     public static void main(String[] args) {
-        // TODO code application logic here
-                JFrame ventana = new JFrame();
+        JFrame ventana = new JFrame();
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setSize(500, 400);
         ventana.setContentPane(new Menu(ventana,null));
@@ -40,20 +42,26 @@ public class TP2023LogisticaFioRiuSen {
             // Aquí puedes realizar operaciones con la base de datos usando la sesión
 
          //TU PRODUCTO
-          Producto pro = new Producto();
-           pro.setNombre("FRUTILLA");
-           pro.setDescripcion("HORRIBLES");
-           pro.setPrecioUnitario(45.2);
-           pro.setPeso(5.00);
-
+          
+          Sucursal s = new Sucursal();
+          s.setNombre("Sucursal1");
+          s.setHorarioApertura(LocalTime.now());
+          s.setHorarioCierre(LocalTime.MIDNIGHT);
+          s.setEstado(Estado.OPERATIVA);
+     
             session.beginTransaction();
-            session.save(pro);
+            session.save(s);
            
             session.getTransaction().commit();
             System.out.println("En teoría está pasa el commit");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
-}
+    }
+   
+   
+   
+    }
+   
+    
