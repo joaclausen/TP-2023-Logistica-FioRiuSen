@@ -23,6 +23,8 @@ public class Producto implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
  
     int id;
+    @Column(name="codigo")
+    int codigo;
     @Column(name="nombre")
     String nombre;
     @Column(name="descripcion")
@@ -34,9 +36,15 @@ public class Producto implements Serializable{
     
     //setters
 
-    public void setId(Integer id) {
-        this.id = id;
+    public int getCodigo() {
+        return codigo;
     }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
