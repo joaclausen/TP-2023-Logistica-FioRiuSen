@@ -5,6 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -183,8 +184,8 @@ public class ModificarSucursal extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         GestorSucursal gs =  new GestorSucursal();
         Boolean control = true;
-
-        SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(), txtApertura.getText(), txtCierre.getText(), comboBoxEstado.getSelectedItem().toString());
+ Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+        SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(), txtApertura.getText(), txtCierre.getText(), estado);
 
         int[] mensaje = gs.validarDatos(dto);
         if(mensaje[0]==1){

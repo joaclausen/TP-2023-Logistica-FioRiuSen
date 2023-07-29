@@ -5,6 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -357,7 +358,8 @@ public class GestionarSucursal extends javax.swing.JPanel {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         GestorSucursal gs = new GestorSucursal();
-         SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(),"0" ,"0" , comboBoxEstado.getSelectedItem().toString());
+         Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+         SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(),"0" ,"0" , estado);
          //CUIDADO CON LA LÍNEA DE ARRIBA-NO SE PUEDE PONER NULL EN el CONSTRUCTOR, XQ FALLA LA COmparacion
          //en el gestor, por eso puese 0
          int[] mensaje = gs.validarDatos(dto);
