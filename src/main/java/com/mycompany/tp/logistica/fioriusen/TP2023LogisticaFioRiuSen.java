@@ -36,28 +36,6 @@ public class TP2023LogisticaFioRiuSen {
    
    
    
-   SessionFactory sessionFactory  = HibernateManager.Configure();
-   
-    try (Session session = sessionFactory.openSession()) {
-            // Aquí puedes realizar operaciones con la base de datos usando la sesión
-
-         //TU PRODUCTO
-          
-          Sucursal s = new Sucursal();
-          s.setNombre("Sucursal1");
-          s.setHorarioApertura(LocalTime.now());
-          s.setHorarioCierre(LocalTime.MIDNIGHT);
-          s.setEstado(Estado.OPERATIVA);
-     
-            session.beginTransaction();
-            session.save(s);
-           
-            session.getTransaction().commit();
-            System.out.println("En teoría está pasa el commit");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
    
    
