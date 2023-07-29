@@ -4,6 +4,8 @@
  */
 package com.mycompany.tp.logistica.fioriusen.dtos;
 
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+
 /**
  *
  * @author Vulturius
@@ -15,11 +17,11 @@ public class SucursalDTO {
     
     private String horaApertura;
     private String horaCierre;
-private String estado;
+private Estado estado;
     public SucursalDTO() {
     }
 
-    public SucursalDTO(String codigo, String nombre, String horaApertura, String horaCierre, String estado) {
+    public SucursalDTO(String codigo, String nombre, String horaApertura, String horaCierre, Estado estado) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.horaApertura = horaApertura;
@@ -40,7 +42,7 @@ private String estado;
         this.nombre = nombre;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
@@ -64,7 +66,7 @@ private String estado;
         return nombre;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 

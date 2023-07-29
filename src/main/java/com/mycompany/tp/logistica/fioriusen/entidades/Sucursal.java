@@ -34,6 +34,8 @@ public class Sucursal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(name="codigo")
+   Integer codigo;
     @Column(name="nombre")
     String nombre;
     @Basic
@@ -53,11 +55,24 @@ public class Sucursal implements Serializable {
     )
     @JoinColumn(name = "id_sucursal")
     List<Stock> listaProductos;
+
+    public Sucursal() {
+    }
+
+    public Sucursal(Integer codigo, String nombre, LocalTime horarioApertura, LocalTime horarioCierre, Estado estado) {
+        this.codigo=codigo;
+        this.nombre = nombre;
+        this.horarioApertura = horarioApertura;
+        this.horarioCierre = horarioCierre;
+        this.estado = estado;
+      
+    }
     
     
     //setters
-    public void setId(Integer id) {
-        this.id = id;
+   
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
 
     public void setNombre(String nombre) {
@@ -81,6 +96,10 @@ public class Sucursal implements Serializable {
     
     public Integer getId() {
         return id;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
     }
 
     public String getNombre() {

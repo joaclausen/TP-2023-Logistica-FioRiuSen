@@ -5,6 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -89,7 +90,7 @@ public class AltaSucursal extends javax.swing.JPanel {
 
         labelEstado.setText("Estado:");
 
-        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO OPERATIVA", " " }));
+        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO_OPERATIVA", "" }));
 
         labelNombre.setText("Nombre:");
 
@@ -199,8 +200,8 @@ public class AltaSucursal extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         GestorSucursal gs =  new GestorSucursal();
         Boolean control = true;
- 
-        SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(), txtApertura.getText(), txtCierre.getText(), comboBoxEstado.getSelectedItem().toString());
+        Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+        SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(), txtApertura.getText(), txtCierre.getText(), estado);
          
          int[] mensaje = gs.validarDatos(dto);
          if(mensaje[0]==1){
@@ -231,8 +232,19 @@ public class AltaSucursal extends javax.swing.JPanel {
         switch (result){
             case JOptionPane.YES_OPTION:
                 //MAGIA
+                Boolean existeSucursal = gs.existeSucursal(dto);
+                if(existeSucursal== true){
+                    JOptionPane.showMessageDialog(this, "La sucursal ya se encuentra registrada", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }else{
+                    JOptionPane.showMessageDialog(this, "La sucursal se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    this.txtCodigo.setText("");
+            this.txtNombre.setText("");
+            this.txtApertura.setText("");
+            this.txtCierre.setText("");
+                }
                 
-                JOptionPane.showMessageDialog(this, "La sucursal se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                
                     break;
             case JOptionPane.NO_OPTION:
                 break;
