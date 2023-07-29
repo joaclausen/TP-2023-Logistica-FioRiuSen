@@ -4,7 +4,11 @@
  */
 package com.mycompany.tp.logistica.fioriusen.gestores;
 
+import com.mycompany.tp.logistica.fioriusen.daos.ProductoPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.ProductoDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,11 +36,51 @@ public class GestorProducto {
            mensajes[4] = 1;
         if(!dto.getDescripcion().matches("^[a-zA-Z0-9]+$")){
            mensajes[5] = 1;}
-       
-    
-      
-        
+
        return mensajes;
     }
     
+    public boolean crearProducto(ProductoDTO p){
+        
+        if(existeProducto(p) == true){
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean existeProducto(ProductoDTO p){
+        ProductoPGDao productoPG = new ProductoPGDao(); 
+        List<Producto> listaProductos = productoPG.obtenerTodosProducto();
+        List<Integer> listCod = new ArrayList();
+        List<String> listNom = new ArrayList();
+        for(Producto prod: listaProductos){
+            listNom.add(prod.getNombre());
+        }
+        for(Producto prod: listaProductos){
+            listCod.add(prod.getCodigo());
+        }
+        
+        //estoy comparando una lista de 
+        if(listCod.contains(p.getCodigo()) || listNom.contains(p.getNombre())){
+            return true;
+        }
+        else {
+            guardarProducto(p);
+            return false;             
+        }
+    }
+
+    private void guardarProducto(ProductoDTO p) {
+       ProductoPGDao productoPG = new ProductoPGDao();
+       Producto prod = new Producto();
+       prod.setCodigo(Integer.parseInt(p.getCodigo()));
+       prod.setNombre(p.getNombre());
+       prod.setPeso(Double.parseDouble(p.getPeso()));
+       prod.setPrecioUnitario(Double.parseDouble(p.getPrecioUnitario()));
+       prod.setDescripcion(p.getDescripcion());
+       
+       productoPG.guardarProducto(prod);
+    }
+
 }

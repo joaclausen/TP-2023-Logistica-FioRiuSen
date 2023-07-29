@@ -257,10 +257,15 @@ public class AltaProducto extends javax.swing.JPanel {
          int result = JOptionPane.showConfirmDialog(this,"¿Desea crear este nuevo producto?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
         switch (result){
             case JOptionPane.YES_OPTION:
-                //MAGIA
-                
+                  boolean existePuesto = gp.crearProducto(dto);
+                if(existePuesto == false){
+                    JOptionPane.showMessageDialog(this, "El puesto ya se encuentra registrado", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+                else{
                 JOptionPane.showMessageDialog(this, "El producto se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                     break;
+                }
             case JOptionPane.NO_OPTION:
                 break;
                 }

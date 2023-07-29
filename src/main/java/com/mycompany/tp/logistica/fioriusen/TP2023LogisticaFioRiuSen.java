@@ -37,7 +37,7 @@ public class TP2023LogisticaFioRiuSen {
    
    
    SessionFactory sessionFactory  = HibernateManager.Configure();
-
+   
     try (Session session = sessionFactory.openSession()) {
             // Aquí puedes realizar operaciones con la base de datos usando la sesión
 
