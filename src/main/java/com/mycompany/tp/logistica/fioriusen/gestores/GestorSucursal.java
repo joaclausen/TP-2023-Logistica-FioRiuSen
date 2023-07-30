@@ -41,8 +41,8 @@ public class GestorSucursal {
     
     public Boolean existeSucursal(SucursalDTO dto){
         SucursalPGDao puestoPG = new SucursalPGDao();
-        List<Integer> listCod = new ArrayList();
-        List<String> listNom = new ArrayList();
+        List<Integer> listCod = new ArrayList<>();
+        List<String> listNom = new ArrayList<>();
        
         listCod = puestoPG.getCodigoAll();
         listNom = puestoPG.getNombreAll();
@@ -50,7 +50,7 @@ public class GestorSucursal {
         listCod.forEach(System.out::println);
         listNom.forEach(System.out::println);
         
-        if(listCod.contains(dto.getCodigo()) || listNom.contains(dto.getNombre())){
+        if(listCod.contains(Integer.parseInt(dto.getCodigo())) || listNom.contains(dto.getNombre())){
             return true;
         }
         else {
@@ -64,6 +64,21 @@ public class GestorSucursal {
         Sucursal s = new Sucursal(Integer.parseInt(dto.getCodigo()), dto.getNombre(), LocalTime.parse(dto.getHoraApertura()), LocalTime.parse(dto.getHoraCierre()), dto.getEstado());
         sucursalPG.saveSucursal(s);
      }
+    
+    ///////////////////////////////////
+
+    public List<Sucursal> buscarSucursalSegunCriterio(SucursalDTO dto) {
+       SucursalPGDao sucursalPG = new SucursalPGDao();
+        List<Sucursal> listaSucursales = new ArrayList();
+        listaSucursales = sucursalPG.buscarSucursal(dto);
+        return listaSucursales;
+    }
+
+    public void actualizarSucursal(SucursalDTO dto) {
+        SucursalPGDao  sucursalPG = new SucursalPGDao();
+         sucursalPG.modificarSucursal(dto); 
+    }
+    
     
     
 }

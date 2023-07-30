@@ -6,10 +6,13 @@
 package com.mycompany.tp.logistica.fioriusen.daos;
 
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -51,6 +54,7 @@ public class SucursalPGDao implements SucursalDao{
         return session.createQuery("SELECT nombre FROM Sucursal").getResultList();
     }
     
+
     public Sucursal obtenerPorNombre(String nombre){
         
          Sucursal s = new Sucursal();
@@ -65,4 +69,36 @@ public class SucursalPGDao implements SucursalDao{
          return s;
     }
     
+
+    public List<Sucursal> buscarSucursal(SucursalDTO dto){
+        Session session = sessionFactory.openSession();
+        Query<Sucursal> query;
+         Estado estado = dto.getEstado();
+         if(dto.getCodigo().isEmpty()==false){
+            int codigo=Integer.parseInt(dto.getCodigo());
+         query = session.createQuery("SELECT s FROM Sucursal s WHERE s.codigo=:codigo", Sucursal.class);
+            query.setParameter("codigo", codigo);
+       
+        }else if(dto.getNombre().isEmpty()==false)
+         {
+              query = session.createQuery("SELECT s FROM Sucursal s WHERE s.nombre LIKE :nombre AND s.estado=:estado", Sucursal.class);
+            query.setParameter("nombre", dto.getNombre() +"%");
+          query.setParameter("estado", estado);
+         }else{
+           
+             query = session.createQuery("SELECT s FROM Sucursal s WHERE s.estado=:estado", Sucursal.class);
+            query.setParameter("estado", estado);
+         }
+         return query.getResultList();
+    }
+
+    public void modificarSucursal(SucursalDTO dto) {
+      Session session = sessionFactory.openSession();
+        Query<Sucursal> query;
+        query = session.createQuery("update Sucursal set nombre=:nombre where codigo=:codigo");
+         query.setParameter("codigo", dto.getCodigo());
+          query.setParameter("nombre",dto.getCodigo());
+        
+    }
+
 }

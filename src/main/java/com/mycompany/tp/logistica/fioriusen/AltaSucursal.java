@@ -239,13 +239,11 @@ public class AltaSucursal extends javax.swing.JPanel {
                 }else{
                     JOptionPane.showMessageDialog(this, "La sucursal se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                     this.txtCodigo.setText("");
-            this.txtNombre.setText("");
-            this.txtApertura.setText("");
-            this.txtCierre.setText("");
+                    this.txtNombre.setText("");
+                    this.txtApertura.setText("");
+                    this.txtCierre.setText("");
                 }
-                
-                
-                    break;
+                     break;
             case JOptionPane.NO_OPTION:
                 break;
                 }

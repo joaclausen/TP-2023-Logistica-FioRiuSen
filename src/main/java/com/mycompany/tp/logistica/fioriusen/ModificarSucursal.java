@@ -23,13 +23,17 @@ public class ModificarSucursal extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public ModificarSucursal(JFrame ventana, JPanel padre) {
+    public ModificarSucursal(JFrame ventana, JPanel padre, SucursalDTO moddto) {
        this.ventana = ventana;
         this.padre = padre;
         ventana.setTitle("Gestionar sucursales - Modificar sucursal");
         ventana.setSize(800, 600);
        
         initComponents();
+        txtCodigo.setText(moddto.getCodigo());
+        txtNombre.setText(moddto.getNombre());
+        txtApertura.setText(moddto.getHoraApertura());
+        txtCierre.setText(moddto.getHoraCierre());
          ventana.setVisible(true);
     }
 
@@ -87,7 +91,7 @@ public class ModificarSucursal extends javax.swing.JPanel {
 
         labelEstado.setText("Estado:");
 
-        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO OPERATIVA", " " }));
+        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO_OPERATIVA", "" }));
 
         labelNombre.setText("Nombre:");
 
@@ -184,7 +188,7 @@ public class ModificarSucursal extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         GestorSucursal gs =  new GestorSucursal();
         Boolean control = true;
- Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+        Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
         SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(), txtApertura.getText(), txtCierre.getText(), estado);
 
         int[] mensaje = gs.validarDatos(dto);
@@ -211,12 +215,12 @@ public class ModificarSucursal extends javax.swing.JPanel {
         }
 
         if(control == true){
-            int result = JOptionPane.showConfirmDialog(this,"¿Desea crear esta nueva sucursal?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(this,"¿Desea actualizar esta sucursal?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
             switch (result){
                 case JOptionPane.YES_OPTION:
                 //MAGIA
-
-                JOptionPane.showMessageDialog(this, "La sucursal se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                  gs.actualizarSucursal(dto);
+               
                 break;
                 case JOptionPane.NO_OPTION:
                 break;
