@@ -61,7 +61,7 @@ public class ModificarProducto extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo producto"));
 
-        codigo.setText("Código (*)");
+        codigo.setText("Código");
 
         textCodigo.setEditable(false);
 
@@ -167,7 +167,7 @@ public class ModificarProducto extends javax.swing.JPanel {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
+                .addContainerGap(138, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnAceptar)
@@ -215,9 +215,12 @@ public class ModificarProducto extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         GestorProducto gp =  new GestorProducto();
         Boolean control = true;
-
+        //producto con los campos de la ventana anterior que recupero de la tabla, ¿Cómo paso eso de la tabla a la nueva interfaz?
         ProductoDTO dto = new ProductoDTO(textNombre.getText(),textCodigo.getText(), textPeso.getText(), textPrecio.getText(), textDesc.getText());
-
+        
+        //dejo lo de producto pero en realidad no va a ser necesario, pq la idea es que cuando se llame a esta interfaz, se pase tmb el dto 
+        //la idea es que relleno los campos de nombre y la verga con el q me pasasn
+        
         int[] mensaje = gp.validarDatos(dto);
         if(mensaje[0]==1){
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
@@ -255,16 +258,21 @@ public class ModificarProducto extends javax.swing.JPanel {
         }
 
         if(control == true){
-            int result = JOptionPane.showConfirmDialog(this,"¿Desea crear este nuevo producto?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(this,"¿Desea modificar este producto?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
             switch (result){
                 case JOptionPane.YES_OPTION:
-                //MAGIA
-
+                 boolean existeProducto = gp.crearProducto(dto);
+                if(existeProducto == false){
+                    JOptionPane.showMessageDialog(this, "El puesto ya se encuentra registrado", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+                else{
                 JOptionPane.showMessageDialog(this, "El producto se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+            case JOptionPane.NO_OPTION:
                 break;
-                case JOptionPane.NO_OPTION:
-                break;
-            }
+                }
         }
 
     }//GEN-LAST:event_btnAceptarActionPerformed

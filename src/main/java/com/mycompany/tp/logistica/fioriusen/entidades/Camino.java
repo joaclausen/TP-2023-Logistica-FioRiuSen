@@ -27,6 +27,8 @@ public class Camino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(name="codigo")
+    Integer codigo;
     @JoinColumn(name="id_sucursal_destino")
     Sucursal destino;
     @JoinColumn(name="id_sucursal_origen")
@@ -41,11 +43,17 @@ public class Camino {
     Estado estado;
     
     //setters
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
     
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    
 
     public void setDestino(Sucursal destino) {
         this.destino = destino;

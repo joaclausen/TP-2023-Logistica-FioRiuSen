@@ -6,11 +6,14 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.ProductoDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorProducto;
 import java.awt.Toolkit;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -350,8 +353,8 @@ public class GestionarProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_textNombreKeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-         GestorProducto gp =  new GestorProducto();
-       Boolean control = true;
+        GestorProducto gp =  new GestorProducto();
+        Boolean control = true;
  
         ProductoDTO dto = new ProductoDTO(textNombre.getText(),textCodigo.getText(), textPeso.getText(), textPrecio.getText(), "0");
          
@@ -382,6 +385,27 @@ public class GestionarProducto extends javax.swing.JPanel {
             control=false;
              Toolkit.getDefaultToolkit().beep();
         }
+        
+        if(control == true){
+        
+            List<Producto> listaProductosDTO = gp.buscarSegunCriterio(dto);
+            DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+            int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            if(listaProductosDTO.isEmpty()){
+                control=false;
+                Toolkit.getDefaultToolkit().beep();
+            }else{
+                
+                
+            for (int i=0; i<listaProductosDTO.size(); i++){
+            model.addRow(new Object[]{listaProductosDTO.get(i).getNombre(),listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario()});
+    }}
+        }  
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void textPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPrecioActionPerformed

@@ -285,9 +285,16 @@ public class AltaCamino extends javax.swing.JPanel {
         switch (result){
             case JOptionPane.YES_OPTION:
                 //MAGIA
+                boolean existeCamino = gc.crearCamino(dto);
                 
+                 if(existeCamino == false){
+                    JOptionPane.showMessageDialog(this, "El camino ya se encuentra registrado", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+                else{
                 JOptionPane.showMessageDialog(this, "El camino se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                     break;
+                }
             case JOptionPane.NO_OPTION:
                 break;
                 }

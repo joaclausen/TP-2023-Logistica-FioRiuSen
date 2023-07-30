@@ -54,6 +54,22 @@ public class SucursalPGDao implements SucursalDao{
         return session.createQuery("SELECT nombre FROM Sucursal").getResultList();
     }
     
+
+    public Sucursal obtenerPorNombre(String nombre){
+        
+         Sucursal s = new Sucursal();
+         SessionFactory sessionFactory  = HibernateManager.Configure();
+         try (Session session = sessionFactory.openSession()) {
+ 
+             s = (Sucursal) session.get(Sucursal.class, nombre);
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return s;
+    }
+    
+
     public List<Sucursal> buscarSucursal(SucursalDTO dto){
         Session session = sessionFactory.openSession();
         Query<Sucursal> query;
@@ -84,4 +100,5 @@ public class SucursalPGDao implements SucursalDao{
           query.setParameter("nombre",dto.getCodigo());
         
     }
+
 }
