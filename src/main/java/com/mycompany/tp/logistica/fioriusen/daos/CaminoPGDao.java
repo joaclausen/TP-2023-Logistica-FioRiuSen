@@ -49,17 +49,10 @@ public class CaminoPGDao implements CaminoDao{
          return c;
     }
 
-    @Override
-    public List<Camino> obtenerTodosCamino() {
-        List<Camino> caminos = new ArrayList<>();
-        SessionFactory sessionFactory  = HibernateManager.Configure();
-         try (Session session = sessionFactory.openSession()) {
-             caminos = session.createCriteria(Camino.class).list(); 
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         return caminos;
+  
+    public List<Integer> obtenerTodosCamino() {
+        Session session = sessionFactory.openSession();
+        return session.createQuery("SELECT codigo FROM Camino").getResultList();
     }
     
 }

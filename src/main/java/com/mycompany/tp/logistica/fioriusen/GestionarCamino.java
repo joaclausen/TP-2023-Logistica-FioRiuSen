@@ -6,6 +6,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -360,8 +361,8 @@ public class GestionarCamino extends javax.swing.JPanel {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
   GestorCamino gc =  new GestorCamino();
        Boolean control = true;
- 
-        CaminoDTO dto = new CaminoDTO(textid.getText(), textDestino.getText(), textOrigen.getText(),"0", textCarga.getText(),comboEstado.getSelectedItem().toString());
+  Estado estado = Estado.valueOf(comboEstado.getSelectedItem().toString());
+        CaminoDTO dto = new CaminoDTO(textid.getText(), textDestino.getText(), textOrigen.getText(),"0", textCarga.getText(),estado);
          
          int[] mensaje = gc.validarDatos(dto);
          if(textid.getText().isEmpty() && textDestino.getText().isEmpty() && textOrigen.getText().isEmpty() && textCarga.getText().isEmpty()){

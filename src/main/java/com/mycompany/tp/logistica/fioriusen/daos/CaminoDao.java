@@ -15,5 +15,7 @@ import java.util.List;
 public interface CaminoDao {
     public int guardarCamino(Camino c);
     public Camino obtenerProducto(int id);
-    public List<Camino> obtenerTodosCamino();
+
+   
+    //public List<Integer> obtenerTodosCamino();
 }

@@ -5,6 +5,8 @@
  */
 package com.mycompany.tp.logistica.fioriusen.dtos;
 
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+
 
 
 /**
@@ -17,9 +19,9 @@ public class CaminoDTO {
     private String origen;
     private String tiempoTransito;
     private String capacidadMaxima;
-    private String estado;
+    private Estado estado;
 
-    public CaminoDTO(String codigo, String destino, String origen, String tiempoTransito, String capacidadMaxima, String estado) {
+    public CaminoDTO(String codigo, String destino, String origen, String tiempoTransito, String capacidadMaxima, Estado estado) {
         this.codigo = codigo;
         this.destino = destino;
         this.origen = origen;
@@ -71,11 +73,11 @@ public class CaminoDTO {
         this.capacidadMaxima = capacidadMaxima;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
     

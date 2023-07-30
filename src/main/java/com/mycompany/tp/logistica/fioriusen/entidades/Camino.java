@@ -7,14 +7,17 @@ package com.mycompany.tp.logistica.fioriusen.entidades;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.time.LocalTime;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -27,17 +30,27 @@ public class Camino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    
     @Column(name="codigo")
     Integer codigo;
+    
+     @OneToOne(fetch = FetchType.EAGER,
+         cascade = CascadeType.ALL)
     @JoinColumn(name="id_sucursal_destino")
     Sucursal destino;
+     
+     @OneToOne(fetch = FetchType.EAGER,
+                 cascade = CascadeType.ALL)
     @JoinColumn(name="id_sucursal_origen")
     Sucursal origen;
+     
     @Basic
     @Column(name="tiempoTransito")
     LocalTime tiempoTransito;
+    
     @Column(name="capacidadMaxima")
     Integer capacidadMaxima;
+    
     @Enumerated(EnumType.STRING)
     @Column(name="estado")
     Estado estado;

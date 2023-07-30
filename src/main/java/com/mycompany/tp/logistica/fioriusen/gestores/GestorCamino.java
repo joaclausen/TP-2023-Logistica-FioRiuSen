@@ -10,6 +10,7 @@ import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class GestorCamino {
     public GestorCamino() {
     }
     public int[] validarDatos(CaminoDTO dto){
-        int[] mensajes = new int[5];
+        int[] mensajes = new int[6];
 
         if (dto.getCodigo().isEmpty() || dto.getOrigen().isEmpty() || dto.getDestino().isEmpty() || dto.getCapacidadMaxima().isEmpty() || dto.getTiempoTransito().isEmpty()) {
             mensajes[0] = 1;
@@ -34,15 +35,20 @@ public class GestorCamino {
         if (dto.getOrigen().matches(".*[^aA-zZ]+$.*") || dto.getDestino().matches(".*[^aA-zZ]+$.*")) {
             mensajes[2] = 1;
         }
-        if (dto.getCapacidadMaxima().matches(".*[^0-9.].*"))//ver esto al igual que en producto va a admitir mas de un .
+        if (dto.getCapacidadMaxima().matches(".*[^0-9].*"))//ver esto al igual que en producto va a admitir mas de un .
         {
             mensajes[3] = 1;
         }
-       
-        if (!dto.getTiempoTransito().matches("[0-9][0-9]:[0-5][0-9]"))//USAMOS SOLO 99 HOURS?
+       if(!dto.getTiempoTransito().isEmpty()){
+           if (!dto.getTiempoTransito().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"))//USAMOS SOLO 99 HOURS?
         {
             mensajes[4] = 1;//NO FUNCA
         }
+        if(dto.getOrigen().equals(dto.getDestino())){
+            mensajes[5] = 1;
+        }
+       }
+        
         return mensajes;
     }
 
@@ -57,23 +63,24 @@ public class GestorCamino {
     }
 
     private boolean existeCamino(CaminoDTO c) {
-        CaminoPGDao productoPG = new CaminoPGDao(); 
-        List<Camino> listaCaminos = productoPG.obtenerTodosCamino();
-        List<Integer> listCod = new ArrayList();
-        for(Camino prod: listaCaminos){
-            listCod.add(prod.getCodigo());
-        }
-        if(listCod.contains(c.getCodigo())){
+        CaminoPGDao caminoPG = new CaminoPGDao(); 
+        List<Integer> listaCaminos = new ArrayList<>();
+               listaCaminos= caminoPG.obtenerTodosCamino();
+        /*List<Integer> listCod = new ArrayList();
+        for(Camino cami: listaCaminos){
+            listCod.add(cami.getCodigo());
+        }*/
+        if(listaCaminos.contains(Integer.parseInt(c.getCodigo()))){
             return true;
         }
         else {
-            guardarProducto(c);
+            guardarCamino(c);
             return false;             
         }
     }
 
-    private void guardarProducto(CaminoDTO c) {
-        CaminoPGDao productoPG = new CaminoPGDao();
+    private void guardarCamino(CaminoDTO c) {
+        CaminoPGDao caminoPG = new CaminoPGDao();
         SucursalPGDao sucursalPG = new SucursalPGDao();
         Camino camino = new Camino();
         Sucursal origen = sucursalPG.obtenerPorNombre(c.getOrigen());
@@ -84,11 +91,12 @@ public class GestorCamino {
        camino.setCodigo(Integer.parseInt(c.getCodigo()));
        camino.setDestino(origen);
        camino.setOrigen(destino);
-       camino.setEstado(Estado.valueOf(c.getEstado()));
-       /*
-       camino.setTiempoTransito(c.getTiempoTransito());
-       */
-       productoPG.guardarCamino(camino);
+       camino.setEstado(c.getEstado());
+       camino.setCapacidadMaxima(Integer.parseInt(c.getCapacidadMaxima()));
+       
+       camino.setTiempoTransito(LocalTime.parse(c.getTiempoTransito()));
+       
+       caminoPG.guardarCamino(camino);
     }
     
     

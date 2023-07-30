@@ -5,6 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -248,8 +249,8 @@ public class ModificarCamino extends javax.swing.JPanel {
 
         GestorCamino gc =  new GestorCamino();
         Boolean control = true;
-
-        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(), textCarga.getText(), textTiempo.getText(), comboBoxEstado.getSelectedItem().toString());
+ Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(), textCarga.getText(), textTiempo.getText(), estado);
 
         int[] mensaje = gc.validarDatos(dto);
         if(mensaje[0]==1){

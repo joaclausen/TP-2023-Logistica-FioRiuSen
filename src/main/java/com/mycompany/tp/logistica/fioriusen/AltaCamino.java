@@ -5,6 +5,7 @@
  */
 package com.mycompany.tp.logistica.fioriusen;
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -246,8 +247,8 @@ public class AltaCamino extends javax.swing.JPanel {
 
     GestorCamino gc =  new GestorCamino();
         Boolean control = true;
- 
-        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(), textCarga.getText(), textTiempo.getText(), comboBoxEstado.getSelectedItem().toString());
+        Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(),textTiempo.getText(), textCarga.getText(), estado);
          
          int[] mensaje = gc.validarDatos(dto);
          if(mensaje[0]==1){
@@ -271,12 +272,16 @@ public class AltaCamino extends javax.swing.JPanel {
             control=false;
              Toolkit.getDefaultToolkit().beep();
         }
-        if(!textTiempo.getText().isEmpty()){
+        
              if(mensaje[4] == 1){
               JOptionPane.showMessageDialog(this, "El campo Tiempo de tránsito debe se tener el formato HH:mm.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
              control=false;
              Toolkit.getDefaultToolkit().beep();
         }
+        if(mensaje[5]==1){
+            JOptionPane.showMessageDialog(this, "Un camino no puede comenzar y terminar en la misma sucursal.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+             control=false;
+             Toolkit.getDefaultToolkit().beep();
         }
 
         

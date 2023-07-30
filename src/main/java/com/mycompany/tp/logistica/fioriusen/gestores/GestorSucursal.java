@@ -40,12 +40,12 @@ public class GestorSucursal {
     }
     
     public Boolean existeSucursal(SucursalDTO dto){
-        SucursalPGDao puestoPG = new SucursalPGDao();
+        SucursalPGDao sucursalPG = new SucursalPGDao();
         List<Integer> listCod = new ArrayList<>();
         List<String> listNom = new ArrayList<>();
        
-        listCod = puestoPG.getCodigoAll();
-        listNom = puestoPG.getNombreAll();
+        listCod = sucursalPG.getCodigoAll();
+        listNom = sucursalPG.getNombreAll();
         
         listCod.forEach(System.out::println);
         listNom.forEach(System.out::println);
