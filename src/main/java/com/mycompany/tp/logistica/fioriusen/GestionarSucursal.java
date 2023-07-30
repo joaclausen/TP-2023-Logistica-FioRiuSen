@@ -5,12 +5,15 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -94,7 +97,7 @@ public class GestionarSucursal extends javax.swing.JPanel {
 
         labelEstado.setText("Estado:");
 
-        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO OPERATIVA" }));
+        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO_OPERATIVA" }));
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -148,20 +151,20 @@ public class GestionarSucursal extends javax.swing.JPanel {
         tablaResultados.setAutoCreateRowSorter(true);
         tablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre"
+                "Código", "Nombre", "Hora de apertura", "Hora de cierre", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -361,7 +364,7 @@ public class GestionarSucursal extends javax.swing.JPanel {
          Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
          SucursalDTO dto = new SucursalDTO(txtCodigo.getText(), txtNombre.getText(),"0" ,"0" , estado);
          //CUIDADO CON LA LÍNEA DE ARRIBA-NO SE PUEDE PONER NULL EN el CONSTRUCTOR, XQ FALLA LA COmparacion
-         //en el gestor, por eso puese 0
+         //en el gestor, por eso puse 0
          int[] mensaje = gs.validarDatos(dto);
        Boolean control = true;
         if(mensaje[1] == 1){
@@ -375,15 +378,45 @@ public class GestionarSucursal extends javax.swing.JPanel {
              Toolkit.getDefaultToolkit().beep();
         }
         
-        /*if(control == true){
+        if(control == true){
             //ACA VA LA BÚSQUEDA
-        }*/
+             List<Sucursal> sucursalesDTO =  gs.buscarSucursalSegunCriterio(dto);
+            DefaultTableModel model = (DefaultTableModel) tablaResultados.getModel();
+            int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            if(sucursalesDTO.isEmpty()){
+                 JOptionPane.showMessageDialog(this, "El campo Código solo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                control=false;
+                Toolkit.getDefaultToolkit().beep();
+            }else{
+                
+                
+            for (int i=0; i<sucursalesDTO.size(); i++){
+            model.addRow(new Object[]{sucursalesDTO.get(i).getCodigo(), sucursalesDTO.get(i).getNombre(), sucursalesDTO.get(i).getEstado().toString(), sucursalesDTO.get(i).getHorarioApertura(), sucursalesDTO.get(i).getHorarioCierre()});
+    }}
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        ventana.setContentPane(new ModificarSucursal(ventana, this));
-        ventana.revalidate();
+         DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+        int fila = tablaResultados.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            SucursalDTO dto = new SucursalDTO(model.getValueAt(fila, 0).toString(),
+            model.getValueAt(fila, 1).toString(),
+            model.getValueAt(fila,2).toString(),
+            model.getValueAt(fila, 3).toString(),
+            Estado.OPERATIVA);
+            ventana.setContentPane(new ModificarSucursal(ventana, this, dto));
+            ventana.revalidate();
+        }
+        
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
 

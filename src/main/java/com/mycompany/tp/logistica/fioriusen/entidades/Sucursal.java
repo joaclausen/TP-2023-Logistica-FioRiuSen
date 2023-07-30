@@ -49,8 +49,8 @@ public class Sucursal implements Serializable {
     Estado estado;
     
      @OneToMany(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
     @JoinColumn(name = "id_sucursal")
