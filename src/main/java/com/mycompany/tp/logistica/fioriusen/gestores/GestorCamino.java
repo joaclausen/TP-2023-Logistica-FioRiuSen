@@ -4,7 +4,14 @@
  */
 package com.mycompany.tp.logistica.fioriusen.gestores;
 
+import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
+import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -38,4 +45,52 @@ public class GestorCamino {
         }
         return mensajes;
     }
+
+    public boolean crearCamino(CaminoDTO c) {
+        
+        if(existeCamino(c) == true){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    private boolean existeCamino(CaminoDTO c) {
+        CaminoPGDao productoPG = new CaminoPGDao(); 
+        List<Camino> listaCaminos = productoPG.obtenerTodosCamino();
+        List<Integer> listCod = new ArrayList();
+        for(Camino prod: listaCaminos){
+            listCod.add(prod.getCodigo());
+        }
+        if(listCod.contains(c.getCodigo())){
+            return true;
+        }
+        else {
+            guardarProducto(c);
+            return false;             
+        }
+    }
+
+    private void guardarProducto(CaminoDTO c) {
+        CaminoPGDao productoPG = new CaminoPGDao();
+        SucursalPGDao sucursalPG = new SucursalPGDao();
+        Camino camino = new Camino();
+        Sucursal origen = sucursalPG.obtenerPorNombre(c.getOrigen());
+        Sucursal destino = sucursalPG.obtenerPorNombre(c.getDestino());
+        
+       //del string de origen y destino tengo q obtener las instancias de sucursal y setearlas
+       //cómo parseo el estado? y el tiempo?
+       camino.setCodigo(Integer.parseInt(c.getCodigo()));
+       camino.setDestino(origen);
+       camino.setOrigen(destino);
+       camino.setEstado(Estado.valueOf(c.getEstado()));
+       /*
+       camino.setTiempoTransito(c.getTiempoTransito());
+       */
+       productoPG.guardarCamino(camino);
+    }
+    
+    
+    
 }

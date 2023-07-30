@@ -46,7 +46,7 @@ public class GestorProducto {
             return false;
         }
         else{
-            return false;
+            return true;
         }
     }
     public boolean existeProducto(ProductoDTO p){
@@ -81,6 +81,13 @@ public class GestorProducto {
        prod.setDescripcion(p.getDescripcion());
        
        productoPG.guardarProducto(prod);
+    }
+
+    public List<Producto> buscarSegunCriterio(ProductoDTO dto) {
+        ProductoPGDao puestoPG = new ProductoPGDao();
+        List<Producto> listaProductos= new ArrayList();
+        listaProductos = puestoPG.buscarProductos(dto);
+        return listaProductos;
     }
 
 }
