@@ -64,13 +64,12 @@ public class GestorCamino {
 
     private boolean existeCamino(CaminoDTO c) {
         CaminoPGDao caminoPG = new CaminoPGDao(); 
-        List<Integer> listaCaminos = new ArrayList<>();
-               listaCaminos= caminoPG.obtenerTodosCamino();
-        /*List<Integer> listCod = new ArrayList();
-        for(Camino cami: listaCaminos){
-            listCod.add(cami.getCodigo());
-        }*/
-        if(listaCaminos.contains(Integer.parseInt(c.getCodigo()))){
+        List<Integer> listCod = new ArrayList<>();
+        
+       
+        listCod = caminoPG.getCodigoAll();
+        listCod.forEach(System.out::println);
+        if(listCod.contains(Integer.parseInt(c.getCodigo()))){
             return true;
         }
         else {
@@ -89,8 +88,8 @@ public class GestorCamino {
        //del string de origen y destino tengo q obtener las instancias de sucursal y setearlas
        //cómo parseo el estado? y el tiempo?
        camino.setCodigo(Integer.parseInt(c.getCodigo()));
-       camino.setDestino(origen);
-       camino.setOrigen(destino);
+       camino.setDestino(destino);
+       camino.setOrigen(origen);
        camino.setEstado(c.getEstado());
        camino.setCapacidadMaxima(Integer.parseInt(c.getCapacidadMaxima()));
        

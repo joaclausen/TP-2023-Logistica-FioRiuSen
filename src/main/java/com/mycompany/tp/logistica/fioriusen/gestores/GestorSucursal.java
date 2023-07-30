@@ -65,7 +65,7 @@ public class GestorSucursal {
         sucursalPG.saveSucursal(s);
      }
     
-    ///////////////////////////////////
+    
 
     public List<Sucursal> buscarSucursalSegunCriterio(SucursalDTO dto) {
        SucursalPGDao sucursalPG = new SucursalPGDao();
