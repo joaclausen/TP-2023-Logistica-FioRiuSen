@@ -57,15 +57,9 @@ public class SucursalPGDao implements SucursalDao{
 
     public Sucursal obtenerPorNombre(String nombre){
         
-         
-         SessionFactory sessionFactory  = HibernateManager.Configure();
          Session session = sessionFactory.openSession();
- 
-
         Query<Sucursal> query = session.createQuery("FROM Sucursal s WHERE s.nombre =:nombre", Sucursal.class);
-     query.setParameter("nombre", nombre);
-     
-    
+        query.setParameter("nombre", nombre);
          return query.uniqueResult();
     }
     

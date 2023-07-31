@@ -13,8 +13,8 @@ import java.util.List;
  * @author zapam
  */
 public interface CaminoDao {
-    public int guardarCamino(Camino c);
-    public Camino obtenerProducto(int id);
+    public void guardarCamino(Camino c);
+    public Camino obtenerCamino(int id);
 
    
     //public List<Integer> obtenerTodosCamino();

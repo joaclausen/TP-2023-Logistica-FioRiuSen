@@ -20,23 +20,22 @@ public class CaminoPGDao implements CaminoDao{
 
     private SessionFactory sessionFactory;
     
+    public CaminoPGDao(){
+        sessionFactory = HibernateManager.Configure();
+    }
+    
     @Override
-    public int guardarCamino(Camino c) {
-         SessionFactory sessionFactory  = HibernateManager.Configure();
-         try (Session session = sessionFactory.openSession()) {
- 
-            session.beginTransaction();
-            session.saveOrUpdate(c);
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         return c.getId();
+    public void guardarCamino(Camino c) {
+         Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(c);
+        session.getTransaction().commit();
+        session.close();
+        
     }
 
     @Override
-    public Camino obtenerProducto(int id) {
+    public Camino obtenerCamino(int id) {
           Camino c = new Camino();
          SessionFactory sessionFactory  = HibernateManager.Configure();
          try (Session session = sessionFactory.openSession()) {
@@ -50,9 +49,10 @@ public class CaminoPGDao implements CaminoDao{
     }
 
   
-    public List<Integer> obtenerTodosCamino() {
+    public List<Integer> getCodigoAll(){
         Session session = sessionFactory.openSession();
         return session.createQuery("SELECT codigo FROM Camino").getResultList();
+        
     }
     
 }

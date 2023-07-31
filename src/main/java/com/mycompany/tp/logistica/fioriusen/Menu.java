@@ -68,6 +68,11 @@ public class Menu extends javax.swing.JPanel {
         });
 
         btnMapa.setText("Mapa Sucursales");
+        btnMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMapaActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("BOTON DE PRUEBA");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +140,10 @@ public class Menu extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMapaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
