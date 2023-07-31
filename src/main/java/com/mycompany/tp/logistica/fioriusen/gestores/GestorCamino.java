@@ -108,6 +108,7 @@ public class GestorCamino {
             cDTO.setOrigen(c.getOrigen().getNombre());
             cDTO.setDestino(c.getDestino().getNombre());
             cDTO.setCapacidadMaxima(c.getCapacidadMaxima().toString());
+            caminos.add(cDTO);
         }
         
         

@@ -42,12 +42,18 @@ public class TP2023LogisticaFioRiuSen {
         //HOLAAAAAAAAAAAAAAAAAAA: /
         System.out.println("UN COMENTARIO LO QUE SEA");
 
+        GestorCamino gc = new GestorCamino();
+        List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
+        caminos = gc.obtenerParaGrafo();
+        
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");
 
         GrafoCanvas canvas = new GrafoCanvas();
         ventana2.getContentPane().add(canvas);
         ventana2.setVisible(true);
+        
+        
     }
 }
 
