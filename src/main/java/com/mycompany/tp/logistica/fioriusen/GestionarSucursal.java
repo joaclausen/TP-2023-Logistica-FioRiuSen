@@ -151,20 +151,20 @@ public class GestionarSucursal extends javax.swing.JPanel {
         tablaResultados.setAutoCreateRowSorter(true);
         tablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre", "Hora de apertura", "Hora de cierre", "Estado"
+                "ID", "Código", "Nombre", "Hora de apertura", "Hora de cierre", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -388,14 +388,14 @@ public class GestionarSucursal extends javax.swing.JPanel {
                      model.removeRow(i);
                 }
             if(sucursalesDTO.isEmpty()){
-                 JOptionPane.showMessageDialog(this, "El campo Código solo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(this, "No se han encontrado sucursales con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                 control=false;
                 Toolkit.getDefaultToolkit().beep();
             }else{
-                
+                System.out.println("ID SUC: "+sucursalesDTO.get(0).getId());
                 
             for (int i=0; i<sucursalesDTO.size(); i++){
-            model.addRow(new Object[]{sucursalesDTO.get(i).getCodigo(), sucursalesDTO.get(i).getNombre(), sucursalesDTO.get(i).getEstado().toString(), sucursalesDTO.get(i).getHorarioApertura(), sucursalesDTO.get(i).getHorarioCierre()});
+            model.addRow(new Object[]{sucursalesDTO.get(i).getId(),sucursalesDTO.get(i).getCodigo(), sucursalesDTO.get(i).getNombre(),  sucursalesDTO.get(i).getHorarioApertura(), sucursalesDTO.get(i).getHorarioCierre(), sucursalesDTO.get(i).getEstado().toString()});
     }}
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -407,12 +407,16 @@ public class GestionarSucursal extends javax.swing.JPanel {
         if(fila==-1){
             JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            SucursalDTO dto = new SucursalDTO(model.getValueAt(fila, 0).toString(),
-            model.getValueAt(fila, 1).toString(),
-            model.getValueAt(fila,2).toString(),
-            model.getValueAt(fila, 3).toString(),
-            Estado.OPERATIVA);
-            ventana.setContentPane(new ModificarSucursal(ventana, this, dto));
+            Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
+            String id = model.getValueAt(fila, 0).toString();
+            SucursalDTO dto = new SucursalDTO(model.getValueAt(fila, 1).toString(),
+            model.getValueAt(fila, 2).toString(),
+            model.getValueAt(fila,3).toString(),
+            model.getValueAt(fila, 4).toString(),
+            estado);
+            System.out.println("Valores: "+ model.getValueAt(fila, 1).toString()+" "+model.getValueAt(fila,2).toString()+" "+ model.getValueAt(fila, 3).toString() );
+            
+            ventana.setContentPane(new ModificarSucursal(ventana, this, dto, id));
             ventana.revalidate();
         }
         

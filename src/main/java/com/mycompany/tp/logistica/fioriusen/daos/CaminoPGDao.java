@@ -6,11 +6,14 @@
 package com.mycompany.tp.logistica.fioriusen.daos;
 
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
+import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
+import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -65,6 +68,44 @@ public class CaminoPGDao implements CaminoDao{
             e.printStackTrace();
         }
          return productos;
+    }
+    
+    
+    
+     public List<Camino> buscarCaminos(CaminoDTO dto){
+        Session session = sessionFactory.openSession();
+        Query<Camino> query = null;
+         Estado estado = dto.getEstado();
+         if(dto.getCodigo().isEmpty()==false){
+            int codigo=Integer.parseInt(dto.getCodigo());
+         query = session.createQuery("SELECT c FROM Camino c WHERE c.codigo=:codigo", Camino.class);
+            query.setParameter("codigo", codigo);
+       
+        }else if(dto.getDestino().isEmpty()==false)
+         {
+              query = session.createQuery("SELECT c FROM Camino s WHERE c.destino LIKE :destino  AND c.origen LIKE :origen AND s.estado=:estado", Camino.class);
+            query.setParameter("destino", dto.getDestino() +"%");
+            query.setParameter("origen", dto.getOrigen() +"%");
+          query.setParameter("estado", estado);
+         }
+         
+        /* else if(dto.getOrigen().isEmpty()==false)
+         {
+              query = session.createQuery("SELECT c FROM Camino c WHERE c.origen LIKE :origen AND c.estado=:estado", Camino.class);
+            query.setParameter("origen", dto.getOrigen() +"%");
+          query.setParameter("estado", estado); //ACA DEBO PEDIREL EL ID A SUCURSAL PORQUE CAMINO GUARDA IDS Y NO NOMBRES
+         }else if(dto.getDestino().isEmpty()==false)
+         {
+              query = session.createQuery("SELECT c FROM Camino c WHERE c.destino LIKE :destino AND c.estado=:estado", Camino.class);
+            query.setParameter("destino", dto.getDestino() +"%");
+          query.setParameter("estado", estado);
+         } */else{
+           
+             query = session.createQuery("SELECT c FROM Camino c WHERE c.estado=:estado", Camino.class);
+            query.setParameter("estado", estado);
+         }
+         
+         return query.getResultList();
     }
     
 }

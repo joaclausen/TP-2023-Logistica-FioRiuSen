@@ -47,15 +47,15 @@ public class Sucursal implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name="estado")
     Estado estado;
-    /*
-     @OneToMany(
+    
+     /*@OneToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.REMOVE,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "id_sucursal")
-    List<Stock> listaProductos;
-    */
+    List<Stock> listaProductos;*/
+    
     public Sucursal() {
     }
 
@@ -71,6 +71,11 @@ public class Sucursal implements Serializable {
     
     //setters
    
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }

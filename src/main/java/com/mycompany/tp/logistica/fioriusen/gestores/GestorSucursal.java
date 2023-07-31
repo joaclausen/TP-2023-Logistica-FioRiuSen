@@ -59,7 +59,7 @@ public class GestorSucursal {
         }
     }
     
-    private void crearSucursal(SucursalDTO dto){
+    public void crearSucursal(SucursalDTO dto){
         SucursalPGDao sucursalPG = new SucursalPGDao();
         Sucursal s = new Sucursal(Integer.parseInt(dto.getCodigo()), dto.getNombre(), LocalTime.parse(dto.getHoraApertura()), LocalTime.parse(dto.getHoraCierre()), dto.getEstado());
         sucursalPG.saveSucursal(s);
@@ -74,9 +74,11 @@ public class GestorSucursal {
         return listaSucursales;
     }
 
-    public void actualizarSucursal(SucursalDTO dto) {
-        SucursalPGDao  sucursalPG = new SucursalPGDao();
-         sucursalPG.modificarSucursal(dto); 
+    public void actualizarSucursal(SucursalDTO dto, String id) {
+        SucursalPGDao sucursalPG = new SucursalPGDao();
+        Integer identificado = Integer.parseInt(id);
+        Sucursal s = new Sucursal(Integer.parseInt(dto.getCodigo()), dto.getNombre(), LocalTime.parse(dto.getHoraApertura()), LocalTime.parse(dto.getHoraCierre()), dto.getEstado());
+        sucursalPG.modificarSucursal(s,identificado);
     }
     
     

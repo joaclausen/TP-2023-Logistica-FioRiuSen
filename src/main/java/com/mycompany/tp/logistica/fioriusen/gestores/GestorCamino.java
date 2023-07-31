@@ -115,6 +115,11 @@ public class GestorCamino {
         return caminos;
     }
     
-    
+     public List<Camino> buscarCaminoSegunCriterio(CaminoDTO dto) {
+       CaminoPGDao caminoPG = new CaminoPGDao();
+        List<Camino> listaCaminos = new ArrayList();
+        listaCaminos = caminoPG.buscarCaminos(dto);
+        return listaCaminos;
+     }
     
 }

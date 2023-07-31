@@ -23,17 +23,20 @@ public class ModificarSucursal extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public ModificarSucursal(JFrame ventana, JPanel padre, SucursalDTO moddto) {
+    private String id;
+    public ModificarSucursal(JFrame ventana, JPanel padre, SucursalDTO originaldto, String id) {
        this.ventana = ventana;
         this.padre = padre;
+        this.id=id;
+        
         ventana.setTitle("Gestionar sucursales - Modificar sucursal");
         ventana.setSize(800, 600);
        
         initComponents();
-        txtCodigo.setText(moddto.getCodigo());
-        txtNombre.setText(moddto.getNombre());
-        txtApertura.setText(moddto.getHoraApertura());
-        txtCierre.setText(moddto.getHoraCierre());
+        txtCodigo.setText(originaldto.getCodigo());
+        txtNombre.setText(originaldto.getNombre());
+        txtApertura.setText(originaldto.getHoraApertura());
+        txtCierre.setText(originaldto.getHoraCierre());
          ventana.setVisible(true);
     }
 
@@ -209,7 +212,7 @@ public class ModificarSucursal extends javax.swing.JPanel {
             Toolkit.getDefaultToolkit().beep();
         }
         if(mensaje[3] == 1){
-            JOptionPane.showMessageDialog(this, "Los campos hora de apertura de apertura y hora de cierre deben de seguir el siguiente formato HH:MM", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Los campos hora de apertura y hora de cierre deben de seguir el siguiente formato HH:MM", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
             control=false;
             Toolkit.getDefaultToolkit().beep();
         }
@@ -219,8 +222,11 @@ public class ModificarSucursal extends javax.swing.JPanel {
             switch (result){
                 case JOptionPane.YES_OPTION:
                 //MAGIA
-                  gs.actualizarSucursal(dto);
-               
+                 
+                  gs.actualizarSucursal(dto, id);
+                JOptionPane.showMessageDialog(this, "La sucursal se actualizó correctamente. Regresará a la pantalla de Gestionar Sucursal.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                ventana.setContentPane(new GestionarSucursal(ventana, this));
+                ventana.revalidate();
                 break;
                 case JOptionPane.NO_OPTION:
                 break;
