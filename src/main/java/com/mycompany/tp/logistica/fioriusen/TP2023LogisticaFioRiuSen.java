@@ -45,21 +45,20 @@ public class TP2023LogisticaFioRiuSen {
         GestorCamino gc = new GestorCamino();
         List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
         caminos = gc.obtenerParaGrafo();
-        
+
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");
 
         GrafoCanvas canvas = new GrafoCanvas();
         ventana2.getContentPane().add(canvas);
         ventana2.setVisible(true);
-        
-        
+
     }
 }
 
 class Nodo {
 
-     int x, y, w, h;
+    int x, y, w, h;
     private String nombre;
 
     public Nodo(int x, int y, int w, int h, String n) {
@@ -78,8 +77,8 @@ class Nodo {
 
 class Arista {
 
-     int x, y, x2, y2;
-     private String peso;
+    int x, y, x2, y2;
+    private String peso;
 
     public Arista(Nodo n1, Nodo n2, String p) {
         this.x = n1.x;
@@ -110,20 +109,29 @@ class GrafoCanvas extends Canvas {
 
         //Supongo q voy a necesitar decir quien es nodo inicio y final, son aquellos con nombre Puero y Centro
         Graphics2D g2 = (Graphics2D) g;
+        
+        for (CaminoDTO c : caminos) {
+            Nodo nodo1 = new Nodo(50, 50, 30, 30, c.getOrigen());
+            Nodo nodo2 = new Nodo(200, 100, 30, 30, c.getDestino());
 
-        Nodo nodo1 = new Nodo(50, 50, 30, 30, caminos.get(0).getOrigen());
-        Nodo nodo2 = new Nodo(200, 100, 30, 30, caminos.get(0).getDestino());
+            g2.setColor(Color.BLUE);
+            g2.fill(nodo1.getShape());
+            g2.fill(nodo2.getShape());
 
-        g2.setColor(Color.BLUE);
-        g2.fill(nodo1.getShape());
-        g2.fill(nodo2.getShape());
+            Arista arista1 = new Arista(nodo1, nodo2, caminos.get(0).getCapacidadMaxima());
 
-        Arista arista1 = new Arista(nodo1, nodo2, caminos.get(0).getCapacidadMaxima());
+            g2.setColor(Color.RED);
+            g2.draw(arista1.getShape());
 
-        g2.setColor(Color.RED);
-        g2.draw(arista1.getShape());
+            g2.setColor(Color.BLACK);
+            g2.drawString(arista1.getPeso(), getMedio(arista1.x,arista1.x2), getMedio(arista1.y,arista1.y2));
+            
+        }
+       
 
-        g2.setColor(Color.BLACK);
-        g2.drawString(arista1.getPeso(), 55, 55);
+    }
+    
+    public int getMedio(int a, int b){
+        return (a+b)/2;
     }
 }
