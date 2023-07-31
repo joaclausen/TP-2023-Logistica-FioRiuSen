@@ -142,7 +142,8 @@ public class Menu extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
-        // TODO add your handling code here:
+       ventana.setContentPane(new Mapa(ventana, this));
+       ventana.revalidate();
     }//GEN-LAST:event_btnMapaActionPerformed
 
 

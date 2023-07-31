@@ -54,5 +54,10 @@ public class CaminoPGDao implements CaminoDao{
         return session.createQuery("SELECT codigo FROM Camino").getResultList();
         
     }
+
+    public List<Camino> obtenerTodos() {
+        Session session = sessionFactory.openSession();
+        return session.createQuery("SELECT c FROM Camino c",Camino.class).getResultList();
+    }
     
 }
