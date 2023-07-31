@@ -6,12 +6,15 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Toolkit;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -65,7 +68,7 @@ public class GestionarCamino extends javax.swing.JPanel {
         btnVolver = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Busqueda de productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Busqueda de caminos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         codigo.setBackground(new java.awt.Color(255, 255, 255));
         codigo.setText("Origen:");
@@ -209,28 +212,29 @@ public class GestionarCamino extends javax.swing.JPanel {
 
         jPanel38.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultado de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
+        tablaResultado.setAutoCreateRowSorter(true);
         tablaResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Origen", "Destino", "Estado", "Carga Máxima", "Tiempo de transito"
+                "ID", "Codigo", "Origen", "Destino", "Estado", "Carga Máxima", "Tiempo de transito"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -387,6 +391,28 @@ public class GestionarCamino extends javax.swing.JPanel {
              Toolkit.getDefaultToolkit().beep();
         }
         
+           /*     if(control == true){
+            //ACA VA LA BÚSQUEDA
+             List<Camino> caminosDTO =  gc.buscarCaminoSegunCriterio(dto);
+            DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+            int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            if(caminosDTO.isEmpty()){
+                 JOptionPane.showMessageDialog(this, "No se han encontrado sucursales con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                control=false;
+                Toolkit.getDefaultToolkit().beep();
+            }else{
+                
+                
+            for (int i=0; i<caminosDTO.size(); i++){
+            model.addRow(new Object[]{sucursalesDTO.get(i).getId(),sucursalesDTO.get(i).getCodigo(), sucursalesDTO.get(i).getNombre(),  sucursalesDTO.get(i).getHorarioApertura(), sucursalesDTO.get(i).getHorarioCierre(), sucursalesDTO.get(i).getEstado().toString()});
+    }}
+        }*/
+        
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void comboEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstadoActionPerformed
@@ -402,8 +428,23 @@ public class GestionarCamino extends javax.swing.JPanel {
     }//GEN-LAST:event_textCargaKeyTyped
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        ventana.setContentPane(new ModificarCamino(ventana, this));
-         ventana.revalidate();
+        DefaultTableModel model = (DefaultTableModel)tablaResultado.getModel();
+        int fila = tablaResultado.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un camino de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Estado estado = Estado.valueOf(comboEstado.getSelectedItem().toString());
+            String id = model.getValueAt(fila, 0).toString();
+           /* CaminoDTO dto = new CaminoDTO(model.getValueAt(fila, 1).toString(),
+            model.getValueAt(fila, 2).toString(),
+            model.getValueAt(fila,3).toString(),
+            model.getValueAt(fila, 4).toString(),
+            estado);
+            System.out.println("Valores: "+ model.getValueAt(fila, 1).toString()+" "+model.getValueAt(fila,2).toString()+" "+ model.getValueAt(fila, 3).toString() );
+            
+            ventana.setContentPane(new ModificarCamino(ventana, this, dto, id));
+            ventana.revalidate();*/
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed

@@ -98,6 +98,11 @@ public class GestorCamino {
        caminoPG.guardarCamino(camino);
     }
     
-    
+     public List<Camino> buscarCaminoSegunCriterio(CaminoDTO dto) {
+       CaminoPGDao caminoPG = new CaminoPGDao();
+        List<Camino> listaCaminos = new ArrayList();
+        listaCaminos = caminoPG.buscarCaminos(dto);
+        return listaCaminos;
+     }
     
 }

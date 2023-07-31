@@ -12,6 +12,7 @@ import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 /**
@@ -43,6 +44,8 @@ public class SucursalPGDao implements SucursalDao{
         session.close();
         //return s.getId();
     }
+    
+   
 
     public List<Integer> getCodigoAll(){
         Session session = sessionFactory.openSession();
@@ -86,13 +89,24 @@ public class SucursalPGDao implements SucursalDao{
          return query.getResultList();
     }
 
-    public void modificarSucursal(SucursalDTO dto) {
+   /* public void modificarSucursal(SucursalDTO dto) {
       Session session = sessionFactory.openSession();
         Query<Sucursal> query;
-        query = session.createQuery("update Sucursal set nombre=:nombre where codigo=:codigo");
+        query = session.createQuery("update Sucursal s set s.nombre=:'Parque' where s.codigo=:codigo");
          query.setParameter("codigo", dto.getCodigo());
           query.setParameter("nombre",dto.getCodigo());
+          
+       
         
+    }*/
+    
+     public void modificarSucursal(Sucursal s, Integer id){
+         Session session = sessionFactory.openSession();
+         s.setId(id);
+        session.beginTransaction();
+        session.saveOrUpdate(s);
+        session.getTransaction().commit();
+        session.close();
+        //return s.getId();
     }
-
 }
