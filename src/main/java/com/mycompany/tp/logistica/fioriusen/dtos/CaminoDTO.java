@@ -21,6 +21,10 @@ public class CaminoDTO {
     private String capacidadMaxima;
     private Estado estado;
 
+    public CaminoDTO(){
+    }
+    
+    
     public CaminoDTO(String codigo, String destino, String origen, String tiempoTransito, String capacidadMaxima, Estado estado) {
         this.codigo = codigo;
         this.destino = destino;

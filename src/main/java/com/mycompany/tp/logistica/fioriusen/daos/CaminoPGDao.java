@@ -54,5 +54,17 @@ public class CaminoPGDao implements CaminoDao{
         return session.createQuery("SELECT codigo FROM Camino").getResultList();
         
     }
+
+    public List<Camino> obtenerTodos() {
+         List<Camino> productos = new ArrayList<>();
+        SessionFactory sessionFactory  = HibernateManager.Configure();
+         try (Session session = sessionFactory.openSession()) {
+             productos = session.createCriteria(Camino.class).list(); 
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return productos;
+    }
     
 }
