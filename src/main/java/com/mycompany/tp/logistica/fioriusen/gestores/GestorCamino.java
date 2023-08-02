@@ -23,7 +23,7 @@ public class GestorCamino {
     public GestorCamino() {
     }
     public int[] validarDatos(CaminoDTO dto){
-        int[] mensajes = new int[6];
+        int[] mensajes = new int[9];
 
         if (dto.getCodigo().isEmpty() || dto.getOrigen().isEmpty() || dto.getDestino().isEmpty() || dto.getCapacidadMaxima().isEmpty() || dto.getTiempoTransito().isEmpty()) {
             mensajes[0] = 1;
@@ -40,12 +40,21 @@ public class GestorCamino {
             mensajes[3] = 1;
         }
        if(!dto.getTiempoTransito().isEmpty()){
-           if (!dto.getTiempoTransito().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"))//USAMOS SOLO 99 HOURS?
+           if (!dto.getTiempoTransito().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"))
         {
-            mensajes[4] = 1;//NO FUNCA
+            mensajes[4] = 1;
         }
         if(dto.getOrigen().equals(dto.getDestino())){
             mensajes[5] = 1;
+        }
+        if(dto.getCodigo().isEmpty() && dto.getOrigen().isEmpty() && dto.getDestino().isEmpty()){
+             mensajes[6] = 1;
+        }
+        if(dto.getOrigen().matches(".*[aA-zZ]+$.*")){
+            mensajes[7]=1;
+        }
+        if(dto.getDestino().matches(".*[aA-zZ]+$.*")){
+            mensajes[8]=1;
         }
        }
         

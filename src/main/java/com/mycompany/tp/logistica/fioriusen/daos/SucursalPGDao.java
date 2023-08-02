@@ -78,9 +78,9 @@ public class SucursalPGDao implements SucursalDao{
        
         }else if(dto.getNombre().isEmpty()==false)
          {
-              query = session.createQuery("SELECT s FROM Sucursal s WHERE s.nombre LIKE :nombre AND s.estado=:estado", Sucursal.class);
+              query = session.createQuery("SELECT s FROM Sucursal s WHERE s.nombre LIKE :nombre ", Sucursal.class);
             query.setParameter("nombre", dto.getNombre() +"%");
-          query.setParameter("estado", estado);
+        
          }else{
            
              query = session.createQuery("SELECT s FROM Sucursal s WHERE s.estado=:estado", Sucursal.class);

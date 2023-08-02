@@ -36,12 +36,12 @@ public class Camino {
     
      @OneToOne(fetch = FetchType.EAGER,
          cascade = CascadeType.ALL)
-    @JoinColumn(name="id_sucursal_destino")
+    @JoinColumn(name="id_sucursal_destino", referencedColumnName = "id")
     Sucursal destino;
      
      @OneToOne(fetch = FetchType.EAGER,
                  cascade = CascadeType.ALL)
-    @JoinColumn(name="id_sucursal_origen")
+    @JoinColumn(name="id_sucursal_origen", referencedColumnName = "id")
     Sucursal origen;
      
     @Basic
