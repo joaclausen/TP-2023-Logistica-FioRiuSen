@@ -93,9 +93,7 @@ public class GestorCamino {
         Camino camino = new Camino();
         Sucursal origen = sucursalPG.obtenerPorNombre(c.getOrigen());
         Sucursal destino = sucursalPG.obtenerPorNombre(c.getDestino());
-        
-       //del string de origen y destino tengo q obtener las instancias de sucursal y setearlas
-       //cómo parseo el estado? y el tiempo?
+       
        camino.setCodigo(Integer.parseInt(c.getCodigo()));
        camino.setDestino(destino);
        camino.setOrigen(origen);
@@ -105,6 +103,25 @@ public class GestorCamino {
        camino.setTiempoTransito(LocalTime.parse(c.getTiempoTransito()));
        
        caminoPG.guardarCamino(camino);
+    }
+
+    public List<CaminoDTO> obtenerParaGrafo() {
+        CaminoPGDao caminoPG = new CaminoPGDao();
+        List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
+        //obtengo todos los obj camino,  por c/u creo unos dto para pasarle a la interfaz, con qué atributos??
+        List<Camino> losCaminosOG = new ArrayList<>();
+        losCaminosOG = caminoPG.obtenerTodos();
+        
+        for(Camino c: losCaminosOG){
+            CaminoDTO cDTO = new CaminoDTO();
+            cDTO.setOrigen(c.getOrigen().getNombre());
+            cDTO.setDestino(c.getDestino().getNombre());
+            cDTO.setCapacidadMaxima(c.getCapacidadMaxima().toString());
+            caminos.add(cDTO);
+        }
+        
+        
+        return caminos;
     }
     
      public List<Camino> buscarCaminoSegunCriterio(CaminoDTO dto) {
