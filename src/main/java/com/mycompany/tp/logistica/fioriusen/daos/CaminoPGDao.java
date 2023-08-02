@@ -62,32 +62,37 @@ public class CaminoPGDao implements CaminoDao{
     
      public List<Camino> buscarCaminos(CaminoDTO dto){
         Session session = sessionFactory.openSession();
-        Query<Camino> query = null;
+        Query<Camino> query;
          Estado estado = dto.getEstado();
+         
          if(dto.getCodigo().isEmpty()==false){
             int codigo=Integer.parseInt(dto.getCodigo());
          query = session.createQuery("SELECT c FROM Camino c WHERE c.codigo=:codigo", Camino.class);
             query.setParameter("codigo", codigo);
        
-        }else if(dto.getDestino().isEmpty()==false)
+        }else if(dto.getDestino().isEmpty()==false && dto.getOrigen().isEmpty()==false)
          {
-              query = session.createQuery("SELECT c FROM Camino s WHERE c.destino LIKE :destino  AND c.origen LIKE :origen AND s.estado=:estado", Camino.class);
-            query.setParameter("destino", dto.getDestino() +"%");
-            query.setParameter("origen", dto.getOrigen() +"%");
-          query.setParameter("estado", estado);
+             int origen = Integer.parseInt(dto.getOrigen());
+             int destino = Integer.parseInt(dto.getDestino());
+              query = session.createQuery("SELECT c FROM Camino c WHERE c.destino=:destino AND  c.origen=:origen", Camino.class);
+            query.setParameter("destino", destino);
+            query.setParameter("origen", origen);
+        
          }
          
-        /* else if(dto.getOrigen().isEmpty()==false)
+         else if(dto.getOrigen().isEmpty()==false)
          {
-              query = session.createQuery("SELECT c FROM Camino c WHERE c.origen LIKE :origen AND c.estado=:estado", Camino.class);
-            query.setParameter("origen", dto.getOrigen() +"%");
-          query.setParameter("estado", estado); //ACA DEBO PEDIREL EL ID A SUCURSAL PORQUE CAMINO GUARDA IDS Y NO NOMBRES
+             int origen = Integer.parseInt(dto.getOrigen());
+              query = session.createQuery("SELECT c FROM Camino c WHERE c.id_sucursal_origen=:origen", Camino.class);
+              query.setParameter("origen", origen);
+          //ACA DEBO PEDIREL EL ID A SUCURSAL PORQUE CAMINO GUARDA IDS Y NO NOMBRES
          }else if(dto.getDestino().isEmpty()==false)
          {
-              query = session.createQuery("SELECT c FROM Camino c WHERE c.destino LIKE :destino AND c.estado=:estado", Camino.class);
-            query.setParameter("destino", dto.getDestino() +"%");
-          query.setParameter("estado", estado);
-         } */else{
+              int destino = Integer.parseInt(dto.getDestino());
+              query = session.createQuery("SELECT c FROM Camino c WHERE c.destino=:destino", Camino.class);
+             query.setParameter("destino", destino);
+         
+         } else{
            
              query = session.createQuery("SELECT c FROM Camino c WHERE c.estado=:estado", Camino.class);
             query.setParameter("estado", estado);

@@ -6,9 +6,12 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
+import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.JFrame;
@@ -231,7 +234,7 @@ public class GestionarCamino extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -363,18 +366,19 @@ public class GestionarCamino extends javax.swing.JPanel {
     }//GEN-LAST:event_textidKeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-  GestorCamino gc =  new GestorCamino();
+  
        Boolean control = true;
   Estado estado = Estado.valueOf(comboEstado.getSelectedItem().toString());
-        CaminoDTO dto = new CaminoDTO(textid.getText(), textDestino.getText(), textOrigen.getText(),"0", textCarga.getText(),estado);
+  //ATENCION NO PUEDO MANDAR LOS GETTEXT DE ORIGEN Y DESTINO A CAMINO
+   GestorCamino gc =  new GestorCamino();
+    GestorSucursal gs = new GestorSucursal();
+       
+         CaminoDTO dto = new CaminoDTO(textid.getText(), textOrigen.getText(), textDestino.getText(),"0", textCarga.getText(),estado);
          
-         int[] mensaje = gc.validarDatos(dto);
-         if(textid.getText().isEmpty() && textDestino.getText().isEmpty() && textOrigen.getText().isEmpty() && textCarga.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Por favor, complete al menos un criterio de búsqueda.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-            Toolkit.getDefaultToolkit().beep();
-           
-        }
+       String idSucursalOrigen="";
+       String idSucursalDestino="";
+    int[] mensaje = gc.validarDatos(dto);
+        
         if(mensaje[1] == 1){
              JOptionPane.showMessageDialog(this, "El campo Código debe ser numérico.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
             control=false;
@@ -390,10 +394,35 @@ public class GestionarCamino extends javax.swing.JPanel {
             control=false;
              Toolkit.getDefaultToolkit().beep();
         }
+        if(mensaje[6]==1){
+            JOptionPane.showMessageDialog(this, "Por favor, complete al menos un criterio de búsqueda.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control=false;
+            Toolkit.getDefaultToolkit().beep();
+        }
+        if(mensaje[7]==1){
+             SucursalDTO sucursalOrigen = new SucursalDTO("", textOrigen.getText(), "0", "0", Estado.OPERATIVA);
+      List<Sucursal> origen=  gs.buscarSucursalSegunCriterio(sucursalOrigen);
+       idSucursalOrigen=origen.get(0).getId().toString();
+       System.out.println("FUNCA "+ origen.get(0).getId() );
+       
+        }
+        if(mensaje[8]==1){
+        SucursalDTO sucursalDestino = new SucursalDTO("", textDestino.getText(), "0", "0", Estado.OPERATIVA);
+      List<Sucursal> destino =  gs.buscarSucursalSegunCriterio(sucursalDestino);
+      idSucursalDestino=destino.get(0).getId().toString();
+        System.out.println("FUNCA " + destino.get(0).getId());
+        }
+       
         
-           /*     if(control == true){
+       //
+        
+                if(control == true){
             //ACA VA LA BÚSQUEDA
-             List<Camino> caminosDTO =  gc.buscarCaminoSegunCriterio(dto);
+           
+          
+            CaminoDTO dtoBusqueda= new CaminoDTO(textid.getText(), idSucursalOrigen, idSucursalDestino,"0", textCarga.getText(),estado);
+            
+             List<Camino> caminosDTO =  gc.buscarCaminoSegunCriterio(dtoBusqueda);
             DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
             int filas = model.getRowCount();
                 if(filas > 0)
@@ -401,16 +430,17 @@ public class GestionarCamino extends javax.swing.JPanel {
                      model.removeRow(i);
                 }
             if(caminosDTO.isEmpty()){
-                 JOptionPane.showMessageDialog(this, "No se han encontrado sucursales con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(this, "No se han caminos con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                 control=false;
                 Toolkit.getDefaultToolkit().beep();
             }else{
                 
                 
             for (int i=0; i<caminosDTO.size(); i++){
-            model.addRow(new Object[]{sucursalesDTO.get(i).getId(),sucursalesDTO.get(i).getCodigo(), sucursalesDTO.get(i).getNombre(),  sucursalesDTO.get(i).getHorarioApertura(), sucursalesDTO.get(i).getHorarioCierre(), sucursalesDTO.get(i).getEstado().toString()});
-    }}
-        }*/
+            model.addRow(new Object[]{caminosDTO.get(i).getId(), caminosDTO.get(i).getCodigo(),caminosDTO.get(i).getOrigen().getNombre(), caminosDTO.get(i).getDestino().getNombre(),caminosDTO.get(i).getEstado(), caminosDTO.get(i).getCapacidadMaxima(), caminosDTO.get(i).getTiempoTransito()});
+    }
+            }
+        }
         
         
     }//GEN-LAST:event_btnBuscarActionPerformed

@@ -312,7 +312,7 @@
                         <Column editable="false" title="Origen" type="java.lang.String"/>
                         <Column editable="false" title="Destino" type="java.lang.String"/>
                         <Column editable="false" title="Estado" type="java.lang.String"/>
-                        <Column editable="false" title="Carga M&#xe1;xima" type="java.lang.Double"/>
+                        <Column editable="false" title="Carga M&#xe1;xima" type="java.lang.Integer"/>
                         <Column editable="false" title="Tiempo de transito" type="java.lang.String"/>
                       </Table>
                     </Property>
