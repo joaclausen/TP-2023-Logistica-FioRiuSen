@@ -100,5 +100,21 @@ public class CaminoPGDao implements CaminoDao{
          
          return query.getResultList();
     }
-    
+     
+      public void modificarCamino(Camino c, Integer id){
+         Session session = sessionFactory.openSession();
+         c.setId(id);
+        session.beginTransaction();
+        session.saveOrUpdate(c);
+        session.getTransaction().commit();
+        session.close();
+        //return s.getId();
+    }
+ 
+      public void borrarCamino(Integer id){
+          Session session = sessionFactory.openSession();
+          Camino camino = new Camino();
+           camino.setId(id);
+          session.delete(camino);
+      }
 }

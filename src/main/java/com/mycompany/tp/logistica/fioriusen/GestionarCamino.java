@@ -60,8 +60,6 @@ public class GestionarCamino extends javax.swing.JPanel {
         btnBuscar = new javax.swing.JButton();
         estado = new javax.swing.JLabel();
         comboEstado = new javax.swing.JComboBox<>();
-        carga = new javax.swing.JLabel();
-        textCarga = new javax.swing.JTextField();
         jPanel38 = new javax.swing.JPanel();
         jScrollPane37 = new javax.swing.JScrollPane();
         tablaResultado = new javax.swing.JTable();
@@ -131,58 +129,36 @@ public class GestionarCamino extends javax.swing.JPanel {
             }
         });
 
-        carga.setBackground(new java.awt.Color(255, 255, 255));
-        carga.setText("Carga Máxima:");
-
-        textCarga.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCargaActionPerformed(evt);
-            }
-        });
-        textCarga.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                textCargaKeyTyped(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(carga)
-                        .addGap(18, 18, 18)
-                        .addComponent(textCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(codigo)
-                            .addComponent(id))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textid, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(textOrigen))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(destino, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(estado, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(51, 51, 51)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(codigo)
+                    .addComponent(id))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textid, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(destino, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(estado, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(218, 218, 218)
-                                .addComponent(btnBuscar)))
-                        .addGap(27, 27, 27))
+                        .addComponent(textDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(117, 117, 117))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBuscar)
+                .addGap(193, 193, 193))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,18 +175,9 @@ public class GestionarCamino extends javax.swing.JPanel {
                     .addComponent(destino)
                     .addComponent(textDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(btnBuscar)
-                        .addGap(26, 26, 26))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(carga)
-                            .addComponent(textCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(btnBuscar)
+                .addGap(26, 26, 26))
         );
 
         jPanel38.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultado de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
@@ -283,6 +250,11 @@ public class GestionarCamino extends javax.swing.JPanel {
         });
 
         btnEliminar.setText("Eliminar camino");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Cancelar");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +345,7 @@ public class GestionarCamino extends javax.swing.JPanel {
    GestorCamino gc =  new GestorCamino();
     GestorSucursal gs = new GestorSucursal();
        
-         CaminoDTO dto = new CaminoDTO(textid.getText(), textOrigen.getText(), textDestino.getText(),"0", textCarga.getText(),estado);
+         CaminoDTO dto = new CaminoDTO(textid.getText(), textOrigen.getText(), textDestino.getText(),"", "",estado);
          
        String idSucursalOrigen="";
        String idSucursalDestino="";
@@ -420,7 +392,7 @@ public class GestionarCamino extends javax.swing.JPanel {
             //ACA VA LA BÚSQUEDA
            
           
-            CaminoDTO dtoBusqueda= new CaminoDTO(textid.getText(), idSucursalOrigen, idSucursalDestino,"0", textCarga.getText(),estado);
+            CaminoDTO dtoBusqueda= new CaminoDTO(textid.getText(), idSucursalOrigen, idSucursalDestino,"0", "",estado);
             
              List<Camino> caminosDTO =  gc.buscarCaminoSegunCriterio(dtoBusqueda);
             DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
@@ -449,14 +421,6 @@ public class GestionarCamino extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboEstadoActionPerformed
 
-    private void textCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCargaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCargaActionPerformed
-
-    private void textCargaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCargaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCargaKeyTyped
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         DefaultTableModel model = (DefaultTableModel)tablaResultado.getModel();
         int fila = tablaResultado.getSelectedRow();
@@ -465,15 +429,16 @@ public class GestionarCamino extends javax.swing.JPanel {
         }else{
             Estado estado = Estado.valueOf(comboEstado.getSelectedItem().toString());
             String id = model.getValueAt(fila, 0).toString();
-           /* CaminoDTO dto = new CaminoDTO(model.getValueAt(fila, 1).toString(),
+            CaminoDTO dto = new CaminoDTO(model.getValueAt(fila, 1).toString(),
             model.getValueAt(fila, 2).toString(),
             model.getValueAt(fila,3).toString(),
-            model.getValueAt(fila, 4).toString(),
-            estado);
+            model.getValueAt(fila, 6).toString(),
+            model.getValueAt(fila, 5).toString(),
+            Estado.valueOf(model.getValueAt(fila, 4).toString()));
             System.out.println("Valores: "+ model.getValueAt(fila, 1).toString()+" "+model.getValueAt(fila,2).toString()+" "+ model.getValueAt(fila, 3).toString() );
             
             ventana.setContentPane(new ModificarCamino(ventana, this, dto, id));
-            ventana.revalidate();*/
+            ventana.revalidate();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -494,6 +459,35 @@ public class GestionarCamino extends javax.swing.JPanel {
        
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+         DefaultTableModel model = (DefaultTableModel)tablaResultado.getModel();
+        int fila = tablaResultado.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un camino de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+        //ELIMINAR ACCA
+         int result = JOptionPane.showConfirmDialog(this,"¿Seguro de que desea eliminar el camino seleccionado?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result){
+            case JOptionPane.YES_OPTION:
+            GestorCamino gc = new GestorCamino();
+            
+            gc.eliminarCamino(model.getValueAt(fila, 0).toString()); //NO FUNCA
+            
+              JOptionPane.showMessageDialog(this, "Camino eliminado con éxito.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+       int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            case JOptionPane.NO_OPTION:
+            break;
+        }
+      
+        
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -501,7 +495,6 @@ public class GestionarCamino extends javax.swing.JPanel {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JLabel carga;
     private javax.swing.JLabel codigo;
     private javax.swing.JComboBox<String> comboEstado;
     private javax.swing.JLabel destino;
@@ -512,7 +505,6 @@ public class GestionarCamino extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel38;
     private javax.swing.JScrollPane jScrollPane37;
     private javax.swing.JTable tablaResultado;
-    private javax.swing.JTextField textCarga;
     private javax.swing.JTextField textDestino;
     private javax.swing.JTextField textOrigen;
     private javax.swing.JTextField textid;

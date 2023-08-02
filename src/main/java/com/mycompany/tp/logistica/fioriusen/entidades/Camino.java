@@ -56,7 +56,24 @@ public class Camino {
     Estado estado;
     
     //setters
+public Camino(){
+    
+}
+    public Camino(Integer codigo, Sucursal origen, Sucursal destino, LocalTime tiempoTransito, Integer capacidadMaxima, Estado estado) {
+        this.codigo = codigo;
+        this.destino = destino;
+        this.origen = origen;
+        this.tiempoTransito = tiempoTransito;
+        this.capacidadMaxima = capacidadMaxima;
+        this.estado = estado;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    
+    
     public Integer getCodigo() {
         return codigo;
     }

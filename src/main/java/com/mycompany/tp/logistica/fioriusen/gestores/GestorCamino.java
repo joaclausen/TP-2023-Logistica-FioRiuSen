@@ -114,4 +114,28 @@ public class GestorCamino {
         return listaCaminos;
      }
     
+     public void actualizarCamino(CaminoDTO dto, String id){
+         CaminoPGDao caminoPG = new CaminoPGDao();
+         Integer identificado = Integer.parseInt(id);
+         SucursalPGDao sucursalPG = new SucursalPGDao();
+          Sucursal origen = sucursalPG.obtenerPorNombre(dto.getOrigen());
+        Sucursal destino = sucursalPG.obtenerPorNombre(dto.getDestino());
+        Camino camino = new Camino();
+       //del string de origen y destino tengo q obtener las instancias de sucursal y setearlas
+       //cómo parseo el estado? y el tiempo?
+       camino.setCodigo(Integer.parseInt(dto.getCodigo()));
+       camino.setDestino(destino);
+       camino.setOrigen(origen);
+       camino.setEstado(dto.getEstado());
+       camino.setCapacidadMaxima(Integer.parseInt(dto.getCapacidadMaxima()));
+       
+       camino.setTiempoTransito(LocalTime.parse(dto.getTiempoTransito()));
+         caminoPG.modificarCamino(camino, identificado);
+             }
+     
+     public void eliminarCamino(String id){
+         CaminoPGDao caminoPG = new CaminoPGDao();
+         Integer ID = Integer.parseInt(id);
+         caminoPG.borrarCamino(ID);
+     }
 }
