@@ -5,9 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
-import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
-import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
-import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -15,14 +13,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 /**
  *
@@ -45,17 +39,17 @@ public class TP2023LogisticaFioRiuSen {
         GestorCamino gc = new GestorCamino();
         List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
         caminos = gc.obtenerParaGrafo();
-
+/*
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");
 
         GrafoCanvas canvas = new GrafoCanvas();
         ventana2.getContentPane().add(canvas);
         ventana2.setVisible(true);
-
+*/
     }
 }
-
+/*
 class Nodo {
 
     int x, y, w, h;
@@ -135,3 +129,4 @@ class GrafoCanvas extends Canvas {
         return (a+b)/2;
     }
 }
+*/
