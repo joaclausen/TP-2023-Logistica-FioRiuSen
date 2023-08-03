@@ -128,5 +128,6 @@ public class CaminoPGDao implements CaminoDao{
           Camino camino = new Camino();
            camino.setId(id);
           session.delete(camino);
+          //session.remove(camino);
       }
 }
