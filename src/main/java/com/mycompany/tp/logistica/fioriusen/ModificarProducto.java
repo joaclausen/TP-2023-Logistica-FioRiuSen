@@ -22,22 +22,12 @@ public class ModificarProducto extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    private String id;
-    public ModificarProducto(JFrame ventana, JPanel padre, ProductoDTO dto, String id) {
+    public ModificarProducto(JFrame ventana, JPanel padre) {
       this.ventana = ventana;
-      this.padre = padre;
-      
-      this.id = id;
+        this.padre = padre;
         ventana.setTitle("Gestionar productos - Modificar producto");
         ventana.setSize(800, 700);
         initComponents();
-        
-        textCodigo.setText(dto.getCodigo());
-        textNombre.setText(dto.getNombre());
-        textPeso.setText(dto.getPeso());
-        textPrecio.setText(dto.getPrecioUnitario());
-        textDesc.setText(dto.getDescripcion());
-        
         ventana.setVisible(true);
     }
 
@@ -74,11 +64,6 @@ public class ModificarProducto extends javax.swing.JPanel {
         codigo.setText("Código");
 
         textCodigo.setEditable(false);
-        textCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCodigoActionPerformed(evt);
-            }
-        });
 
         peso.setText("Peso (*)");
 
@@ -276,12 +261,15 @@ public class ModificarProducto extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(this,"¿Desea modificar este producto?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
             switch (result){
                 case JOptionPane.YES_OPTION:
-                 
-               gp.actualizarProducto(dto, id);
-               JOptionPane.showMessageDialog(this, "El producto se actualizó correctamente. Regresará a la pantalla de Gestionar Producto.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                ventana.setContentPane(new GestionarProducto(ventana, this));
-                ventana.revalidate();
-                break;
+                 boolean existeProducto = gp.crearProducto(dto);
+                if(existeProducto == false){
+                    JOptionPane.showMessageDialog(this, "El puesto ya se encuentra registrado", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+                else{
+                JOptionPane.showMessageDialog(this, "El producto se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
             case JOptionPane.NO_OPTION:
                 break;
                 }
@@ -300,10 +288,6 @@ public class ModificarProducto extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void textCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCodigoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
