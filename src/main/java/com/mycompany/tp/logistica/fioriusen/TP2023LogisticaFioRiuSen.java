@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *

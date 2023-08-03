@@ -223,7 +223,7 @@ public class ModificarSucursal extends javax.swing.JPanel {
                 case JOptionPane.YES_OPTION:
                 //MAGIA
                  
-                gs.actualizarSucursal(dto, id);
+                  gs.actualizarSucursal(dto, id);
                 JOptionPane.showMessageDialog(this, "La sucursal se actualizó correctamente. Regresará a la pantalla de Gestionar Sucursal.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                 ventana.setContentPane(new GestionarSucursal(ventana, this));
                 ventana.revalidate();
