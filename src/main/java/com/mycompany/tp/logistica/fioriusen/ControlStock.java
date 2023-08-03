@@ -5,11 +5,14 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.ProductoDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorProducto;
 import java.awt.Toolkit;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,13 +25,18 @@ public class ControlStock extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public ControlStock(JFrame ventana, JPanel padre) {
+    private String sucursalSolicitante;
+    private String id;
+    public ControlStock(JFrame ventana, JPanel padre, String nombre, String id) {
         this.ventana = ventana;
         this.padre = padre;
+        this.sucursalSolicitante=nombre;
+        this.id=id;
         ventana.setTitle("Gestionar sucursal - Control de stock");
         ventana.setSize(800, 700);
        
         initComponents();
+        txtSucursal.setText(sucursalSolicitante);
          ventana.setVisible(true);
     }
 
@@ -63,8 +71,6 @@ public class ControlStock extends javax.swing.JPanel {
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane38 = new javax.swing.JScrollPane();
-        tablaResultado1 = new javax.swing.JTable();
         jSpinner1 = new javax.swing.JSpinner();
         btnAgregar = new javax.swing.JButton();
         labelCantidad = new javax.swing.JLabel();
@@ -188,23 +194,14 @@ public class ControlStock extends javax.swing.JPanel {
 
         tablaResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio"
+                "ID", "Nombre", "Código", "Peso", "Precio", "Descripcion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -229,12 +226,14 @@ public class ControlStock extends javax.swing.JPanel {
             .addComponent(jScrollPane37, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        txtSucursal.setEditable(false);
-        txtSucursal.setText("aca iria el nombre de la sucursal solicitante");
-
         labelSucursalSolicitante.setText("Solicita sucursal:");
 
         btnQuitar.setText("Quitar");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -252,29 +251,14 @@ public class ControlStock extends javax.swing.JPanel {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Producto Seleccionado"));
 
-        tablaResultado1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Código", "Peso", "Precio"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        tablaResultado1.setDragEnabled(true);
-        tablaResultado1.setShowGrid(true);
-        jScrollPane38.setViewportView(tablaResultado1);
-
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         labelCantidad.setText("Cantidad:");
 
@@ -282,29 +266,25 @@ public class ControlStock extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane38)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(labelCantidad)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregar)))
-                .addGap(16, 16, 16))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(labelCantidad)
+                .addGap(18, 18, 18)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAgregar)
+                .addGap(69, 69, 69))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane38, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCantidad))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelCantidad)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregar)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de productos seleccionados"));
@@ -312,17 +292,14 @@ public class ControlStock extends javax.swing.JPanel {
         tablaAgregados.setAutoCreateRowSorter(true);
         tablaAgregados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio", "Cantidad"
+                "Id", "Nombre", "Peso", "Precio", "Cantidad"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Short.class, java.lang.Float.class, java.lang.Float.class, java.lang.Short.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Short.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -359,7 +336,7 @@ public class ControlStock extends javax.swing.JPanel {
                         .addGap(8, 8, 8)
                         .addComponent(labelSucursalSolicitante)
                         .addGap(30, 30, 30)
-                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel38, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -369,7 +346,8 @@ public class ControlStock extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAceptar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar)))
+                        .addComponent(btnCancelar)
+                        .addGap(12, 12, 12)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -385,14 +363,14 @@ public class ControlStock extends javax.swing.JPanel {
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnQuitar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAceptar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAceptar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -410,7 +388,7 @@ public class ControlStock extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -469,43 +447,60 @@ public class ControlStock extends javax.swing.JPanel {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
        
-        
-         GestorProducto gp =  new GestorProducto();
-       Boolean control = true;
- 
-        ProductoDTO dto = new ProductoDTO(textNombre.getText(),textCodigo.getText(), textPeso.getText(), textPrecio.getText(), "0");
-         
-         int[] mensaje = gp.validarDatos(dto);
-         if(textNombre.getText().isEmpty() && textCodigo.getText().isEmpty() && textPeso.getText().isEmpty() && textPrecio.getText().isEmpty()){
+         GestorProducto gp = new GestorProducto();
+        Boolean control = true;
+
+        ProductoDTO dto = new ProductoDTO(textNombre.getText(), textCodigo.getText(), textPeso.getText(), textPrecio.getText(), "0");
+
+        int[] mensaje = gp.validarDatos(dto);
+        if (textNombre.getText().isEmpty() && textCodigo.getText().isEmpty() && textPeso.getText().isEmpty() && textPrecio.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete al menos un criterio de búsqueda.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
+            control = false;
             Toolkit.getDefaultToolkit().beep();
-           
+
         }
-        if(mensaje[1] == 1){
-             JOptionPane.showMessageDialog(this, "El campo NOMBRE debe ser alfabético", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[1] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo NOMBRE debe ser alfabético", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[2] == 1){
+        if (mensaje[2] == 1) {
             JOptionPane.showMessageDialog(this, "El campo CODIGO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[3] == 1){
-              JOptionPane.showMessageDialog(this, "El campo PESO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[3] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo PESO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[4] == 1){
-              JOptionPane.showMessageDialog(this, "El campo PRECIO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[4] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo PRECIO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        
-      /* if(control==true){
-           //mostrar resultados
-       }*/
+
+        if (control == true) {
+
+            List<Producto> listaProductosDTO = gp.buscarSegunCriterio(dto);
+            DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+            int filas = model.getRowCount();
+            if (filas > 0) {
+                for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+            }
+            if (listaProductosDTO.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se han encontrado productos con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                control = false;
+                Toolkit.getDefaultToolkit().beep();
+            } else {
+
+                for (int i = 0; i < listaProductosDTO.size(); i++) {
+                    model.addRow(new Object[]{listaProductosDTO.get(i).getId(), listaProductosDTO.get(i).getNombre(), listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario(), listaProductosDTO.get(i).getDescripcion()});
+                }
+            }
+        }
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -530,8 +525,51 @@ public class ControlStock extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:.
+        DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) tablaAgregados.getModel();
+                int result = JOptionPane.showConfirmDialog(this, "¿Desea agregar estos productos al stock de la sucursal "+sucursalSolicitante +" ?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                
+                
+              JOptionPane.showMessageDialog(this, "Stock actualizado exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+                 for (int i = model2.getRowCount() - 1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+              break;
+            case JOptionPane.NO_OPTION:
+                break;
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+        DefaultTableModel productosSeleccionados = (DefaultTableModel) tablaAgregados.getModel();
+        
+       int fila = tablaResultado.getSelectedRow();
+       if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un producto de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }  else{
+            productosSeleccionados.addRow(new Object[]{model.getValueAt(fila, 0), model.getValueAt(fila, 1), model.getValueAt(fila, 3), model.getValueAt(fila, 4), jSpinner1.getValue()});
+       }
+      
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+         int fila = tablaAgregados.getSelectedRow();
+          DefaultTableModel productosSeleccionados = (DefaultTableModel) tablaAgregados.getModel();
+       if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un producto de la tabla agregados para quitar.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }  else{
+            productosSeleccionados.removeRow(fila);
+       }
+    }//GEN-LAST:event_btnQuitarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -550,7 +588,6 @@ public class ControlStock extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane37;
-    private javax.swing.JScrollPane jScrollPane38;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelSucursalSolicitante;
@@ -559,7 +596,6 @@ public class ControlStock extends javax.swing.JPanel {
     private javax.swing.JLabel precio;
     private javax.swing.JTable tablaAgregados;
     private javax.swing.JTable tablaResultado;
-    private javax.swing.JTable tablaResultado1;
     private javax.swing.JTextField textCodigo;
     private javax.swing.JTextField textNombre;
     private javax.swing.JTextField textPeso;

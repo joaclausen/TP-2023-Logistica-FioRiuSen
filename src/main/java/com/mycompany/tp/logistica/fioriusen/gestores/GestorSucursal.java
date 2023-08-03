@@ -4,6 +4,7 @@
  */
 package com.mycompany.tp.logistica.fioriusen.gestores;
 
+import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
@@ -79,6 +80,13 @@ public class GestorSucursal {
         Integer identificado = Integer.parseInt(id);
         Sucursal s = new Sucursal(Integer.parseInt(dto.getCodigo()), dto.getNombre(), LocalTime.parse(dto.getHoraApertura()), LocalTime.parse(dto.getHoraCierre()), dto.getEstado());
         sucursalPG.modificarSucursal(s,identificado);
+    }
+
+    public void eliminarSucursal(String id) {
+     SucursalPGDao sucursalPG = new SucursalPGDao();
+         Integer ID = Integer.parseInt(id);
+         sucursalPG.borrarSucursal(ID);
+        
     }
     
     
