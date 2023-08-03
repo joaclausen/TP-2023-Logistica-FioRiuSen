@@ -21,6 +21,11 @@ import org.hibernate.query.Query;
 public class ProductoPGDao implements ProductoDao{
 
     private SessionFactory sessionFactory;
+    
+    public ProductoPGDao(){
+        sessionFactory = HibernateManager.Configure();
+    }
+    
     @Override
     public int guardarProducto(Producto p) {
         SessionFactory sessionFactory  = HibernateManager.Configure();
@@ -78,6 +83,16 @@ public class ProductoPGDao implements ProductoDao{
             query.setParameter("nombre", dto.getNombre() +"%");
          }
          return query.getResultList();
+    }
+    
+     public void modificarProducto(Producto p, Integer id){
+        Session session = sessionFactory.openSession();
+        p.setId(id);
+        session.beginTransaction();
+        session.saveOrUpdate(p);
+        session.getTransaction().commit();
+        session.close();
+        //return s.getId();
     }
     
 }

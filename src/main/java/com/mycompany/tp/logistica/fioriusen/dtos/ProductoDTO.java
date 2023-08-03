@@ -23,8 +23,16 @@ public class ProductoDTO {
         this.precioUnitario = pp;
         this.descripcion = d;
     }
+    public ProductoDTO(String n, String c, String p, String pp ){
+        this.nombre = n;
+        this.codigo = c;
+        this.peso = p;
+        this.precioUnitario = pp;
+        
+    }
 
 
+    
 
     public Integer getId() {
         return id;
