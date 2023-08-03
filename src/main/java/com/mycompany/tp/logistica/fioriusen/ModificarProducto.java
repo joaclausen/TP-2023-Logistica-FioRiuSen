@@ -22,12 +22,22 @@ public class ModificarProducto extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public ModificarProducto(JFrame ventana, JPanel padre) {
+    String id;
+    public ModificarProducto(JFrame ventana, JPanel padre,ProductoDTO dto, String id) {
       this.ventana = ventana;
         this.padre = padre;
+        
+        this.id = id;
         ventana.setTitle("Gestionar productos - Modificar producto");
         ventana.setSize(800, 700);
         initComponents();
+        
+        textCodigo.setText(dto.getCodigo());
+        textNombre.setText(dto.getNombre());
+        textPeso.setText(dto.getPeso());
+        textPrecio.setText(dto.getPrecioUnitario());
+        textDesc.setText(dto.getDescripcion());
+        
         ventana.setVisible(true);
     }
 
@@ -213,7 +223,7 @@ public class ModificarProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_textPesoActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        GestorProducto gp =  new GestorProducto();
+         GestorProducto gp =  new GestorProducto();
         Boolean control = true;
         //producto con los campos de la ventana anterior que recupero de la tabla, ¿Cómo paso eso de la tabla a la nueva interfaz?
         ProductoDTO dto = new ProductoDTO(textNombre.getText(),textCodigo.getText(), textPeso.getText(), textPrecio.getText(), textDesc.getText());
@@ -261,15 +271,12 @@ public class ModificarProducto extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(this,"¿Desea modificar este producto?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
             switch (result){
                 case JOptionPane.YES_OPTION:
-                 boolean existeProducto = gp.crearProducto(dto);
-                if(existeProducto == false){
-                    JOptionPane.showMessageDialog(this, "El puesto ya se encuentra registrado", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                }
-                else{
-                JOptionPane.showMessageDialog(this, "El producto se creo exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                }
+                 
+               gp.actualizarProducto(dto, id);
+               JOptionPane.showMessageDialog(this, "El producto se actualizó correctamente. Regresará a la pantalla de Gestionar Producto.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                ventana.setContentPane(new GestionarProducto(ventana, this));
+                ventana.revalidate();
+                break;
             case JOptionPane.NO_OPTION:
                 break;
                 }
