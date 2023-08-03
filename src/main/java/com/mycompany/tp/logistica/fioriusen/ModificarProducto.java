@@ -25,7 +25,9 @@ public class ModificarProducto extends javax.swing.JPanel {
     private String id;
     public ModificarProducto(JFrame ventana, JPanel padre, ProductoDTO dto, String id) {
       this.ventana = ventana;
-        this.padre = padre;
+      this.padre = padre;
+      
+      this.id = id;
         ventana.setTitle("Gestionar productos - Modificar producto");
         ventana.setSize(800, 700);
         initComponents();
@@ -34,6 +36,7 @@ public class ModificarProducto extends javax.swing.JPanel {
         textNombre.setText(dto.getNombre());
         textPeso.setText(dto.getPeso());
         textPrecio.setText(dto.getPrecioUnitario());
+        textDesc.setText(dto.getDescripcion());
         
         ventana.setVisible(true);
     }

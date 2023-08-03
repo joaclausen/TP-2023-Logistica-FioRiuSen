@@ -183,23 +183,23 @@ public class GestionarProducto extends javax.swing.JPanel {
 
         tablaResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio"
+                "Id", "Nombre", "Código", "Peso", "Precio", "Desc."
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -399,7 +399,7 @@ public class GestionarProducto extends javax.swing.JPanel {
             } else {
 
                 for (int i = 0; i < listaProductosDTO.size(); i++) {
-                    model.addRow(new Object[]{listaProductosDTO.get(i).getNombre(), listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario()});
+                    model.addRow(new Object[]{listaProductosDTO.get(i).getId(),listaProductosDTO.get(i).getNombre(), listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario(), listaProductosDTO.get(i).getDescripcion()});
                 }
             }
         }
@@ -425,7 +425,8 @@ public class GestionarProducto extends javax.swing.JPanel {
             ProductoDTO dto = new ProductoDTO(model.getValueAt(fila, 1).toString(),
                     model.getValueAt(fila, 2).toString(),
                     model.getValueAt(fila, 3).toString(),
-                    model.getValueAt(fila, 4).toString());
+                    model.getValueAt(fila, 4).toString(),
+                    model.getValueAt(fila, 5).toString());
             System.out.println("Valores: " + model.getValueAt(fila, 1).toString() + " " + model.getValueAt(fila, 2).toString() + " " + model.getValueAt(fila, 3).toString());
 
             ventana.setContentPane(new ModificarProducto(ventana, this, dto, id));

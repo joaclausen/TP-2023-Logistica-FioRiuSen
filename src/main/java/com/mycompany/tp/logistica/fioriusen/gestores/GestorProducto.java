@@ -95,7 +95,7 @@ public class GestorProducto {
         Integer identificado = Integer.parseInt(id);
         
         //revisar este consturctor no sè q onda xd el peso y el precio
-        Producto p = new Producto(Integer.parseInt(dto.getCodigo()), dto.getNombre(), dto.getPeso(), Double.parseDouble(dto.getPrecioUnitario()));
+        Producto p = new Producto(Integer.parseInt(dto.getCodigo()), dto.getNombre(), dto.getDescripcion(), Double.parseDouble(dto.getPeso()), Double.parseDouble(dto.getPrecioUnitario()));
         ProductoPG.modificarProducto(p,identificado);
     }
     
