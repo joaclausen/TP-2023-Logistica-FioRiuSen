@@ -36,12 +36,12 @@ public class Camino {
     
      @OneToOne(fetch = FetchType.EAGER,
          cascade = CascadeType.ALL)
-    @JoinColumn(name="id_sucursal_destino")
+    @JoinColumn(name="id_sucursal_destino", referencedColumnName = "id")
     Sucursal destino;
      
      @OneToOne(fetch = FetchType.EAGER,
                  cascade = CascadeType.ALL)
-    @JoinColumn(name="id_sucursal_origen")
+    @JoinColumn(name="id_sucursal_origen", referencedColumnName = "id")
     Sucursal origen;
      
     @Basic
@@ -56,7 +56,24 @@ public class Camino {
     Estado estado;
     
     //setters
+public Camino(){
+    
+}
+    public Camino(Integer codigo, Sucursal origen, Sucursal destino, LocalTime tiempoTransito, Integer capacidadMaxima, Estado estado) {
+        this.codigo = codigo;
+        this.destino = destino;
+        this.origen = origen;
+        this.tiempoTransito = tiempoTransito;
+        this.capacidadMaxima = capacidadMaxima;
+        this.estado = estado;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    
+    
     public Integer getCodigo() {
         return codigo;
     }

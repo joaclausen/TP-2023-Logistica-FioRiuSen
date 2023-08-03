@@ -23,13 +23,20 @@ public class ModificarCamino extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public ModificarCamino(JFrame ventana, JPanel padre) {
+    private String id;
+    public ModificarCamino(JFrame ventana, JPanel padre, CaminoDTO dto, String id) {
        this.ventana = ventana;
         this.padre = padre;
+        this.id=id;
         ventana.setTitle("Gestionar caminos - Modificar camino");
         ventana.setSize(800, 700);
        
         initComponents();
+        txtCodigo.setText(dto.getCodigo());
+        textOrigen.setText(dto.getOrigen());
+        textDestino.setText(dto.getDestino());
+        textCarga.setText(dto.getCapacidadMaxima());
+        textTiempo.setText(dto.getTiempoTransito());
          ventana.setVisible(true);
     }
 
@@ -66,6 +73,7 @@ public class ModificarCamino extends javax.swing.JPanel {
 
         peso.setText("Destino (*)");
 
+        textDestino.setEditable(false);
         textDestino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textDestinoActionPerformed(evt);
@@ -74,6 +82,7 @@ public class ModificarCamino extends javax.swing.JPanel {
 
         origen.setText("Origen (*)");
 
+        textOrigen.setEditable(false);
         textOrigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textOrigenActionPerformed(evt);
@@ -94,7 +103,7 @@ public class ModificarCamino extends javax.swing.JPanel {
 
         labelCodigo.setText("Código:");
 
-        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO OPERATIVA" }));
+        comboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPERATIVA", "NO_OPERATIVA" }));
 
         labelEstado.setText("Estado:");
 
@@ -250,7 +259,7 @@ public class ModificarCamino extends javax.swing.JPanel {
         GestorCamino gc =  new GestorCamino();
         Boolean control = true;
  Estado estado = Estado.valueOf(comboBoxEstado.getSelectedItem().toString());
-        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(), textCarga.getText(), textTiempo.getText(), estado);
+        CaminoDTO dto = new CaminoDTO(txtCodigo.getText(), textOrigen.getText(), textDestino.getText(),  textTiempo.getText(), textCarga.getText(), estado);
 
         int[] mensaje = gc.validarDatos(dto);
         if(mensaje[0]==1){
@@ -287,9 +296,10 @@ public class ModificarCamino extends javax.swing.JPanel {
             switch (result){
                 case JOptionPane.YES_OPTION:
                 //MAGIA
-
-                JOptionPane.showMessageDialog(this, "El camino se actualizó exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                break;
+                gc.actualizarCamino(dto, id);
+                JOptionPane.showMessageDialog(this, "El camino se actualizó correctamente. Regresará a la pantalla de Gestionar Camino.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                ventana.setContentPane(new GestionarCamino(ventana, this));
+                ventana.revalidate(); break;
                 case JOptionPane.NO_OPTION:
                 break;
             }

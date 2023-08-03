@@ -152,6 +152,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="textDestino">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textDestinoActionPerformed"/>
               </Events>
@@ -162,6 +165,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="textOrigen">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textOrigenActionPerformed"/>
               </Events>
@@ -198,7 +204,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="OPERATIVA"/>
-                    <StringItem index="1" value="NO OPERATIVA"/>
+                    <StringItem index="1" value="NO_OPERATIVA"/>
                   </StringArray>
                 </Property>
               </Properties>
