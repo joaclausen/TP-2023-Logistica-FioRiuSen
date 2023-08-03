@@ -22,7 +22,7 @@ public class CaminoDTO {
     private Estado estado;
 
 
-    public CaminoDTO(String codigo, String origen, String destino, String tiempoTransito, String capacidadMaxima, Estado estado) {
+    
 
     public CaminoDTO(){
     }
