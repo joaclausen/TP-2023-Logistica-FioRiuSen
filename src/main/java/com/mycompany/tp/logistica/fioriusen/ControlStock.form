@@ -426,7 +426,7 @@
                                 <Column editable="true" title="Nombre" type="java.lang.String"/>
                                 <Column editable="true" title="Peso" type="java.lang.Float"/>
                                 <Column editable="true" title="Precio" type="java.lang.Float"/>
-                                <Column editable="true" title="Cantidad" type="java.lang.Short"/>
+                                <Column editable="true" title="Cantidad" type="java.lang.Integer"/>
                               </Table>
                             </Property>
                           </Properties>

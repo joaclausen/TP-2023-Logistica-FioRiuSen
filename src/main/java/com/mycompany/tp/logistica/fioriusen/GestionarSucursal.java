@@ -439,10 +439,7 @@ public class GestionarSucursal extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-
-          DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+            DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
         int fila = tablaResultados.getSelectedRow();
         if(fila==-1){
             JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
@@ -464,9 +461,14 @@ public class GestionarSucursal extends javax.swing.JPanel {
             case JOptionPane.NO_OPTION:
             break;
         }
+        
+    }                                           
+
+
+      
       
     }//GEN-LAST:event_btnEliminarActionPerformed
-    }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
