@@ -10,6 +10,7 @@ import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -109,4 +110,13 @@ public class SucursalPGDao implements SucursalDao{
         session.close();
         //return s.getId();
     }
+     
+      public void borrarSucursal(Integer id){
+          Session session = sessionFactory.openSession();
+          Sucursal sucursal = new Sucursal();
+          sucursal.setId(id);
+         // session.delete(sucursal);
+          session.remove(sucursal);
+        
+      }
 }
