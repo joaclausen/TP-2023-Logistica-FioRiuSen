@@ -7,8 +7,11 @@ package com.mycompany.tp.logistica.fioriusen;
 import com.mycompany.tp.logistica.fioriusen.dtos.ProductoDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorProducto;
+import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -299,7 +302,7 @@ public class ControlStock extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Short.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -532,13 +535,21 @@ public class ControlStock extends javax.swing.JPanel {
         switch (result) {
             case JOptionPane.YES_OPTION:
                 
+                Map<Integer, Integer> productos = new HashMap<Integer, Integer>();
+                for(int i = 0; i<model2.getRowCount(); i++){
+                     productos.put(Integer.parseInt(model2.getValueAt(i, 0).toString()), Integer.parseInt(model2.getValueAt(i, 4).toString()));
+                }
+               
+                GestorSucursal gs = new GestorSucursal();
+                gs.crearStock(id, productos);
                 
               JOptionPane.showMessageDialog(this, "Stock actualizado exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                for (int i = model.getRowCount() - 1; i >= 0; i--) {
+               
+              for (int i = model.getRowCount()-1; i >= 0; i--) {
                     model.removeRow(i);
                 }
-                 for (int i = model2.getRowCount() - 1; i >= 0; i--) {
-                    model.removeRow(i);
+                 for (int j = model2.getRowCount()-1; j >= 0; j--) {
+                    model2.removeRow(j);
                 }
               break;
             case JOptionPane.NO_OPTION:

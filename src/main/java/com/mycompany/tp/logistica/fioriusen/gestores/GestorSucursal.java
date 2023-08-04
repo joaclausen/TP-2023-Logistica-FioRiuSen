@@ -5,12 +5,17 @@
 package com.mycompany.tp.logistica.fioriusen.gestores;
 
 import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
+import com.mycompany.tp.logistica.fioriusen.daos.ProductoPGDao;
+import com.mycompany.tp.logistica.fioriusen.daos.StockPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
+import com.mycompany.tp.logistica.fioriusen.entidades.Stock;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -88,6 +93,38 @@ public class GestorSucursal {
          sucursalPG.borrarSucursal(ID);
         
     }
+
+    public void crearStock(String codigo, Map<Integer, Integer> productos) {
+        
+        SucursalDTO sucursalDTO = new SucursalDTO();
+        sucursalDTO.setCodigo(codigo);
+        Sucursal sucursal = buscarSucursalSegunCriterio(sucursalDTO).get(0);
+         
+        ProductoPGDao productoPG = new ProductoPGDao();
+        
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer key: productos.keySet()){
+           listaProductos.add(productoPG.obtenerProducto(key));
+      }
+        
+        List<Stock> listaStock = new ArrayList<>();
+        int i=0;
+          for(Integer key: productos.keySet()){
+              
+         Stock s = new Stock();
+        s.setProducto(listaProductos.get(i));
+        s.setCantidad(productos.get(key));
+        s.setSucursal(sucursal);
+        listaStock.add(s);
+        i++;
+    }
+          
+          
+          
+         StockPGDao stockPG = new StockPGDao();
+        stockPG.crearStock(listaStock);
+        
+     }
     
     
     
