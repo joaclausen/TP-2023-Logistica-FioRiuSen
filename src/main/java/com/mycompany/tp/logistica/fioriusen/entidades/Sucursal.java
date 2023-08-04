@@ -48,13 +48,13 @@ public class Sucursal implements Serializable {
     @Column(name="estado")
     Estado estado;
     
-     @OneToMany(
-            fetch = FetchType.EAGER,
+    /* @OneToMany(
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
    
-    List<Stock> listaProductos;
+    List<Stock> listaProductos;*/
     
     public Sucursal() {
     }
