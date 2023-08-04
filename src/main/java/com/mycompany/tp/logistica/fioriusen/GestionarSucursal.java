@@ -238,6 +238,11 @@ public class GestionarSucursal extends javax.swing.JPanel {
         });
 
         btnEliminar.setText("Eliminar sucursal");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -349,8 +354,16 @@ public class GestionarSucursal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnProvisionActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        ventana.setContentPane(new ControlStock(ventana, this));
+          DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+       
+         int fila = tablaResultados.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+             ventana.setContentPane(new ControlStock(ventana, this, model.getValueAt(fila, 2).toString(), model.getValueAt(fila, 0).toString()));
         ventana.revalidate();
+        }
+       
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void btnOrdenPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenPendienteActionPerformed
@@ -422,6 +435,38 @@ public class GestionarSucursal extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+
+          DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+        int fila = tablaResultados.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+        //ELIMINAR ACCA
+         int result = JOptionPane.showConfirmDialog(this,"¿Seguro de que desea eliminar la sucursal seleccionada?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result){
+            case JOptionPane.YES_OPTION:
+            GestorSucursal gs = new GestorSucursal();
+            
+            gs.eliminarSucursal(model.getValueAt(fila, 0).toString()); //NO FUNCA
+            
+              JOptionPane.showMessageDialog(this, "Sucursal eliminada con éxito.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+       int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            case JOptionPane.NO_OPTION:
+            break;
+        }
+      
+    }//GEN-LAST:event_btnEliminarActionPerformed
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

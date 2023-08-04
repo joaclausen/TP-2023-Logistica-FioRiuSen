@@ -26,6 +26,7 @@ public class GestionarProducto extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
+
     public GestionarProducto(JFrame ventana, JPanel padre) {
         this.ventana = ventana;
         this.padre = padre;
@@ -182,23 +183,23 @@ public class GestionarProducto extends javax.swing.JPanel {
 
         tablaResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio"
+                "Id", "Nombre", "Código", "Peso", "Precio", "Desc"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -240,6 +241,11 @@ public class GestionarProducto extends javax.swing.JPanel {
         });
 
         btnEliminar.setText(" Eliminar producto");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Cancelar");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -301,18 +307,18 @@ public class GestionarProducto extends javax.swing.JPanel {
 
     private void textCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodigoActionPerformed
         String cod = textCodigo.getText();
-        if(!(cod.matches("[A-Z]"))){
-            JOptionPane.showMessageDialog(this,"Introduzca un valor correcto", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        if (!(cod.matches("[A-Z]"))) {
+            JOptionPane.showMessageDialog(this, "Introduzca un valor correcto", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
 
+        } else {
+            System.out.println(cod);
         }
-        else {
-            System.out.println(cod);}
     }//GEN-LAST:event_textCodigoActionPerformed
 
     private void textCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCodigoKeyTyped
         // TODO add your handling code here:
 
-        if(textCodigo.getText().length() > 10){
+        if (textCodigo.getText().length() > 10) {
             evt.consume();
             Toolkit.getDefaultToolkit().beep();
         }
@@ -324,12 +330,12 @@ public class GestionarProducto extends javax.swing.JPanel {
 
     private void textPesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPesoKeyTyped
         // TODO add your handling code here:
-        char letra= evt.getKeyChar();
-        if(Character.isLowerCase(letra)){
+        char letra = evt.getKeyChar();
+        if (Character.isLowerCase(letra)) {
             evt.setKeyChar(Character.toUpperCase(letra));
         }
 
-        if(textPeso.getText().length() > 50){
+        if (textPeso.getText().length() > 50) {
             evt.consume();
             Toolkit.getDefaultToolkit().beep();
         }
@@ -341,71 +347,68 @@ public class GestionarProducto extends javax.swing.JPanel {
 
     private void textNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNombreKeyTyped
         // TODO add your handling code here:
-        char letra= evt.getKeyChar();
-        if(Character.isLowerCase(letra)){
-            evt.setKeyChar(Character.toUpperCase(letra));
-        }
-
-        if(textNombre.getText().length() > 50){
+        if (textNombre.getText().length() > 50) {
             evt.consume();
             Toolkit.getDefaultToolkit().beep();
         }
     }//GEN-LAST:event_textNombreKeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        GestorProducto gp =  new GestorProducto();
+        GestorProducto gp = new GestorProducto();
         Boolean control = true;
- 
-        ProductoDTO dto = new ProductoDTO(textNombre.getText(),textCodigo.getText(), textPeso.getText(), textPrecio.getText(), "0");
-         
-         int[] mensaje = gp.validarDatos(dto);
-         if(textNombre.getText().isEmpty() && textCodigo.getText().isEmpty() && textPeso.getText().isEmpty() && textPrecio.getText().isEmpty()){
+
+        ProductoDTO dto = new ProductoDTO(textNombre.getText(), textCodigo.getText(), textPeso.getText(), textPrecio.getText(), "0");
+
+        int[] mensaje = gp.validarDatos(dto);
+        if (textNombre.getText().isEmpty() && textCodigo.getText().isEmpty() && textPeso.getText().isEmpty() && textPrecio.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete al menos un criterio de búsqueda.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
+            control = false;
             Toolkit.getDefaultToolkit().beep();
-           
+
         }
-        if(mensaje[1] == 1){
-             JOptionPane.showMessageDialog(this, "El campo NOMBRE debe ser alfabético", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[1] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo NOMBRE debe ser alfabético", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[2] == 1){
+        if (mensaje[2] == 1) {
             JOptionPane.showMessageDialog(this, "El campo CODIGO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[3] == 1){
-              JOptionPane.showMessageDialog(this, "El campo PESO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[3] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo PESO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        if(mensaje[4] == 1){
-              JOptionPane.showMessageDialog(this, "El campo PRECIO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-            control=false;
-             Toolkit.getDefaultToolkit().beep();
+        if (mensaje[4] == 1) {
+            JOptionPane.showMessageDialog(this, "El campo PRECIO sólo puede contener números", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control = false;
+            Toolkit.getDefaultToolkit().beep();
         }
-        
-        if(control == true){
-        
+
+        if (control == true) {
+
             List<Producto> listaProductosDTO = gp.buscarSegunCriterio(dto);
             DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
             int filas = model.getRowCount();
-                if(filas > 0)
-                for(int i = model.getRowCount()-1; i>=0; i--){
-                     model.removeRow(i);
+            if (filas > 0) {
+                for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                    model.removeRow(i);
                 }
-            if(listaProductosDTO.isEmpty()){
-                control=false;
+            }
+            if (listaProductosDTO.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se han encontrado productos con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                control = false;
                 Toolkit.getDefaultToolkit().beep();
-            }else{
-                
-                
-            for (int i=0; i<listaProductosDTO.size(); i++){
-            model.addRow(new Object[]{listaProductosDTO.get(i).getNombre(),listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario()});
-    }}
-        }  
-        
+            } else {
+
+                for (int i = 0; i < listaProductosDTO.size(); i++) {
+                    model.addRow(new Object[]{listaProductosDTO.get(i).getId(), listaProductosDTO.get(i).getNombre(), listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario(), listaProductosDTO.get(i).getDescripcion()});
+                }
+            }
+        }
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void textPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPrecioActionPerformed
@@ -417,25 +420,68 @@ public class GestionarProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_textPrecioKeyTyped
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        ventana.setContentPane(new ModificarProducto(ventana, this));
-       ventana.revalidate();
+        DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+        int fila = tablaResultado.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String id = model.getValueAt(fila, 0).toString();
+            ProductoDTO dto = new ProductoDTO(model.getValueAt(fila, 1).toString(),
+                    model.getValueAt(fila, 2).toString(),
+                    model.getValueAt(fila, 3).toString(),
+                    model.getValueAt(fila, 4).toString(),
+                    model.getValueAt(fila, 5).toString());
+            System.out.println("Valores: " + model.getValueAt(fila, 1).toString() + " " + model.getValueAt(fila, 2).toString() + " " + model.getValueAt(fila, 3).toString());
+
+            ventana.setContentPane(new ModificarProducto(ventana, this, dto, id));
+            ventana.revalidate();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-       ventana.setContentPane(new AltaProducto(ventana, this));
-       ventana.revalidate();
+        ventana.setContentPane(new AltaProducto(ventana, this));
+        ventana.revalidate();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-          int result = JOptionPane.showConfirmDialog(this,"¿Desea regresar a la pantalla del Menú Principal?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
-        switch (result){
+        int result = JOptionPane.showConfirmDialog(this, "¿Desea regresar a la pantalla del Menú Principal?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result) {
             case JOptionPane.YES_OPTION:
-               ventana.setContentPane(new Menu(ventana, this));
-               ventana.revalidate(); break;
+                ventana.setContentPane(new Menu(ventana, this));
+                ventana.revalidate();
+                break;
             case JOptionPane.NO_OPTION:
                 break;
-                }
+        }
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tablaResultado.getModel();
+        int fila = tablaResultado.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un camino de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+        //ELIMINAR ACCA
+         int result = JOptionPane.showConfirmDialog(this,"¿Seguro de que desea eliminar el camino seleccionado?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result){
+            case JOptionPane.YES_OPTION:
+            GestorProducto gp = new GestorProducto();
+            
+            gp.eliminarProducto(model.getValueAt(fila, 0).toString()); //NO FUNCA
+            
+              JOptionPane.showMessageDialog(this, "Producto eliminado con éxito.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+       int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            case JOptionPane.NO_OPTION:
+            break;
+        }
+      
+        
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
