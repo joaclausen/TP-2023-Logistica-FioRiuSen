@@ -241,6 +241,11 @@ public class GestionarProducto extends javax.swing.JPanel {
         });
 
         btnEliminar.setText(" Eliminar producto");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Cancelar");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -449,6 +454,34 @@ public class GestionarProducto extends javax.swing.JPanel {
                 break;
         }
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tablaResultado.getModel();
+        int fila = tablaResultado.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un camino de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+        //ELIMINAR ACCA
+         int result = JOptionPane.showConfirmDialog(this,"¿Seguro de que desea eliminar el camino seleccionado?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result){
+            case JOptionPane.YES_OPTION:
+            GestorProducto gp = new GestorProducto();
+            
+            gp.eliminarProducto(model.getValueAt(fila, 0).toString()); //NO FUNCA
+            
+              JOptionPane.showMessageDialog(this, "Producto eliminado con éxito.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+       int filas = model.getRowCount();
+                if(filas > 0)
+                for(int i = model.getRowCount()-1; i>=0; i--){
+                     model.removeRow(i);
+                }
+            case JOptionPane.NO_OPTION:
+            break;
+        }
+      
+        
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -99,4 +99,10 @@ public class GestorProducto {
         ProductoPG.modificarProducto(p,identificado);
     }
 
+    public void eliminarProducto(String id) {
+         ProductoPGDao productoPG = new ProductoPGDao();
+         Integer ID = Integer.parseInt(id);
+         productoPG.borrarProducto(ID);
+    }
+
 }

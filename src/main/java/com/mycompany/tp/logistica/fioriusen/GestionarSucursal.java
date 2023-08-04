@@ -437,6 +437,11 @@ public class GestionarSucursal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+
           DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
         int fila = tablaResultados.getSelectedRow();
         if(fila==-1){
@@ -462,6 +467,7 @@ public class GestionarSucursal extends javax.swing.JPanel {
       
     }//GEN-LAST:event_btnEliminarActionPerformed
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
