@@ -7,6 +7,7 @@ package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
+import com.mycompany.tp.logistica.fioriusen.grafo.Lienzo;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -35,17 +36,29 @@ public class Mapa extends javax.swing.JPanel {
         this.padre = padre;
 
         ventana.setTitle("Mapa de rutas?");
+        
+        Lienzo prueba = new Lienzo();
+        GestorCamino gc = new GestorCamino();
+        List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
+        caminos = gc.obtenerParaGrafo();
+        prueba.generarGrafo(caminos);
         ventana.setSize(570, 700);
         initComponents();
         ventana.setVisible(true);
         
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");
+        ventana2.getContentPane().add(prueba);
+        ventana2.setVisible(true);
+        
+       /* 
+        JFrame ventana2 = new JFrame();
+        ventana2.setTitle("Mapa caminos");
 
         GrafoCanvas canvas = new GrafoCanvas();
         ventana2.getContentPane().add(canvas);
         ventana2.setVisible(true);
-        
+        */
 
     }
 
@@ -73,7 +86,8 @@ public class Mapa extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
- class Nodo {
+/* 
+class Nodo {
 
     int x, y, w, h;
     private String nombre;
@@ -153,3 +167,4 @@ class GrafoCanvas extends Canvas {
     }
 }
 
+*/
