@@ -9,8 +9,9 @@ import java.awt.Graphics;
 import java.awt.geom.Line2D;
 
 public class Arista {
-    
+     
      int x, y, x2, y2;
+     Nodo nodo1, nodo2;
      private String peso;
 
     public Arista(Nodo n1, Nodo n2, String p) {
@@ -19,6 +20,7 @@ public class Arista {
         this.x2 = n2.getX();
         this.y2 = n2.getY();
         this.peso = p;
+
     }
     public Arista(int x, int y, int x2, int y2, String p) {
         this.x = x;
@@ -27,7 +29,6 @@ public class Arista {
         this.y2 = y2;
         this.peso = p;
     }
-
     public Line2D.Float getShape() {
         return new Line2D.Float(this.x, this.y, this.x2, this.y2);
     }
@@ -37,7 +38,7 @@ public class Arista {
     }
 
     void pintar(Graphics g) {
-        g.drawLine(x,x2,y,y2);
+        g.drawLine(x, y, x2, y2);
         
         if(x > x2 && y > y2){
             g.drawString(peso, x - Math.abs((x - x2)/2), y - Math.abs((y - y2)/2));
@@ -84,5 +85,6 @@ public class Arista {
     public void setY2(int y2) {
         this.y2 = y2;
     }
+   
     
 }

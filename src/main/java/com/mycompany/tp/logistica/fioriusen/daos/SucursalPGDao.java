@@ -7,8 +7,10 @@ package com.mycompany.tp.logistica.fioriusen.daos;
 
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.hibernate.Session;
@@ -119,4 +121,16 @@ public class SucursalPGDao implements SucursalDao{
           session.remove(sucursal);
         
       }
+
+    public List<Sucursal> obtenerTodos() {
+        List<Sucursal> sucursales = new ArrayList<>();
+        SessionFactory sessionFactory  = HibernateManager.Configure();
+         try (Session session = sessionFactory.openSession()) {
+             sucursales = session.createCriteria(Sucursal.class).list(); 
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return sucursales;
+    }
 }

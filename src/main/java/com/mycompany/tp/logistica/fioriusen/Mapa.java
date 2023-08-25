@@ -6,7 +6,9 @@
 package com.mycompany.tp.logistica.fioriusen;
 
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorCamino;
+import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import com.mycompany.tp.logistica.fioriusen.grafo.Lienzo;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -40,8 +42,11 @@ public class Mapa extends javax.swing.JPanel {
         Lienzo prueba = new Lienzo();
         GestorCamino gc = new GestorCamino();
         List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
+        GestorSucursal gs = new GestorSucursal();
+        List<SucursalDTO> sucursal = new ArrayList<SucursalDTO>();
         caminos = gc.obtenerParaGrafo();
-        prueba.generarGrafo(caminos);
+        sucursal= gs.obtenerParaGrafo();
+        prueba.generarGrafo(caminos, sucursal);
         ventana.setSize(570, 700);
         initComponents();
         ventana.setVisible(true);

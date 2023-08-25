@@ -45,7 +45,7 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/FioRiuSen</property>
     <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">vultu</property>
+    <property name="hibernate.connection.password">joaquin</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Producto"/>
