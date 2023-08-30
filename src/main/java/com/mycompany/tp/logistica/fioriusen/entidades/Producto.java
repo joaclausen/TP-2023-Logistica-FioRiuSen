@@ -21,18 +21,22 @@ import javax.persistence.Table;
 public class Producto implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
- 
-    int id;
+    private Integer id;
+    
     @Column(name="codigo")
-    int codigo;
+    private Integer codigo;
+    
     @Column(name="nombre")
-    String nombre;
+    private String nombre;
+    
     @Column(name="descripcion")
-    String descripcion;
-    @Column(name="preciounitario")
-    Double precioUnitario;
+    private String descripcion;
+    
+    @Column(name="precio_unitario")
+    private Double precioUnitario;
+    
     @Column(name="peso")
-    Double peso;
+    private Double peso;
     
     public Producto(int codigo, String nombre, String descripcion, Double peso, Double precioUnitario) {
         this.codigo = codigo;

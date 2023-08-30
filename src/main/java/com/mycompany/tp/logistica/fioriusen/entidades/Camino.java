@@ -29,31 +29,31 @@ import javax.persistence.Table;
 public class Camino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
     
     @Column(name="codigo")
-    Integer codigo;
+    private Integer codigo;
     
-     @OneToOne(fetch = FetchType.EAGER,
-         cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL)
     @JoinColumn(name="id_sucursal_destino", referencedColumnName = "id")
-    Sucursal destino;
+    private Sucursal destino;
      
-     @OneToOne(fetch = FetchType.EAGER,
-                 cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL)
     @JoinColumn(name="id_sucursal_origen", referencedColumnName = "id")
-    Sucursal origen;
+    private Sucursal origen;
      
     @Basic
-    @Column(name="tiempoTransito")
-    LocalTime tiempoTransito;
+    @Column(name="tiempo_transito")
+    private LocalTime tiempoTransito;
     
-    @Column(name="capacidadMaxima")
-    Integer capacidadMaxima;
+    @Column(name="capacidad_maxima")
+    private Integer capacidadMaxima;
     
     @Enumerated(EnumType.STRING)
     @Column(name="estado")
-    Estado estado;
+    private Estado estado;
     
     //setters
 public Camino(){

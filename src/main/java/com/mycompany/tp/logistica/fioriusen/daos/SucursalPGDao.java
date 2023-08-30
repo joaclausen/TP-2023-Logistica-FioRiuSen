@@ -117,6 +117,12 @@ public class SucursalPGDao implements SucursalDao{
           sucursal.setId(id);
          // session.delete(sucursal);
           session.remove(sucursal);
-        
+        session.close();
+      }
+      
+      public Sucursal getSucursalById(Integer id){
+         Session  session = sessionFactory.openSession();
+            Sucursal sucursal =  (Sucursal) session.get(Sucursal.class, id);
+            return sucursal;
       }
 }

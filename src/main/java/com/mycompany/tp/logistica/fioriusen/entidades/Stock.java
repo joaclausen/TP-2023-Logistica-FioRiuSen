@@ -6,6 +6,7 @@
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,12 +33,12 @@ public class Stock {
     @JoinColumn(name="id_producto")
     private Producto producto;
     
-    @JoinColumn(name="cantidad")
+    @Column(name="cantidad")
     private int cantidad;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-   
-    private Sucursal sucursal;
+    @ManyToOne()
+    @JoinColumn(name="id_sucursal")
+   private Sucursal sucursal;
 
     public void setId(int id) {
         this.id = id;

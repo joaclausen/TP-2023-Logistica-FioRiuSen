@@ -48,11 +48,13 @@ Contributor(s):
     <property name="hibernate.connection.password">vultu</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Producto"/>
+   
     <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Sucursal"/>
-    <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Stock"/>
     <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Camino"/>
+    <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Producto"/>
+    <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.Stock"/>
     <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision"/>
     <mapping class="com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden"/>
+    
   </session-factory>
 </hibernate-configuration>

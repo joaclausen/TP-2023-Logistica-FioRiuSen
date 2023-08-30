@@ -11,7 +11,7 @@ import com.mycompany.tp.logistica.fioriusen.enums.Estado;
  * @author Vulturius
  */
 public class SucursalDTO {
-    
+    private Integer id;
     private String codigo;
     private String nombre;
     
@@ -33,6 +33,11 @@ private Estado estado;
     
     
     //setters
+    
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
@@ -57,6 +62,11 @@ private Estado estado;
     
     
     //getters
+
+    
+    public Integer getId() {
+        return id;
+    }
 
     public String getCodigo() {
         return codigo;
