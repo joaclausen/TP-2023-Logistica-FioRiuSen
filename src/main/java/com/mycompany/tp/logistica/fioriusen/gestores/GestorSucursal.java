@@ -4,14 +4,19 @@
  */
 package com.mycompany.tp.logistica.fioriusen.gestores;
 
+import com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision;
 import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
+import com.mycompany.tp.logistica.fioriusen.daos.OrdenProvisionPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.ProductoPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.StockPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
+import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden;
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.entidades.Stock;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +102,8 @@ public class GestorSucursal {
     public void crearStock(String codigo, Map<Integer, Integer> productos) {
         
         SucursalDTO sucursalDTO = new SucursalDTO();
+        sucursalDTO.setCodigo("");
+        //sucursalDTO.setEstado("");
         sucursalDTO.setCodigo(codigo);
         Sucursal sucursal = buscarSucursalSegunCriterio(sucursalDTO).get(0);
          
@@ -115,7 +122,10 @@ public class GestorSucursal {
         s.setProducto(listaProductos.get(i));
         s.setCantidad(productos.get(key));
         s.setSucursal(sucursal);
+       
         listaStock.add(s);
+         //sucursal.getListaProductos().add(s);
+        
         i++;
     }
           
@@ -123,11 +133,51 @@ public class GestorSucursal {
           
          StockPGDao stockPG = new StockPGDao();
         stockPG.crearStock(listaStock);
+       
         
      }
     
     
-    
+    public void crearOrdenDeProvision(OrdenProvisionDTO ordenDTO, Map<Integer, Integer> productos){
+        
+        SucursalDTO sucursalDTO = new SucursalDTO();
+        sucursalDTO.setNombre(ordenDTO.getDestino());
+        sucursalDTO.setCodigo(ordenDTO.getCodigoSucursal().toString());
+        List<Sucursal> sucursales = buscarSucursalSegunCriterio(sucursalDTO);
+        Sucursal sucursal = sucursales.get(0);
+        
+        ProductoPGDao productoPG = new ProductoPGDao();
+        
+        List<Producto> listaProductos = new ArrayList<>();
+        for(Integer key: productos.keySet()){
+           listaProductos.add(productoPG.obtenerProducto(key));
+      }
+        
+        List<DetalleOrden> listaDetalleOrden = new ArrayList<>();
+        
+        OrdenProvision orden = new OrdenProvision();
+        orden.setFechaEmision(LocalDate.parse(ordenDTO.getFechaEmision()));
+        orden.setSucursal(sucursal);
+        orden.setEspera(LocalTime.parse(ordenDTO.getEspera()));
+        
+        
+        int i =0;
+        for(Integer key: productos.keySet()){
+              
+        DetalleOrden d = new DetalleOrden();
+        d.setProducto(listaProductos.get(i));
+        d.setCantidad(productos.get(key));
+        d.setOrdenProvision(orden);
+        listaDetalleOrden.add(d);
+        i++;
+    }
+         
+       orden.setDetalleOrden(listaDetalleOrden);
+        OrdenProvisionPGDao ordenPG = new OrdenProvisionPGDao();
+        ordenPG.guardarOrden(orden);
+          
+
+    }
 }
 
     
