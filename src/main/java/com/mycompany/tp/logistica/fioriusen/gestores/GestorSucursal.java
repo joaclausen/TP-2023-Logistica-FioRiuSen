@@ -6,9 +6,8 @@ package com.mycompany.tp.logistica.fioriusen.gestores;
 
 import com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision;
 import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
-import com.mycompany.tp.logistica.fioriusen.daos.OrdenProvisionPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.ProductoPGDao;
-import com.mycompany.tp.logistica.fioriusen.daos.StockPGDao;
+
 import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
@@ -128,11 +127,13 @@ public class GestorSucursal {
         
         i++;
     }
+          sucursal.setListaProductos(listaStock);
+          SucursalPGDao sucursalPG = new SucursalPGDao();
+          sucursalPG.saveSucursal(sucursal);
           
           
-          
-         StockPGDao stockPG = new StockPGDao();
-        stockPG.crearStock(listaStock);
+        /* StockPGDao stockPG = new StockPGDao();
+        stockPG.crearStock(listaStock);*/
        
         
      }
@@ -173,10 +174,31 @@ public class GestorSucursal {
     }
          
        orden.setDetalleOrden(listaDetalleOrden);
-        OrdenProvisionPGDao ordenPG = new OrdenProvisionPGDao();
-        ordenPG.guardarOrden(orden);
-          
+       List<OrdenProvision> ordenDeProvision = new ArrayList<>();
+       ordenDeProvision.add(orden);
+         /*OrdenProvisionPGDao ordenPG = new OrdenProvisionPGDao();
+        ordenPG.guardarOrden(orden);*/
+          sucursal.setOrdenProvision(ordenDeProvision);
+          SucursalPGDao sucursalPG = new SucursalPGDao();
+          sucursalPG.saveSucursal(sucursal);
 
+    }
+
+     public List<SucursalDTO> obtenerParaGrafo() {
+        SucursalPGDao sucursalPG = new SucursalPGDao();
+        List<SucursalDTO> sucursales = new ArrayList<SucursalDTO>();
+        //obtengo todos los obj camino,  por c/u creo unos dto para pasarle a la interfaz, con qué atributos??
+        List<Sucursal> lasSucursalesOG = new ArrayList<>();
+        lasSucursalesOG = sucursalPG.obtenerTodos();
+        
+        for(Sucursal s: lasSucursalesOG){
+            SucursalDTO sDTO = new SucursalDTO();
+            sDTO.setNombre(s.getNombre());
+            sucursales.add(sDTO);
+        }
+        
+        
+        return sucursales;
     }
 }
 

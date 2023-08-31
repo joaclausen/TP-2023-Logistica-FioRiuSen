@@ -57,7 +57,7 @@ public class Sucursal implements Serializable {
     @Column(name="estado")
     private Estado estado;
     
-    @OneToMany(mappedBy="sucursal",
+    @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -66,6 +66,7 @@ public class Sucursal implements Serializable {
     private List<Stock> listaProductos;
    
    @OneToMany(
+           
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -113,9 +114,9 @@ public class Sucursal implements Serializable {
         this.estado = estado;
     }
 
-/*   public void setOrdenProvision(List<OrdenProvision> ordenProvision) {
+   public void setOrdenProvision(List<OrdenProvision> ordenProvision) {
         this.ordenProvision = ordenProvision;
-    }*/
+    }
 
     public void setListaProductos(List<Stock> listaProductos) {
         this.listaProductos = listaProductos;
@@ -148,10 +149,10 @@ public class Sucursal implements Serializable {
         return estado;
     }
 
-  /* public List<OrdenProvision> getOrdenProvision() {
+   public List<OrdenProvision> getOrdenProvision() {
         return ordenProvision;
     }
-*/
+
     public List<Stock> getListaProductos() {
         return listaProductos;
     }

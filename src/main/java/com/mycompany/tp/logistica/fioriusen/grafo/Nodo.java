@@ -5,22 +5,31 @@
  */
 package com.mycompany.tp.logistica.fioriusen.grafo;
 
+
+
 import java.awt.Graphics;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author zapam
  */
 public class Nodo {
-    
     private int x, y;
     private String nombre;
     public static final int d =30;
+    private int radio; // Radio del nodo
 
     public Nodo(int x, int y, String n) {
         this.x = x;
         this.y = y;
         this.nombre = n;
+    }
+   
+    public int getRadio() {
+        return radio;
     }
     
     public void pintar(Graphics g){
@@ -51,6 +60,9 @@ public class Nodo {
     public void setY(int y) {
         this.y = y;
     }
-    
+     public boolean contiene(Point punto) {
+        double distancia = Math.sqrt(Math.pow(punto.x - x, 2) + Math.pow(punto.y - y, 2));
+        return distancia <= radio;
+    }
     
 }

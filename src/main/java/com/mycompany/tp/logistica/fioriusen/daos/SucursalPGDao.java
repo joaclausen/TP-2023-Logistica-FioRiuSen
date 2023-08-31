@@ -9,6 +9,7 @@ import com.mycompany.tp.logistica.fioriusen.HibernateManager;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.hibernate.Session;
@@ -62,15 +63,19 @@ public class SucursalPGDao implements SucursalDao{
     public Sucursal obtenerPorNombre(String nombre){
         
          Session session = sessionFactory.openSession();
+         Sucursal aux = new Sucursal();
         Query<Sucursal> query = session.createQuery("FROM Sucursal s WHERE s.nombre =:nombre", Sucursal.class);
         query.setParameter("nombre", nombre);
-         return query.uniqueResult();
+        aux= query.uniqueResult();
+        session.close();
+         return aux;
     }
     
 
     public List<Sucursal> buscarSucursal(SucursalDTO dto){
         Session session = sessionFactory.openSession();
         Query<Sucursal> query;
+        List<Sucursal> sadsda = new ArrayList<Sucursal>();
          Estado estado = dto.getEstado();
          if(dto.getCodigo().isEmpty()==false){
             int codigo=Integer.parseInt(dto.getCodigo());
@@ -87,7 +92,9 @@ public class SucursalPGDao implements SucursalDao{
              query = session.createQuery("SELECT s FROM Sucursal s WHERE s.estado=:estado", Sucursal.class);
             query.setParameter("estado", estado);
          }
-         return query.getResultList();
+         sadsda = query.getResultList();
+         session.close();
+         return sadsda;
     }
 
    /* public void modificarSucursal(SucursalDTO dto) {
@@ -125,4 +132,16 @@ public class SucursalPGDao implements SucursalDao{
             Sucursal sucursal =  (Sucursal) session.get(Sucursal.class, id);
             return sucursal;
       }
+
+    public List<Sucursal> obtenerTodos() {
+       List<Sucursal> sucursales = new ArrayList<>();
+        SessionFactory sessionFactory  = HibernateManager.Configure();
+         try (Session session = sessionFactory.openSession()) {
+             sucursales = session.createCriteria(Sucursal.class).list(); 
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return sucursales;
+    }
 }
