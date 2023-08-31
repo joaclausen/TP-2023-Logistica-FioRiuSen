@@ -31,18 +31,18 @@ public class StockPGDao {
     
     public void crearStock(List<Stock> lista){
         //POR, CANT, sucursal
-         Session session = sessionFactory.openSession();
+         
        for(int i=0; i<lista.size(); i++){
             
-
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.saveOrUpdate(lista.get(i));
         session.getTransaction().commit();
-      
+          session.close();
         }
      
       
-        session.close();
+    
     }
     
 }

@@ -106,7 +106,7 @@ public class GestorCamino {
     }
 
     public List<CaminoDTO> obtenerParaGrafo() {
-        CaminoPGDao caminoPG = new CaminoPGDao();
+          CaminoPGDao caminoPG = new CaminoPGDao();
         List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
         //obtengo todos los obj camino,  por c/u creo unos dto para pasarle a la interfaz, con qué atributos??
         List<Camino> losCaminosOG = new ArrayList<>();
@@ -122,6 +122,7 @@ public class GestorCamino {
         
         
         return caminos;
+  
     }
     
      public List<Camino> buscarCaminoSegunCriterio(CaminoDTO dto) {
