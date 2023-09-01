@@ -381,7 +381,10 @@ public class GestionarSucursal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void btnOrdenPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenPendienteActionPerformed
-       ventana.setContentPane(new OrdenPendiente(ventana, this));
+       DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+      int fila = tablaResultados.getSelectedRow();
+      String sucur= (String) model.getValueAt(fila, 2);
+        ventana.setContentPane(new OrdenPendiente(ventana, this, sucur));
        ventana.revalidate();
     }//GEN-LAST:event_btnOrdenPendienteActionPerformed
 

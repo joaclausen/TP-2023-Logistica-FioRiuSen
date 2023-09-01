@@ -15,6 +15,7 @@ import com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden;
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.entidades.Stock;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
+import com.mycompany.tp.logistica.fioriusen.enums.Orden;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -160,7 +161,7 @@ public class GestorSucursal {
         orden.setFechaEmision(LocalDate.parse(ordenDTO.getFechaEmision()));
         orden.setSucursal(sucursal);
         orden.setEspera(LocalTime.parse(ordenDTO.getEspera()));
-        
+        orden.setEstado(Orden.PENDIENTE);
         
         int i =0;
         for(Integer key: productos.keySet()){
@@ -176,11 +177,14 @@ public class GestorSucursal {
        orden.setDetalleOrden(listaDetalleOrden);
        List<OrdenProvision> ordenDeProvision = new ArrayList<>();
        ordenDeProvision.add(orden);
+       
          /*OrdenProvisionPGDao ordenPG = new OrdenProvisionPGDao();
         ordenPG.guardarOrden(orden);*/
           sucursal.setOrdenProvision(ordenDeProvision);
           SucursalPGDao sucursalPG = new SucursalPGDao();
           sucursalPG.saveSucursal(sucursal);
+          
+          
 
     }
 
