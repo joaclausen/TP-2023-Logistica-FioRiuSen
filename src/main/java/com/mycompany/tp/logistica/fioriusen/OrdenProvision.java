@@ -582,8 +582,20 @@ public class OrdenProvision extends javax.swing.JPanel {
                 GestorSucursal gs = new GestorSucursal();
                gs.crearOrdenDeProvision(ordenDTO, productos);
                 
-              JOptionPane.showMessageDialog(this, "Orden de provision generada exitosamente.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                
+               int confirmacion = JOptionPane.showConfirmDialog(this, "Orden de provision generado exitosamente. ¿Desea consultar el listado de órdenes?", "CONFIRMACIÓN", JOptionPane.YES_NO_OPTION);
+              switch(confirmacion){
+                  case JOptionPane.YES_OPTION:
+                      ventana.setContentPane(new OrdenPendiente(ventana, this, txtSucursal.getText()));
+                      ventana.revalidate();
+                      break;
+                  case JOptionPane.NO_OPTION:
+                      break;
+              }
+               
+               
+              
+              
               for (int i = model.getRowCount()-1; i >= 0; i--) {
                     model.removeRow(i);
                 }

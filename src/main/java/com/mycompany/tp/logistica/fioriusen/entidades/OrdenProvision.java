@@ -4,6 +4,7 @@
  */
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
+import com.mycompany.tp.logistica.fioriusen.enums.Orden;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,6 +14,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -58,6 +61,10 @@ public class OrdenProvision implements Serializable  {
    // @JoinColumn(name="id_orden_provision")
     private List<DetalleOrden> detalleOrden;
    
+    @Enumerated(EnumType.STRING)
+    @Column(name="estado")
+    private Orden estado;
+     
 
     public OrdenProvision() {
     }
@@ -87,6 +94,10 @@ public class OrdenProvision implements Serializable  {
     public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
         this.detalleOrden = detalleOrden;
     }
+
+    public void setEstado(Orden estado) {
+        this.estado = estado;
+    }
     
     
     
@@ -114,6 +125,11 @@ public class OrdenProvision implements Serializable  {
    public List<DetalleOrden> getDetalleOrden() {
         return detalleOrden;
     }
+
+    public Orden getEstado() {
+        return estado;
+    }
     
+   
     
 }

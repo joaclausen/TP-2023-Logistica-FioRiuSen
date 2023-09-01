@@ -67,7 +67,7 @@ public class Sucursal implements Serializable {
    
    @OneToMany(
            
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
