@@ -6,12 +6,14 @@ package com.mycompany.tp.logistica.fioriusen.gestores;
 
 import com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision;
 import com.mycompany.tp.logistica.fioriusen.daos.CaminoPGDao;
+import com.mycompany.tp.logistica.fioriusen.daos.OrdenProvisionPGDao;
 import com.mycompany.tp.logistica.fioriusen.daos.ProductoPGDao;
 
 import com.mycompany.tp.logistica.fioriusen.daos.SucursalPGDao;
 import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden;
+import com.mycompany.tp.logistica.fioriusen.entidades.ListaProductos;
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.entidades.Stock;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
@@ -21,13 +23,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
  * @author Vulturius
  */
 public class GestorSucursal {
-
+    private SessionFactory sessionFactory;
+    
     public GestorSucursal() {
     }
     
@@ -121,10 +126,10 @@ public class GestorSucursal {
          Stock s = new Stock();
         s.setProducto(listaProductos.get(i));
         s.setCantidad(productos.get(key));
-        s.setSucursal(sucursal);
+       // s.setSucursal(sucursal);
        
         listaStock.add(s);
-         //sucursal.getListaProductos().add(s);
+        sucursal.getListaProductos().add(s);
         
         i++;
     }
@@ -159,7 +164,7 @@ public class GestorSucursal {
         
         OrdenProvision orden = new OrdenProvision();
         orden.setFechaEmision(LocalDate.parse(ordenDTO.getFechaEmision()));
-        orden.setSucursal(sucursal);
+        //orden.setSucursal(sucursal);
         orden.setEspera(LocalTime.parse(ordenDTO.getEspera()));
         orden.setEstado(Orden.PENDIENTE);
         
@@ -169,11 +174,12 @@ public class GestorSucursal {
         DetalleOrden d = new DetalleOrden();
         d.setProducto(listaProductos.get(i));
         d.setCantidad(productos.get(key));
-        d.setOrdenProvision(orden);
+        //d.setOrdenProvision(orden);
         listaDetalleOrden.add(d);
         i++;
     }
          
+       //orden.setDetalleOrden(listaDetalleOrden);
        orden.setDetalleOrden(listaDetalleOrden);
        List<OrdenProvision> ordenDeProvision = new ArrayList<>();
        ordenDeProvision.add(orden);
@@ -203,6 +209,73 @@ public class GestorSucursal {
         
         
         return sucursales;
+    }
+     
+     public List<Sucursal> getAll(){
+        SucursalPGDao sucursalPG = new SucursalPGDao();
+        List<Sucursal> sucursales = sucursalPG.getTodas();
+       return sucursales;
+     }
+     
+     
+     
+     public List<SucursalDTO> buscarStockEnSucursales(SucursalDTO dto, OrdenProvisionDTO ordenSeleccionada){
+         
+         //ESTOS ERRORES SON PORQUE TENGO QUE BUSCAR LA ORDENTAMBIEN
+        Sucursal s = buscarSucursalSegunCriterio(dto).get(0);
+        
+        OrdenProvision ordenProvision = new OrdenProvision();
+        OrdenProvisionPGDao ordenPG = new OrdenProvisionPGDao();
+        
+        ordenProvision = ordenPG.get(ordenSeleccionada);
+        
+        List<Sucursal> sucursales = getAll();
+        
+        List<Producto> productosPedidos = new ArrayList<>();
+        
+        /////////////////
+       
+        
+        for (int i = 0; i < ordenProvision.getDetalleOrden().size(); i++) {
+            productosPedidos.add(ordenProvision.getDetalleOrden().get(i).getProducto());
+        }
+        
+         
+         
+        System.out.println("El ID es: " + ordenProvision.getDetalleOrden().size());
+        System.out.println("Cantidad de sucursales: " + sucursales.size());
+        System.out.println("Cantidad de producto pedidos:" + productosPedidos.size());
+        
+        List<Producto> productosDisponibles = new ArrayList<>();
+        List<SucursalDTO> sucursalesConStock = new ArrayList<>();
+        
+        for (int k = 0; k < sucursales.size(); k++) {
+            System.out.println("PUEDO SACAR EL STOCK DE UNA SUC: " + sucursales.get(k).getListaProductos().size());
+            
+            for (int h = 0; h < sucursales.get(k).getListaProductos().size(); h++) {
+                
+                productosDisponibles.add(sucursales.get(k).getListaProductos().get(h).getProducto());
+                
+            }
+             ListaProductos prodPedidos = new ListaProductos(productosDisponibles);
+              boolean todosDisponibles = prodPedidos.containsAll(productosPedidos);
+            if (todosDisponibles) {
+                SucursalDTO sdto = new SucursalDTO();
+                sdto.setId(sucursales.get(k).getId());
+                sdto.setCodigo(sucursales.get(k).getCodigo().toString());
+                sdto.setNombre(sucursales.get(k).getNombre());
+                sdto.setEstado(sucursales.get(k).getEstado());
+                System.out.println("La sucursal es :" + sucursales.get(k).getNombre());
+                sucursalesConStock.add(sdto);
+            } else {
+                productosDisponibles.clear();
+            }
+        }
+        
+        ordenProvision.setEstado(Orden.EN_PROCESO);
+        ordenPG.guardarOrden(ordenProvision);
+        
+        return sucursalesConStock;
     }
 }
 

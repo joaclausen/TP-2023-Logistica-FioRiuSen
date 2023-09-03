@@ -29,9 +29,9 @@ public class DetalleOrden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-   @ManyToOne()
+   /* @ManyToOne()
     @JoinColumn(name="id_orden_provision")
-    private OrdenProvision ordenProvision;
+    private OrdenProvision ordenProvision;*/
     
      @OneToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
@@ -49,9 +49,9 @@ public class DetalleOrden {
         this.id = id;
     }
 
-    public void setOrdenProvision(OrdenProvision ordenProvision) {
+    /*public void setOrdenProvision(OrdenProvision ordenProvision) {
         this.ordenProvision = ordenProvision;
-    }
+    }*/
 
     public void setProducto(Producto producto) {
         this.producto = producto;
@@ -67,9 +67,9 @@ public class DetalleOrden {
         return id;
     }
 
-    public OrdenProvision getOrdenProvision() {
+   /* public OrdenProvision getOrdenProvision() {
         return ordenProvision;
-    }
+    }*/
 
     public Producto getProducto() {
         return producto;

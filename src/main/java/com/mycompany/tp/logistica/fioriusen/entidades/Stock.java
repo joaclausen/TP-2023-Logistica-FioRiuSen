@@ -36,9 +36,9 @@ public class Stock {
     @Column(name="cantidad")
     private int cantidad;
     
-    @ManyToOne()
+ /* @ManyToOne()
     @JoinColumn(name="id_sucursal")
-   private Sucursal sucursal;
+   private Sucursal sucursal;*/
 
     public void setId(int id) {
         this.id = id;
@@ -52,9 +52,9 @@ public class Stock {
         this.cantidad = cantidad;
     }
 
-    public void setSucursal(Sucursal sucursal) {
+    /*public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
-    }
+    }*/
     
     ////////////
 
@@ -70,8 +70,8 @@ public class Stock {
         return cantidad;
     }
 
-    public Sucursal getSucursal() {
+  /* public Sucursal getSucursal() {
         return sucursal;
-    }
+    }*/
     
 }
