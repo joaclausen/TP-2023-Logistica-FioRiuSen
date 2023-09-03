@@ -178,8 +178,6 @@ public class Lienzo extends JPanel implements MouseListener,MouseMotionListener{
     public void mouseMoved(MouseEvent e) {
 
     }
-
-  
     
        
 }

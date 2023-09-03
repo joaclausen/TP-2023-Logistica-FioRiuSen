@@ -14,6 +14,9 @@ import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden;
 import com.mycompany.tp.logistica.fioriusen.entidades.ListaProductos;
+import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
 import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
 import com.mycompany.tp.logistica.fioriusen.entidades.Stock;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
@@ -143,6 +146,22 @@ public class GestorSucursal {
        
         
      }
+        public List<SucursalDTO> obtenerParaGrafo() {
+        SucursalPGDao sucursalPG = new SucursalPGDao();
+        List<SucursalDTO> sucursales = new ArrayList<SucursalDTO>();
+        //obtengo todos los obj camino,  por c/u creo unos dto para pasarle a la interfaz, con qué atributos??
+        List<Sucursal> lasSucursalesOG = new ArrayList<>();
+        lasSucursalesOG = sucursalPG.obtenerTodos();
+        
+        for(Sucursal s: lasSucursalesOG){
+            SucursalDTO sDTO = new SucursalDTO();
+            sDTO.setNombre(s.getNombre());
+            sucursales.add(sDTO);
+        }
+        
+        
+        return sucursales;
+    }
     
     
     public void crearOrdenDeProvision(OrdenProvisionDTO ordenDTO, Map<Integer, Integer> productos){

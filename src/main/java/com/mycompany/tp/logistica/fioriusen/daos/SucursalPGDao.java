@@ -7,6 +7,7 @@ package com.mycompany.tp.logistica.fioriusen.daos;
 
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
 import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
 import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class SucursalPGDao implements SucursalDao{
       }
 
     public List<Sucursal> obtenerTodos() {
-       List<Sucursal> sucursales = new ArrayList<>();
+        List<Sucursal> sucursales = new ArrayList<>();
         SessionFactory sessionFactory  = HibernateManager.Configure();
          try (Session session = sessionFactory.openSession()) {
              sucursales = session.createCriteria(Sucursal.class).list(); 
@@ -144,7 +145,6 @@ public class SucursalPGDao implements SucursalDao{
         }
          return sucursales;
     }
-    
     public List<Sucursal> getTodas(){
           Session  session = sessionFactory.openSession();
         return session.createQuery("SELECT s FROM Sucursal s").getResultList();
