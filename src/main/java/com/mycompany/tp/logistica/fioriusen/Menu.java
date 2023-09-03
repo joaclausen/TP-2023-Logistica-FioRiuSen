@@ -142,8 +142,14 @@ public class Menu extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
-       ventana.setContentPane(new Mapa(ventana, this));
-       ventana.revalidate();
+       JFrame p = new JFrame();
+       JPanel pan = new JPanel();
+       p.setContentPane(new Mapa(p, pan));
+        ventana.revalidate();
+        //ventana.setContentPane(new Mapa(ventana, this));
+      
+      // new Mapa(ventana, this);
+      
     }//GEN-LAST:event_btnMapaActionPerformed
 
 

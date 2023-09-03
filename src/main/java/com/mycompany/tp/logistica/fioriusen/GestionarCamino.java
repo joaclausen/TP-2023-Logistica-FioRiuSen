@@ -394,7 +394,7 @@ public class GestionarCamino extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
             int filas = model.getRowCount();
                 if(filas > 0)
-                for(int i = model.getRowCount()-1; i>=0; i--){
+                for(int i = filas-1; i>=0; i--){
                      model.removeRow(i);
                 }
             if(caminosDTO.isEmpty()){

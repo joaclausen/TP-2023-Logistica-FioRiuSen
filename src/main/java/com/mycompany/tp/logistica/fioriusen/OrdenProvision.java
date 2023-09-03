@@ -4,12 +4,24 @@
  */
 package com.mycompany.tp.logistica.fioriusen;
 
+import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.dtos.ProductoDTO;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.Producto;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.gestores.GestorProducto;
+import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
 import java.awt.Toolkit;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,15 +34,26 @@ public class OrdenProvision extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    
-    public OrdenProvision(JFrame ventana, JPanel padre) {
-       this.ventana = ventana;
+    private String sucursalSolicitante;
+    private Integer id;
+    private Integer cod;
+    public OrdenProvision(JFrame ventana, JPanel padre, SucursalDTO sucursalDTO) {
+        this.ventana = ventana;
         this.padre = padre;
+        this.id=sucursalDTO.getId();
+        this.sucursalSolicitante = sucursalDTO.getNombre();
+        this.cod = Integer.parseInt(sucursalDTO.getCodigo());
         ventana.setTitle("Gestionar sucursales - Orden de provisión");
         ventana.setSize(800, 700);
-       
+        
         initComponents();
-         ventana.setVisible(true);
+        txtSucursal.setText(sucursalSolicitante);
+        txtFecha.setText(LocalDate.now().toString());
+        ventana.setVisible(true);
+    }
+
+    public OrdenProvision() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -64,11 +87,9 @@ public class OrdenProvision extends javax.swing.JPanel {
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane38 = new javax.swing.JScrollPane();
-        tablaResultado1 = new javax.swing.JTable();
-        jSpinner1 = new javax.swing.JSpinner();
         btnAgregar = new javax.swing.JButton();
         labelCantidad = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAgregados = new javax.swing.JTable();
@@ -193,23 +214,14 @@ public class OrdenProvision extends javax.swing.JPanel {
 
         tablaResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio"
+                "ID", "Nombre", "Código", "Peso", "Precio", "Descripcion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -235,11 +247,15 @@ public class OrdenProvision extends javax.swing.JPanel {
         );
 
         txtSucursal.setEditable(false);
-        txtSucursal.setText("aca iria el nombre de la sucursal solicitante");
 
         labelSucursalSolicitante.setText("Solicita sucursal:");
 
         btnQuitar.setText("Quitar");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -257,59 +273,39 @@ public class OrdenProvision extends javax.swing.JPanel {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Producto Seleccionado"));
 
-        tablaResultado1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Código", "Peso", "Precio"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
             }
         });
-        tablaResultado1.setDragEnabled(true);
-        tablaResultado1.setShowGrid(true);
-        jScrollPane38.setViewportView(tablaResultado1);
-
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
-
-        btnAgregar.setText("Agregar");
 
         labelCantidad.setText("Cantidad:");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane38)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(labelCantidad)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregar)))
-                .addGap(16, 16, 16))
+                .addGap(20, 20, 20)
+                .addComponent(labelCantidad)
+                .addGap(18, 18, 18)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAgregar)
+                .addGap(21, 21, 21))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane38, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
+                    .addComponent(labelCantidad)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCantidad))
-                .addContainerGap(13, Short.MAX_VALUE))
+                    .addComponent(btnAgregar))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de productos seleccionados"));
@@ -317,17 +313,14 @@ public class OrdenProvision extends javax.swing.JPanel {
         tablaAgregados.setAutoCreateRowSorter(true);
         tablaAgregados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Código", "Peso", "Precio", "Cantidad"
+                "ID", "Nombre", "Código", "Peso", "Precio", "Cantidad"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Short.class, java.lang.Float.class, java.lang.Float.class, java.lang.Short.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Short.class, java.lang.Float.class, java.lang.Float.class, java.lang.Short.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -368,27 +361,26 @@ public class OrdenProvision extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(labelSucursalSolicitante)
-                        .addGap(27, 27, 27)
-                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelFecha)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFecha))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnQuitar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(122, 122, 122)
                         .addComponent(labelTiempoEspera)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTiempoEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(btnAceptar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar)
-                        .addGap(3, 3, 3)))
+                        .addComponent(txtTiempoEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(btnAceptar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancelar)))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -396,30 +388,30 @@ public class OrdenProvision extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelSucursalSolicitante)
                     .addComponent(labelFecha)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSucursal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnQuitar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCancelar)
-                            .addComponent(btnAceptar)
-                            .addComponent(txtTiempoEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTiempoEspera))))
-                .addContainerGap(186, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnQuitar)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAceptar)
+                                .addComponent(btnCancelar))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelTiempoEspera)
+                        .addComponent(txtTiempoEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -430,16 +422,13 @@ public class OrdenProvision extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 709, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -532,9 +521,27 @@ public class OrdenProvision extends javax.swing.JPanel {
             Toolkit.getDefaultToolkit().beep();
         }
 
-        /* if(control==true){
-            //mostrar resultados
-        }*/
+         if (control == true) {
+
+            List<Producto> listaProductosDTO = gp.buscarSegunCriterio(dto);
+            DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+            int filas = model.getRowCount();
+            if (filas > 0) {
+                for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+            }
+            if (listaProductosDTO.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se han encontrado productos con los criterios seleccionados.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                control = false;
+                Toolkit.getDefaultToolkit().beep();
+            } else {
+
+                for (int i = 0; i < listaProductosDTO.size(); i++) {
+                    model.addRow(new Object[]{listaProductosDTO.get(i).getId(), listaProductosDTO.get(i).getNombre(), listaProductosDTO.get(i).getCodigo(), listaProductosDTO.get(i).getPeso(), listaProductosDTO.get(i).getPrecioUnitario(), listaProductosDTO.get(i).getDescripcion()});
+                }
+            }
+        }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -548,6 +555,60 @@ public class OrdenProvision extends javax.swing.JPanel {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        Boolean control=true;
+         DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) tablaAgregados.getModel();
+        if(txtTiempoEspera.getText().isEmpty()){
+           
+            JOptionPane.showMessageDialog(this, "Por favor, indique el tiempo máximo en el que espera recibir la orden.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+            control=false;
+        }
+        if(control == true){
+                  int result = JOptionPane.showConfirmDialog(this, "¿Desea crear una nueva orden de provisión con los productos seleccionados? "+sucursalSolicitante +" ?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                
+                Map<Integer, Integer> productos = new HashMap<Integer, Integer>();
+                for(int i = 0; i<model2.getRowCount(); i++){
+                     productos.put(Integer.parseInt(model2.getValueAt(i, 0).toString()), Integer.parseInt(model2.getValueAt(i, 5).toString()));
+                }
+               
+                OrdenProvisionDTO ordenDTO = new OrdenProvisionDTO();
+                
+                ordenDTO.setFechaEmision(txtFecha.getText());
+                ordenDTO.setDestino(txtSucursal.getText());
+                ordenDTO.setEspera(txtTiempoEspera.getText());
+                ordenDTO.setCodigoSucursal(cod);
+                GestorSucursal gs = new GestorSucursal();
+               gs.crearOrdenDeProvision(ordenDTO, productos);
+                
+               
+               int confirmacion = JOptionPane.showConfirmDialog(this, "Orden de provision generado exitosamente. ¿Desea consultar el listado de órdenes?", "CONFIRMACIÓN", JOptionPane.YES_NO_OPTION);
+              switch(confirmacion){
+                  case JOptionPane.YES_OPTION:
+                      ventana.setContentPane(new OrdenPendiente(ventana, this, txtSucursal.getText()));
+                      ventana.revalidate();
+                      break;
+                  case JOptionPane.NO_OPTION:
+                      break;
+              }
+               
+               
+              
+              
+              for (int i = model.getRowCount()-1; i >= 0; i--) {
+                    model.removeRow(i);
+                }
+                 for (int j = model2.getRowCount()-1; j >= 0; j--) {
+                    model2.removeRow(j);
+                }
+              break;
+            case JOptionPane.NO_OPTION:
+                break;
+        }
+        }
+        
+          
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -561,6 +622,30 @@ public class OrdenProvision extends javax.swing.JPanel {
             break;
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+         DefaultTableModel model = (DefaultTableModel) tablaResultado.getModel();
+        DefaultTableModel productosSeleccionados = (DefaultTableModel) tablaAgregados.getModel();
+        
+       int fila = tablaResultado.getSelectedRow();
+       if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un producto de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }  else{
+            productosSeleccionados.addRow(new Object[]{model.getValueAt(fila, 0), model.getValueAt(fila, 1), model.getValueAt(fila, 2), model.getValueAt(fila, 3), model.getValueAt(fila, 4), jSpinner1.getValue()});
+       }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+          int fila = tablaAgregados.getSelectedRow();
+          DefaultTableModel productosSeleccionados = (DefaultTableModel) tablaAgregados.getModel();
+       if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un producto de la tabla agregados para quitar.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }  else{
+            productosSeleccionados.removeRow(fila);
+       }
+    }//GEN-LAST:event_btnQuitarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -579,7 +664,6 @@ public class OrdenProvision extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane37;
-    private javax.swing.JScrollPane jScrollPane38;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelFecha;
@@ -590,7 +674,6 @@ public class OrdenProvision extends javax.swing.JPanel {
     private javax.swing.JLabel precio;
     private javax.swing.JTable tablaAgregados;
     private javax.swing.JTable tablaResultado;
-    private javax.swing.JTable tablaResultado1;
     private javax.swing.JTextField textCodigo;
     private javax.swing.JTextField textNombre;
     private javax.swing.JTextField textPeso;
@@ -599,4 +682,6 @@ public class OrdenProvision extends javax.swing.JPanel {
     private javax.swing.JTextField txtSucursal;
     private javax.swing.JTextField txtTiempoEspera;
     // End of variables declaration//GEN-END:variables
+
+  
 }

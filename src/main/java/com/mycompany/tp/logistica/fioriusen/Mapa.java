@@ -17,6 +17,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -43,18 +45,41 @@ public class Mapa extends javax.swing.JPanel {
         GestorCamino gc = new GestorCamino();
         List<CaminoDTO> caminos = new ArrayList<CaminoDTO>();
         GestorSucursal gs = new GestorSucursal();
-        List<SucursalDTO> sucursal = new ArrayList<SucursalDTO>();
+        List<SucursalDTO> sucursales = new ArrayList<SucursalDTO>();
         caminos = gc.obtenerParaGrafo();
-        sucursal= gs.obtenerParaGrafo();
-        prueba.generarGrafo(caminos, sucursal);
+        sucursales= gs.obtenerParaGrafo();
+        prueba.generarGrafo(caminos, sucursales);
         ventana.setSize(570, 700);
         initComponents();
-        ventana.setVisible(true);
+        ventana.setVisible(false);
         
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");
         ventana2.getContentPane().add(prueba);
         ventana2.setVisible(true);
+         //prueba de flujo maximo:
+        int flujo=0;
+        List<CaminoDTO> marcados = new ArrayList<>();
+        SucursalDTO aux = new SucursalDTO();
+        for (SucursalDTO s: sucursales){
+            if (s.getNombre().equals("Puerto")){
+                aux=s;
+                break;
+            }
+        }
+        
+        for(SucursalDTO s: sucursales){
+            s.asociarCaminos(caminos);
+        }
+        
+        flujo = flujoMax(0, marcados, aux, 0, sucursales, aux);
+        System.out.println("Flujo maximo: "+flujo);
+        
+        List<SucursalDTO> resultado=new ArrayList<SucursalDTO>();
+        resultado=pageRank(caminos, sucursales);
+        for(SucursalDTO r: resultado){
+            if (!r.getNombre().equals("Puerto") && !r.getNombre().equals("Centro")) System.out.println("Sucursal: "+r.getNombre()+" - pr: "+r.getPagerank());
+        }
         
        /* 
         JFrame ventana2 = new JFrame();
@@ -80,14 +105,65 @@ public class Mapa extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 394, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+        public int flujoMax(int max, List<CaminoDTO> marcados, SucursalDTO currentParent, int suma, List<SucursalDTO> sucursales, SucursalDTO anterior){
+
+        if (currentParent.getNombre().equals("Centro")){
+		if (max<suma) max=suma;
+		return max;
+	}
+	else {
+                String aux="";
+                for(int i=0; i<currentParent.getCaminosAdy().size(); i++){
+                    if (marcados.contains(currentParent.getCaminosAdy().get(i))) continue;
+                    marcados.add(currentParent.getCaminosAdy().get(i));
+                    suma+=Integer.parseInt(currentParent.getCaminosAdy().get(i).getCapacidadMaxima());
+                    aux=currentParent.getCaminosAdy().get(i).getDestino();
+                    anterior=currentParent;
+                    currentParent=conseguirDestino(sucursales, aux);
+                    max = flujoMax(max, marcados, currentParent, suma, sucursales, anterior);
+                    currentParent=anterior;
+                    suma=0;
+                }
+	}	
+        return max;
+    }
+    public SucursalDTO conseguirDestino(List<SucursalDTO> sucs, String aux){
+        SucursalDTO currentParent = new SucursalDTO();
+        for(SucursalDTO s: sucs){
+            if (s.getNombre().equals(aux)){
+                currentParent=s;
+                break;
+            }
+        }
+        return currentParent;
+    }
+    public List<SucursalDTO> pageRank(List<CaminoDTO> caminos, List<SucursalDTO> sucursales){
+        List<SucursalDTO> resultado = new ArrayList<>();
+        int pr=0;
+        for(int i = 0; i<sucursales.size(); i++){
+            resultado.add(sucursales.get(i));
+            if (!sucursales.get(i).getNombre().equals("Puerto") && !sucursales.get(i).getNombre().equals("Centro")){
+                for(int j = 0; j<caminos.size(); j++){
+                    if (sucursales.get(i).getNombre().equals(caminos.get(j).getDestino())) pr++;
+                }   
+            }
+            sucursales.get(i).setPagerank(pr);
+            pr=0;
+        }
+        Comparator<SucursalDTO> comparadorPorPr = Comparator.comparingInt(SucursalDTO::getPagerank).reversed();
+        Collections.sort(resultado, comparadorPorPr);
+        return resultado;
+    }
 }
+     //max y suma inicializarlo en 0, y currentParent inicializarlo en Puerto
+    //camino marcado esta vacio y pendientes todos los caminos
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

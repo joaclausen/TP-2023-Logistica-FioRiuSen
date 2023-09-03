@@ -23,6 +23,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -33,28 +35,45 @@ import javax.persistence.Table;
 public class Sucursal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
+    
     @Column(name="codigo")
-   Integer codigo;
+    private Integer codigo;
+    
     @Column(name="nombre")
-    String nombre;
+    private String nombre;
+    
     @Basic
-    @Column(name="horaApertura")
-    LocalTime horarioApertura;
+   // @Temporal(TemporalType.TIME)
+    @Column(name="horario_apertura")
+    private LocalTime horarioApertura;
+    
     @Basic
-    @Column(name="horaCierre")
-    LocalTime horarioCierre;
+    //@Temporal(TemporalType.TIME)
+    @Column(name="horario_cierre")
+    private LocalTime horarioCierre;
+    
     @Enumerated(EnumType.STRING)
     @Column(name="estado")
-    Estado estado;
+    private Estado estado;
     
-    /* @OneToMany(
-            fetch = FetchType.LAZY,
+    @OneToMany(
+           
+           fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JoinColumn(name="id_sucursal")
+    private List<Stock> listaProductos;
    
-    List<Stock> listaProductos;*/
+   @OneToMany(
+           
+          fetch = FetchType.EAGER, //SI ESTA EAGER NO ANDA EL MAPA, PERO SI ESTA LAZY SI pero no anda la busqueda de las colecciones
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+   @JoinColumn(name = "id_sucursal")
+   private  List<OrdenProvision> ordenProvision;
     
     public Sucursal() {
     }
@@ -96,6 +115,15 @@ public class Sucursal implements Serializable {
         this.estado = estado;
     }
 
+   public void setOrdenProvision(List<OrdenProvision> ordenProvision) {
+        //this.ordenProvision = ordenProvision;.
+        this.ordenProvision.addAll(ordenProvision);
+    }
+
+    public void setListaProductos(List<Stock> listaProductos) {
+        this.listaProductos.addAll(listaProductos);
+    }
+   
     
    //getters
     
@@ -122,6 +150,15 @@ public class Sucursal implements Serializable {
     public Estado getEstado() {
         return estado;
     }
+
+   public List<OrdenProvision> getOrdenProvision() {
+        return ordenProvision;
+    }
+
+    public List<Stock> getListaProductos() {
+        return listaProductos;
+    }
+    
     
     
 }

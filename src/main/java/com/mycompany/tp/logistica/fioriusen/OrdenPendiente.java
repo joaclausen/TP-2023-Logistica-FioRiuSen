@@ -4,9 +4,16 @@
  */
 package com.mycompany.tp.logistica.fioriusen;
 
+import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
+import com.mycompany.tp.logistica.fioriusen.dtos.SucursalDTO;
+import com.mycompany.tp.logistica.fioriusen.entidades.*;
+import com.mycompany.tp.logistica.fioriusen.gestores.GestorSucursal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,13 +26,44 @@ public class OrdenPendiente extends javax.swing.JPanel {
      */
     private JFrame ventana;
     private JPanel padre;
-    public OrdenPendiente(JFrame ventana, JPanel padre) {
+    private String sucursal;
+    public OrdenPendiente(JFrame ventana, JPanel padre, String sucursal) {
         this.ventana = ventana;
         this.padre = padre;
+        this.sucursal=sucursal;
         ventana.setTitle("Gestionar sucursal - Órdenes pendientes");
         ventana.setSize(800, 700);
-       
+        
         initComponents();
+        txtSucursal.setText(sucursal);
+        
+        GestorSucursal gs = new GestorSucursal();
+        
+        SucursalDTO suc = new SucursalDTO();
+        suc.setCodigo("");
+        suc.setNombre(sucursal);
+        Sucursal sucu=  gs.buscarSucursalSegunCriterio(suc).get(0);
+        List<com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision> listaProvisiones = sucu.getOrdenProvision();
+        
+        
+        DefaultTableModel model = (DefaultTableModel) tablaOrdenes.getModel();
+        
+        
+        
+        for(int i=0; i<listaProvisiones.size(); i++){
+            model.addRow(new Object[]{listaProvisiones.get(i).getId(), listaProvisiones.get(i).getFechaEmision(), listaProvisiones.get(i).getEspera(), listaProvisiones.get(i).getEstado()});
+            
+            
+        }
+       
+      
+        //com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision ordenSeleccionada = listaProvisiones.get(fila);
+        
+       /* for(int j = 0; j<ordenSeleccionada.getDetalleOrden().size(); j++){
+            System.out.println("Detalle: " + ordenSeleccionada.getDetalleOrden().get(j).getProducto().getNombre());
+        }*/
+        
+        
          ventana.setVisible(true);
     }
 
@@ -39,17 +77,24 @@ public class OrdenPendiente extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel1.setText("aca vamos a ver la lista de ordenes pendiente");
+        panelOrdenEmitida = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaOrdenes = new javax.swing.JTable();
+        labelSucursal = new javax.swing.JLabel();
+        txtSucursal = new javax.swing.JTextField();
+        btnSeleccionar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablarSucursalStock = new javax.swing.JTable();
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -58,48 +103,145 @@ public class OrdenPendiente extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("mapa aca en el medio?");
+        panelOrdenEmitida.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes Emitidas"));
+
+        tablaOrdenes.setAutoCreateRowSorter(true);
+        tablaOrdenes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "FechaEmision", "TiempoEspera", "Estado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaOrdenes);
+
+        javax.swing.GroupLayout panelOrdenEmitidaLayout = new javax.swing.GroupLayout(panelOrdenEmitida);
+        panelOrdenEmitida.setLayout(panelOrdenEmitidaLayout);
+        panelOrdenEmitidaLayout.setHorizontalGroup(
+            panelOrdenEmitidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOrdenEmitidaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelOrdenEmitidaLayout.setVerticalGroup(
+            panelOrdenEmitidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOrdenEmitidaLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        labelSucursal.setText("Sucursal:");
+
+        txtSucursal.setEditable(false);
+        txtSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSucursalActionPerformed(evt);
+            }
+        });
+
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Sucursales con Stock Disponible"));
+
+        tablarSucursalStock.setAutoCreateRowSorter(true);
+        tablarSucursalStock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Codigo", "Nombre", "Estado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablarSucursalStock);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAceptar)
-                .addGap(63, 63, 63)
-                .addComponent(btnCancelar)
-                .addGap(45, 45, 45))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelOrdenEmitida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAceptar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(458, 458, 458)
+                        .addComponent(btnSeleccionar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelSucursal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(94, 94, 94)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                    .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelSucursal))
+                .addGap(18, 18, 18)
+                .addComponent(panelOrdenEmitida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSeleccionar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar))
-                .addGap(40, 40, 40))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAceptar))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,13 +261,72 @@ public class OrdenPendiente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void txtSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSucursalActionPerformed
+
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        // TODO add your handling code here:
+         int fila = tablaOrdenes.getSelectedRow();
+         if(fila == -1){
+             JOptionPane.showMessageDialog(this, "Por favor seleccione una orden de provision de la tabla.","INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+         }else{
+             DefaultTableModel model = (DefaultTableModel) tablaOrdenes.getModel();
+             Integer ordenId =Integer.parseInt(model.getValueAt(fila, 0).toString());
+             
+             OrdenProvisionDTO ordenSeleccionada = new OrdenProvisionDTO();
+             ordenSeleccionada.setId(ordenId);
+             
+             SucursalDTO dto = new SucursalDTO();
+             dto.setCodigo("");
+             dto.setNombre(txtSucursal.getText());
+             
+             GestorSucursal gs = new GestorSucursal();
+             
+             List<SucursalDTO>  sucursalesConStock = new ArrayList<>();
+             sucursalesConStock = gs.buscarStockEnSucursales(dto, ordenSeleccionada);
+             
+             DefaultTableModel model2 = (DefaultTableModel) tablarSucursalStock.getModel();
+             
+             for(int i = 0; i<sucursalesConStock.size(); i++){
+                 model2.addRow(new Object[]{sucursalesConStock.get(i).getId(), sucursalesConStock.get(i).getCodigo(), sucursalesConStock.get(i).getNombre(), sucursalesConStock.get(i).getEstado()  });
+             }
+             
+             
+         }
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+         int result = JOptionPane.showConfirmDialog(this,"¿Desea ver el mapa de las sucursales?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+        switch (result){
+            case JOptionPane.YES_OPTION:
+                JFrame p = new JFrame();
+                JPanel pan = new JPanel();
+                p.setContentPane(new Mapa(p, pan));
+                ventana.revalidate();
+                
+                
+                break;
+            case JOptionPane.NO_OPTION:
+                break;
+        }
+        
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnSeleccionar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelSucursal;
+    private javax.swing.JPanel panelOrdenEmitida;
+    private javax.swing.JTable tablaOrdenes;
+    private javax.swing.JTable tablarSucursalStock;
+    private javax.swing.JTextField txtSucursal;
     // End of variables declaration//GEN-END:variables
 }

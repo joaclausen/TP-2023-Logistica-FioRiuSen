@@ -4,6 +4,7 @@
  */
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
+import com.mycompany.tp.logistica.fioriusen.enums.Orden;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,41 +14,60 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Vulturius
  */
 @Entity
-@Table(name="ordenProvision")
-public class OrdenProvision implements Serializable {
+@Table(name="ordenprovision")
+public class OrdenProvision implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
+    
     @Basic
-    @Column(name="fechaEmision")
-    LocalDate fechaEmision;
-    @JoinColumn(name="id_sucursal_destino")
-    Sucursal destino;
+    @Column(name="fecha_emision")
+    private LocalDate fechaEmision;
+    
     @Basic
-    @Column(name="espera")
-    LocalTime espera;
-    @OneToMany(
-            fetch = FetchType.EAGER,
+     @Column(name="espera")
+    private  LocalTime espera;
+    
+   /* @ManyToOne()
+    @JoinColumn(name="id_sucursal")
+    private Sucursal sucursal;*/
+
+     
+     @OneToMany(
+   
+           // fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JoinColumn(name = "id_orden_provision")
-    List<DetalleOrden> lista;
-    //HashMap<Producto, Integer> pedido = new HashMap<>();
-    //DICCIONARIO PRODUCTO/CANTIDAD SOLICITADA (CU5)
+    @JoinColumn(name="id_orden_provision")
+    private List<DetalleOrden> detalleOrden;
+   
+    @Enumerated(EnumType.STRING)
+    @Column(name="estado")
+    private Orden estado;
+     
+
+    public OrdenProvision() {
+    }
     
     
     //setters
@@ -60,13 +80,26 @@ public class OrdenProvision implements Serializable {
         this.fechaEmision = fechaEmision;
     }
 
-    public void setDestino(Sucursal destino) {
-        this.destino = destino;
-    }
 
     public void setEspera(LocalTime espera) {
         this.espera = espera;
     }
+
+ /*   public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }*/
+
+    
+    
+    public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
+       //this.detalleOrden.addAll(detalleOrden);
+       this.detalleOrden = detalleOrden;
+    }
+
+    public void setEstado(Orden estado) {
+        this.estado = estado;
+    }
+    
     
     
     //getters
@@ -79,12 +112,25 @@ public class OrdenProvision implements Serializable {
         return fechaEmision;
     }
 
-    public Sucursal getDestino() {
-        return destino;
-    }
 
     public LocalTime getEspera() {
         return espera;
     }
+
+  /*  public Sucursal getSucursal() {
+        return sucursal;
+    }*/
+
+    
+    
+   public List<DetalleOrden> getDetalleOrden() {
+        return detalleOrden;
+    }
+
+    public Orden getEstado() {
+        return estado;
+    }
+    
+   
     
 }

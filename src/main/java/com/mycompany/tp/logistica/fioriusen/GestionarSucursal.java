@@ -349,8 +349,22 @@ public class GestionarSucursal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnProvisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProvisionActionPerformed
-       ventana.setContentPane(new OrdenProvision(ventana, this));
-       ventana.revalidate();
+       DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+       
+         int fila = tablaResultados.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una sucursal de la tabla.", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            SucursalDTO sucursalDTO = new SucursalDTO();
+            sucursalDTO.setId(Integer.parseInt(model.getValueAt(fila, 0).toString()));
+            sucursalDTO.setCodigo(model.getValueAt(fila,1).toString());
+            sucursalDTO.setNombre(model.getValueAt(fila, 2).toString());
+            ventana.setContentPane(new OrdenProvision(ventana, this, sucursalDTO));
+            ventana.revalidate();
+        }
+        
+        
+       
     }//GEN-LAST:event_btnProvisionActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
@@ -367,7 +381,10 @@ public class GestionarSucursal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void btnOrdenPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenPendienteActionPerformed
-       ventana.setContentPane(new OrdenPendiente(ventana, this));
+       DefaultTableModel model = (DefaultTableModel)tablaResultados.getModel();
+      int fila = tablaResultados.getSelectedRow();
+      String sucur= (String) model.getValueAt(fila, 2);
+        ventana.setContentPane(new OrdenPendiente(ventana, this, sucur));
        ventana.revalidate();
     }//GEN-LAST:event_btnOrdenPendienteActionPerformed
 
