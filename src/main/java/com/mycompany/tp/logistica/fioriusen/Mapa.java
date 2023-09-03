@@ -49,7 +49,7 @@ public class Mapa extends javax.swing.JPanel {
         prueba.generarGrafo(caminos, sucursal);
         ventana.setSize(570, 700);
         initComponents();
-        ventana.setVisible(true);
+        ventana.setVisible(false);
         
         JFrame ventana2 = new JFrame();
         ventana2.setTitle("Mapa caminos");

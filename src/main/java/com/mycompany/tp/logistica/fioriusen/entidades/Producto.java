@@ -5,6 +5,7 @@
 package com.mycompany.tp.logistica.fioriusen.entidades;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table (name = "producto")
-public class Producto implements Serializable{
+public class Producto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -104,4 +105,20 @@ public class Producto implements Serializable{
     }
     
     
+    
+    ///AUXILIARES
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Producto producto = (Producto) o;
+        return id == producto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
+    
+
