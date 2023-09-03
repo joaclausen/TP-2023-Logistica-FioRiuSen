@@ -5,6 +5,8 @@
 package com.mycompany.tp.logistica.fioriusen.dtos;
 
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +19,12 @@ public class SucursalDTO {
     
     private String horaApertura;
     private String horaCierre;
-private Estado estado;
+    private Estado estado;
+    private List<CaminoDTO> caminosAdy;
+    private int pagerank;
+    
     public SucursalDTO() {
+        this.caminosAdy = new ArrayList<CaminoDTO>();
     }
 
     public SucursalDTO(String codigo, String nombre, String horaApertura, String horaCierre, Estado estado) {
@@ -27,8 +33,15 @@ private Estado estado;
         this.horaApertura = horaApertura;
         this.horaCierre = horaCierre;
         this.estado=estado;
+        this.pagerank=0;
     }
-    
+    public void setPagerank(int pg){
+        this.pagerank=pg;
+    }
+
+    public int getPagerank() {
+        return pagerank;
+    }
     
     
     
@@ -86,6 +99,26 @@ private Estado estado;
 
     public String getHoraCierre() {
         return horaCierre;
+    }
+    
+    public List<CaminoDTO> getCaminosAdy() {
+        return caminosAdy;
+    }
+    
+
+    public int getCaminosSinMarcar(List<CaminoDTO> pendientes) {
+        int cantidad=0;
+        for (CaminoDTO p: pendientes){
+            if (p.getOrigen().equals(this.nombre)) cantidad++;
+        }
+        return cantidad;
+    }
+    
+    //posiblemente explote:
+    public void asociarCaminos(List<CaminoDTO> caminos){
+        for (CaminoDTO c: caminos){
+            if (c.getOrigen().equals(this.nombre)) this.caminosAdy.add(c);
+        }
     }
     
 }
