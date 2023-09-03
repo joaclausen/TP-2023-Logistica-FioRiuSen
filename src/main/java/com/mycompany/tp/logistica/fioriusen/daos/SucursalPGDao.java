@@ -144,4 +144,9 @@ public class SucursalPGDao implements SucursalDao{
         }
          return sucursales;
     }
+    
+    public List<Sucursal> getTodas(){
+          Session  session = sessionFactory.openSession();
+        return session.createQuery("SELECT s FROM Sucursal s").getResultList();
+    }
 }

@@ -47,18 +47,18 @@ public class OrdenProvision implements Serializable  {
      @Column(name="espera")
     private  LocalTime espera;
     
-    @ManyToOne()
+   /* @ManyToOne()
     @JoinColumn(name="id_sucursal")
-    private Sucursal sucursal;
+    private Sucursal sucursal;*/
 
      
      @OneToMany(
-            
-            fetch = FetchType.LAZY,
+   
+           // fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-   // @JoinColumn(name="id_orden_provision")
+    @JoinColumn(name="id_orden_provision")
     private List<DetalleOrden> detalleOrden;
    
     @Enumerated(EnumType.STRING)
@@ -85,14 +85,15 @@ public class OrdenProvision implements Serializable  {
         this.espera = espera;
     }
 
-    public void setSucursal(Sucursal sucursal) {
+ /*   public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
-    }
+    }*/
 
     
     
     public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
-        this.detalleOrden = detalleOrden;
+       //this.detalleOrden.addAll(detalleOrden);
+       this.detalleOrden = detalleOrden;
     }
 
     public void setEstado(Orden estado) {
@@ -116,9 +117,9 @@ public class OrdenProvision implements Serializable  {
         return espera;
     }
 
-    public Sucursal getSucursal() {
+  /*  public Sucursal getSucursal() {
         return sucursal;
-    }
+    }*/
 
     
     

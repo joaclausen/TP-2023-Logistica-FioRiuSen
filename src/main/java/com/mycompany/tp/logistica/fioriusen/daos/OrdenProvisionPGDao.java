@@ -6,6 +6,7 @@
 package com.mycompany.tp.logistica.fioriusen.daos;
 
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
+import com.mycompany.tp.logistica.fioriusen.dtos.OrdenProvisionDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.DetalleOrden;
 import com.mycompany.tp.logistica.fioriusen.entidades.OrdenProvision;
 import java.util.ArrayList;
@@ -43,4 +44,12 @@ public class OrdenProvisionPGDao {
         session.close();
     }
     
+    
+    public OrdenProvision get(OrdenProvisionDTO dto){
+         Session session = sessionFactory.openSession();
+         
+         OrdenProvision orden = (OrdenProvision) session.get(OrdenProvision.class, dto.getId());
+        session.close();
+        return orden;
+    }
 }
