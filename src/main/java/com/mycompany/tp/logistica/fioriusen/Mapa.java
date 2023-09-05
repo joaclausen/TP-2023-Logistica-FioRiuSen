@@ -129,7 +129,7 @@ public class Mapa extends javax.swing.JPanel {
                     currentParent=conseguirDestino(sucursales, aux);
                     max = flujoMax(max, marcados, currentParent, suma, sucursales, anterior);
                     currentParent=anterior;
-                    suma=0;
+                    if (currentParent.getNombre().equals("Puerto")) suma=0;
                 }
 	}	
         return max;
