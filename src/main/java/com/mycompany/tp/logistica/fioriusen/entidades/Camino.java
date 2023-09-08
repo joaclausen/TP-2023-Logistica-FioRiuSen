@@ -34,7 +34,7 @@ public class Camino {
     @Column(name="codigo")
     private Integer codigo;
     
-    @OneToOne(fetch = FetchType.EAGER,
+        @OneToOne(fetch = FetchType.EAGER,
         cascade = CascadeType.ALL)
     @JoinColumn(name="id_sucursal_destino", referencedColumnName = "id")
     private Sucursal destino;
@@ -54,6 +54,10 @@ public class Camino {
     @Enumerated(EnumType.STRING)
     @Column(name="estado")
     private Estado estado;
+    
+    @Column(name = "eliminado")
+    private Boolean eliminado;
+    
     
     //setters
 public Camino(){
@@ -104,6 +108,12 @@ public Camino(){
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
+    public void setEliminado(Boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+    
+    
     
     //getters
 
@@ -130,5 +140,11 @@ public Camino(){
     public Estado getEstado() {
         return estado;
     }
+
+    public Boolean getEliminado() {
+        return eliminado;
+    }
+    
+    
     
 }

@@ -96,12 +96,23 @@ public class ProductoPGDao implements ProductoDao {
         //return s.getId();
     }
 
-    public void borrarProducto(Integer ID) {
-        Session session = sessionFactory.openSession();
-        int id = ID;
-        Producto p = session.get(Producto.class, id);
-        if (p != null) {
-            session.delete(p);
-        }
+    public void borrarProducto(Producto p) {
+          Session session = sessionFactory.openSession();
+         p.setId(p.getId());
+        session.beginTransaction();
+        session.saveOrUpdate(p);
+        session.getTransaction().commit();
+        session.close();
+          
     }
+    
+     public Producto Get(int id){
+        Session session = sessionFactory.openSession();
+       
+       Producto p = (Producto) session.get(Producto.class, id);
+        session.close();
+        return p;
+    }
+    
+    
 }

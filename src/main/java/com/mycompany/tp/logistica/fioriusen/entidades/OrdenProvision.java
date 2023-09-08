@@ -54,7 +54,8 @@ public class OrdenProvision implements Serializable  {
      
      @OneToMany(
    
-           // fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER, //DISYUNTIVA, SI PONGO EAGER NO ANDA EL MAPA,
+             //PERO SI PONGO LAZY SI ANDA EL MAPA, PERO PUEDO CARGAR LAS ORDENES DE PROVISION
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

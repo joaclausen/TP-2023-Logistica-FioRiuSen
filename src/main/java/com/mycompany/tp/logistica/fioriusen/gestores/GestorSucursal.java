@@ -81,6 +81,7 @@ public class GestorSucursal {
     public void crearSucursal(SucursalDTO dto){
         SucursalPGDao sucursalPG = new SucursalPGDao();
         Sucursal s = new Sucursal(Integer.parseInt(dto.getCodigo()), dto.getNombre(), LocalTime.parse(dto.getHoraApertura()), LocalTime.parse(dto.getHoraCierre()), dto.getEstado());
+        s.setEliminado(Boolean.FALSE);
         sucursalPG.saveSucursal(s);
      }
     
@@ -103,7 +104,9 @@ public class GestorSucursal {
     public void eliminarSucursal(String id) {
      SucursalPGDao sucursalPG = new SucursalPGDao();
          Integer ID = Integer.parseInt(id);
-         sucursalPG.borrarSucursal(ID);
+         Sucursal s = sucursalPG.Get(ID);
+         s.setEliminado(Boolean.TRUE);
+         sucursalPG.borrarSucursal(s);
         
     }
 
