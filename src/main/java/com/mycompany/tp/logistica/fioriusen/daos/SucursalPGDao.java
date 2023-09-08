@@ -119,13 +119,23 @@ public class SucursalPGDao implements SucursalDao{
         //return s.getId();
     }
      
-      public void borrarSucursal(Integer id){
-          Session session = sessionFactory.openSession();
-          Sucursal sucursal = new Sucursal();
+      public void borrarSucursal(Sucursal s){
+        /*  Session session = sessionFactory.openSession();
+          /*Sucursal sucursal = new Sucursal();
           sucursal.setId(id);
-         // session.delete(sucursal);
-          session.remove(sucursal);
+          session.beginTransaction();
+         //session.delete(s);
+          session.remove(s);
+         session.getTransaction().commit();
+        session.close();*/
+        
+        Session session = sessionFactory.openSession();
+         s.setId(s.getId());
+        session.beginTransaction();
+        session.saveOrUpdate(s);
+        session.getTransaction().commit();
         session.close();
+        
       }
       
       public Sucursal getSucursalById(Integer id){

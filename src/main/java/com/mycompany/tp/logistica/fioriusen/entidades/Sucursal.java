@@ -68,12 +68,16 @@ public class Sucursal implements Serializable {
    
    @OneToMany(
            
-          fetch = FetchType.EAGER, //SI ESTA EAGER NO ANDA EL MAPA, PERO SI ESTA LAZY SI pero no anda la busqueda de las colecciones
+            fetch = FetchType.EAGER, //SI ESTA EAGER NO ANDA EL MAPA, PERO SI ESTA LAZY SI pero no anda la busqueda de las colecciones
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
    @JoinColumn(name = "id_sucursal")
    private  List<OrdenProvision> ordenProvision;
+   
+   
+   @Column(name = "eliminado")
+    private Boolean eliminado;
     
     public Sucursal() {
     }
@@ -123,7 +127,12 @@ public class Sucursal implements Serializable {
     public void setListaProductos(List<Stock> listaProductos) {
         this.listaProductos.addAll(listaProductos);
     }
+
+    public void setEliminado(Boolean eliminado) {
+        this.eliminado = eliminado;
+    }
    
+    
     
    //getters
     
@@ -157,6 +166,10 @@ public class Sucursal implements Serializable {
 
     public List<Stock> getListaProductos() {
         return listaProductos;
+    }
+
+    public Boolean getEliminado() {
+        return eliminado;
     }
     
     

@@ -79,7 +79,7 @@ public class GestorProducto {
        prod.setPeso(Double.parseDouble(p.getPeso()));
        prod.setPrecioUnitario(Double.parseDouble(p.getPrecioUnitario()));
        prod.setDescripcion(p.getDescripcion());
-       
+       prod.setEliminado(Boolean.FALSE);
        productoPG.guardarProducto(prod);
     }
 
@@ -102,7 +102,9 @@ public class GestorProducto {
     public void eliminarProducto(String id) {
          ProductoPGDao productoPG = new ProductoPGDao();
          Integer ID = Integer.parseInt(id);
-         productoPG.borrarProducto(ID);
+         Producto p = productoPG.Get(ID);
+        p.setEliminado(Boolean.TRUE);
+         productoPG.borrarProducto(p);
     }
 
 }

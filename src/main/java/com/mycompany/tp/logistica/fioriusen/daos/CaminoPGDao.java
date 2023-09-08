@@ -8,6 +8,7 @@ package com.mycompany.tp.logistica.fioriusen.daos;
 import com.mycompany.tp.logistica.fioriusen.HibernateManager;
 import com.mycompany.tp.logistica.fioriusen.dtos.CaminoDTO;
 import com.mycompany.tp.logistica.fioriusen.entidades.Camino;
+import com.mycompany.tp.logistica.fioriusen.entidades.Sucursal;
 import com.mycompany.tp.logistica.fioriusen.enums.Estado;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,11 +124,30 @@ public class CaminoPGDao implements CaminoDao{
         //return s.getId();
     }
  
-      public void borrarCamino(Integer id){
-          Session session = sessionFactory.openSession();
+      public void borrarCamino(Camino c){
+         /* Session session = sessionFactory.openSession();
           Camino camino = new Camino();
-           camino.setId(id);
+          camino.setId(id);
           session.delete(camino);
-          //session.remove(camino);
+          //session.remove(camino);*/
+          
+          
+        Session session = sessionFactory.openSession();
+         c.setId(c.getId());
+        session.beginTransaction();
+        session.saveOrUpdate(c);
+        session.getTransaction().commit();
+        session.close();
+          
+          
+      }
+      
+      public Camino Get(int id){
+          Session session = sessionFactory.openSession();
+       
+      Camino c = (Camino) session.get(Camino.class, id);
+        session.close();
+        return c;
+        
       }
 }

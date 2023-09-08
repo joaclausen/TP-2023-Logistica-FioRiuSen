@@ -39,6 +39,9 @@ public class Producto implements Serializable {
     @Column(name="peso")
     private Double peso;
     
+    @Column(name = "eliminado")
+    private Boolean eliminado;
+    
     public Producto(int codigo, String nombre, String descripcion, Double peso, Double precioUnitario) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -81,6 +84,12 @@ public class Producto implements Serializable {
     public void setPeso(Double peso) {
         this.peso = peso;
     }
+
+    public void setEliminado(Boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+    
+    
     
     //getters
 
@@ -102,6 +111,10 @@ public class Producto implements Serializable {
 
     public Double getPeso() {
         return peso;
+    }
+
+    public Boolean getEliminado() {
+        return eliminado;
     }
     
     

@@ -99,7 +99,7 @@ public class GestorCamino {
        camino.setOrigen(origen);
        camino.setEstado(c.getEstado());
        camino.setCapacidadMaxima(Integer.parseInt(c.getCapacidadMaxima()));
-       
+       camino.setEliminado(Boolean.FALSE);
        camino.setTiempoTransito(LocalTime.parse(c.getTiempoTransito()));
        
        caminoPG.guardarCamino(camino);
@@ -154,6 +154,8 @@ public class GestorCamino {
      public void eliminarCamino(String id){
          CaminoPGDao caminoPG = new CaminoPGDao();
          Integer ID = Integer.parseInt(id);
-         caminoPG.borrarCamino(ID);
+         Camino c = caminoPG.Get(ID);
+         c.setEliminado(Boolean.TRUE);
+         caminoPG.borrarCamino(c);
      }
 }
